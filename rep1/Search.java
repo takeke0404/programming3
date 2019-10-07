@@ -38,6 +38,8 @@ public class Search {
 		start = node[0];
 		goal = node[9];
 
+		System.out.print(start.getName()+","+goal.getName()+",");
+
 		node[0].addChild(node[1], 1);
 		node[0].addChild(node[2], 3);
 		node[1].addChild(node[2], 1);
@@ -303,7 +305,7 @@ public class Search {
 			if(System.currentTimeMillis()-start_time>1000){
 			    //System.out.println("***Time Over***");
 			    System.out.print("Time Over"+","+(System.currentTimeMillis()-start_time)+","+step);
-			    break;
+			    return;
 			}
 		}
 		if (success) {
@@ -532,7 +534,7 @@ public class Search {
 	}
 
 	public static void main(String[] args) {
-		System.out.print("探索手法,到着ルート,実行時間(ms),実行ステップ数");
+		System.out.print("探索手法,start,goal,到着ルート,実行時間(ms),実行ステップ数");
 		System.out.print("\nBreadth First Search,");
 		(new Search()).breadthFirst();
 		// 深さ優先探索
