@@ -22,6 +22,19 @@ public class Search {
 		node[7] = new Node("Pasadena", 4);
 		node[8] = new Node("DisneyLand", 2);
 		node[9] = new Node("Las Vegas", 0);
+		
+		//---乱数生成---
+		Random rand = new Random();
+		int r1=rand.nextInt(10);
+		int r2=rand.nextInt(10);
+		while(r2==r1){
+			r2=rand.nextInt(10);
+		}
+		/*
+		start = node[r1];
+		goal = node[r2];
+		*/
+		
 		start = node[0];
 		goal = node[9];
 
