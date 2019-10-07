@@ -230,6 +230,8 @@ public class Search {
 		ArrayList<Node> closed = new ArrayList<Node>();
 		boolean success = false;
 
+		long start_time = System.currentTimeMillis();
+		
 		// Start を node とする．
 		Node node = start;
 		for (;;) {
@@ -264,6 +266,10 @@ public class Search {
 				} else {
 					node = min;
 				}
+			}
+			if(System.currentTimeMillis()-start_time>1000){
+			    System.out.println("***Time Over***");
+			    break;
 			}
 		}
 		if (success) {
