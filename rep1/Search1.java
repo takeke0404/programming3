@@ -6,7 +6,7 @@ public class Search1 {
 	Node start;
 	int hValueSum = 0;
 	int gValueSum = 0;
-	int[] hrand;
+	int[] hrand; //推定コスト
 
 	Search1(int[] hrand) {
 		makeStateSpace(hrand);
@@ -548,7 +548,7 @@ public class Search1 {
 	public static void main(String[] args) {
 		System.out.print("探索手法,start,goal,到着ルート,実行時間(マイクロ秒),実行ステップ数,hValue,gValue");
 		//---乱数生成---
-		int hrand[] = new int[10]; //１０個のノードの推定
+		int hrand[] = new int[10]; //１０個のノードの推定コスト
 		Random rand = new Random();
 		//int r1=rand.nextInt(10);
 		//int r2=rand.nextInt(10);
@@ -556,7 +556,7 @@ public class Search1 {
 			//r2=rand.nextInt(10);
 		//}
 		for(int i=0; i<10; i++){
-			hrand[i] = rand.nextInt(10);
+			hrand[i] = rand.nextInt(10); //一応0以上９以下の範囲にしておきました
 		}
 
 		System.out.print("\nBreadth First Search1,");
