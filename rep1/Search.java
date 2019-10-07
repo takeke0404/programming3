@@ -4,6 +4,8 @@ public class Search {
 	Node[] node;
 	Node goal;
 	Node start;
+	int hValueSum = 0;
+	int gValueSum = 0;
 
 	Search() {
 		makeStateSpace();
@@ -111,11 +113,13 @@ public class Search {
 			}
 		}
 		if (success) {
-		    //System.out.println("*** Solution ***");
-			printSolution(goal);
-			System.out.print(","+(System.currentTimeMillis()-start_time)+","+step);
+			//System.out.println("*** Solution ***");
+			hValueSum = 0;
+			gValueSum = 0;
+		    printSolution(goal);
+		    System.out.print(","+(System.currentTimeMillis()-start_time)+","+step+","+hValueSum+","+gValueSum);
 		}else{
-		    System.out.print("Failure"+","+(System.currentTimeMillis()-start_time)+","+step);
+		    System.out.print("Failure"+","+(System.currentTimeMillis()-start_time)+","+step+","+hValueSum+","+gValueSum);
 		}
 	}
 
@@ -176,11 +180,13 @@ public class Search {
 			}
 		}
 		if (success) {
-		    //System.out.println("*** Solution ***");
-			printSolution(goal);
-			System.out.print(","+(System.currentTimeMillis()-start_time)+","+step);
+			//System.out.println("*** Solution ***");
+			hValueSum = 0;
+			gValueSum = 0;
+		    printSolution(goal);
+		    System.out.print(","+(System.currentTimeMillis()-start_time)+","+step+","+hValueSum+","+gValueSum);
 		}else{
-		    System.out.print("Failure"+","+(System.currentTimeMillis()-start_time)+","+step);
+		    System.out.print("Failure"+","+(System.currentTimeMillis()-start_time)+","+step+","+hValueSum+","+gValueSum);
 		}
 	}
 
@@ -245,11 +251,13 @@ public class Search {
 			open = sortUpperByGValue(open);
 		}
 		if (success) {
-		    //System.out.println("*** Solution ***");
-			printSolution(goal);
-			System.out.print(","+(System.currentTimeMillis()-start_time)+","+step);
+			//System.out.println("*** Solution ***");
+			hValueSum = 0;
+			gValueSum = 0;
+		    printSolution(goal);
+		    System.out.print(","+(System.currentTimeMillis()-start_time)+","+step+","+hValueSum+","+gValueSum);
 		}else{
-		    System.out.print("Failure"+","+(System.currentTimeMillis()-start_time)+","+step);
+		    System.out.print("Failure"+","+(System.currentTimeMillis()-start_time)+","+step+","+hValueSum+","+gValueSum);
 		}
 	}
 
@@ -309,11 +317,13 @@ public class Search {
 			}
 		}
 		if (success) {
-		    //System.out.println("*** Solution ***");
-			printSolution(goal);
-			System.out.print(","+(System.currentTimeMillis()-start_time)+","+step);
+			//System.out.println("*** Solution ***");
+			hValueSum = 0;
+			gValueSum = 0;
+		    printSolution(goal);
+		    System.out.print(","+(System.currentTimeMillis()-start_time)+","+step+","+hValueSum+","+gValueSum);
 		}else{
-		    System.out.print("Failure"+","+(System.currentTimeMillis()-start_time)+","+step);
+		    System.out.print("Failure"+","+(System.currentTimeMillis()-start_time)+","+step+","+hValueSum+","+gValueSum);
 		}
 	}
 
@@ -366,11 +376,13 @@ public class Search {
 			open = sortUpperByHValue(open);
 		}
 		if (success) {
-		    //System.out.println("*** Solution ***");
-			printSolution(goal);
-			System.out.print(","+(System.currentTimeMillis()-start_time)+","+step);
+			//System.out.println("*** Solution ***");
+			hValueSum = 0;
+			gValueSum = 0;
+		    printSolution(goal);
+		    System.out.print(","+(System.currentTimeMillis()-start_time)+","+step+","+hValueSum+","+gValueSum);
 		}else{
-		    System.out.print("Failure"+","+(System.currentTimeMillis()-start_time)+","+step);
+		    System.out.print("Failure"+","+(System.currentTimeMillis()-start_time)+","+step+","+hValueSum+","+gValueSum);
 		}
 	}
 
@@ -450,11 +462,13 @@ public class Search {
 			open = sortUpperByFValue(open);
 		}
 		if (success) {
-		    //System.out.println("*** Solution ***");
+			//System.out.println("*** Solution ***");
+			hValueSum = 0;
+			gValueSum = 0;
 		    printSolution(goal);
-		    System.out.print(","+(System.currentTimeMillis()-start_time)+","+step);
+		    System.out.print(","+(System.currentTimeMillis()-start_time)+","+step+","+hValueSum+","+gValueSum);
 		}else{
-		    System.out.print("Failure"+","+(System.currentTimeMillis()-start_time)+","+step);
+		    System.out.print("Failure"+","+(System.currentTimeMillis()-start_time)+","+step+","+hValueSum+","+gValueSum);
 		}
 	}
 
@@ -466,8 +480,12 @@ public class Search {
 	public void printSolution(Node theNode) {
 		if (theNode == start) {
 			System.out.print(theNode.toString());
+			hValueSum += theNode.getHValue();
+			gValueSum += theNode.getGValue();
 		} else {
 			System.out.print(theNode.toString() + " <- ");
+			hValueSum += theNode.getHValue();
+			gValueSum += theNode.getGValue();
 			printSolution(theNode.getPointer());
 		}
 	}
@@ -534,7 +552,7 @@ public class Search {
 	}
 
 	public static void main(String[] args) {
-		System.out.print("探索手法,start,goal,到着ルート,実行時間(ms),実行ステップ数");
+		System.out.print("探索手法,start,goal,到着ルート,実行時間(ms),実行ステップ数,hValue,gValue");
 		System.out.print("\nBreadth First Search,");
 		(new Search()).breadthFirst();
 		// 深さ優先探索
