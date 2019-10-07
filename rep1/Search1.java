@@ -62,6 +62,7 @@ public class Search1 {
 	public void breadthFirst() {
 		ArrayList<Node> open = new ArrayList<Node>();
 		open.add(start);
+		start.setGValue(0);
 		ArrayList<Node> closed = new ArrayList<Node>();
 		boolean success = false;
 		int step = 0;
@@ -96,6 +97,8 @@ public class Search1 {
 						if (!open.contains(m) && !closed.contains(m)) {
 							// m から node へのポインタを付ける．
 							m.setPointer(node);
+							int gmn = node.getGValue() + node.getCost(m);
+							m.setGValue(gmn);
 							if (m == goal) {
 								open.add(0, m);
 							} else {
@@ -109,9 +112,10 @@ public class Search1 {
 		if (success) {
 			//System.out.println("*** Solution ***");
 			hValueSum = 0;
-			gValueSum = 0;
+			//gValueSum = 0;
 		    printSolution(goal);
-		    System.out.print(","+(System.nanoTime()-start_time)/1000+","+step+","+hValueSum+","+gValueSum);
+			gValueSum = goal.getGValue();
+			System.out.print(","+(System.nanoTime()-start_time)/1000+","+step+","+hValueSum+","+gValueSum);
 		}else{
 		    System.out.print("Failure"+","+(System.nanoTime()-start_time)/1000+","+step+","+hValueSum+","+gValueSum);
 		}
@@ -123,6 +127,7 @@ public class Search1 {
 	public void depthFirst() {
 		ArrayList<Node> open = new ArrayList<Node>();
 		open.add(start);
+		start.setGValue(0);
 		ArrayList<Node> closed = new ArrayList<Node>();
 		boolean success = false;
 		int step = 0;
@@ -162,6 +167,8 @@ public class Search1 {
 						if (!open.contains(m) && !closed.contains(m)) {
 							// m から node へのポインタを付ける
 							m.setPointer(node);
+							int gmn = node.getGValue() + node.getCost(m);
+							m.setGValue(gmn);
 							if (m == goal) {
 								open.add(0, m);
 							} else {
@@ -176,8 +183,9 @@ public class Search1 {
 		if (success) {
 			//System.out.println("*** Solution ***");
 			hValueSum = 0;
-			gValueSum = 0;
-		    printSolution(goal);
+			//gValueSum = 0;
+			printSolution(goal);
+			gValueSum = goal.getGValue();
 		    System.out.print(","+(System.nanoTime()-start_time)/1000+","+step+","+hValueSum+","+gValueSum);
 		}else{
 		    System.out.print("Failure"+","+(System.nanoTime()-start_time)/1000+","+step+","+hValueSum+","+gValueSum);
@@ -247,8 +255,9 @@ public class Search1 {
 		if (success) {
 			//System.out.println("*** Solution ***");
 			hValueSum = 0;
-			gValueSum = 0;
-		    printSolution(goal);
+			//gValueSum = 0;
+			printSolution(goal);
+			gValueSum = goal.getGValue();
 		    System.out.print(","+(System.nanoTime()-start_time)/1000+","+step+","+hValueSum+","+gValueSum);
 		}else{
 		    System.out.print("Failure"+","+(System.nanoTime()-start_time)/1000+","+step+","+hValueSum+","+gValueSum);
@@ -284,6 +293,8 @@ public class Search1 {
 					Node m = children.get(i);
 					// m から node へのポインタを付ける．
 					m.setPointer(node);
+					int gmn = node.getGValue() + node.getCost(m);
+					m.setGValue(gmn);
 				}
 				// 子節点の中に goal があれば goal を node とする．
 				// なければ，最小の hValue を持つ子節点 m を node
@@ -313,8 +324,9 @@ public class Search1 {
 		if (success) {
 			//System.out.println("*** Solution ***");
 			hValueSum = 0;
-			gValueSum = 0;
-		    printSolution(goal);
+			//gValueSum = 0;
+			printSolution(goal);
+			gValueSum = goal.getGValue();
 		    System.out.print(","+(System.nanoTime()-start_time)/1000+","+step+","+hValueSum+","+gValueSum);
 		}else{
 		    System.out.print("Failure"+","+(System.nanoTime()-start_time)/1000+","+step+","+hValueSum+","+gValueSum);
@@ -362,6 +374,8 @@ public class Search1 {
 						if (!open.contains(m) && !closed.contains(m)) {
 							// m から node へのポインタを付ける．
 							m.setPointer(node);
+							int gmn = node.getGValue() + node.getCost(m);
+							m.setGValue(gmn);
 							open.add(m);
 						}
 					}
@@ -372,8 +386,9 @@ public class Search1 {
 		if (success) {
 			//System.out.println("*** Solution ***");
 			hValueSum = 0;
-			gValueSum = 0;
-		    printSolution(goal);
+			//gValueSum = 0;
+			printSolution(goal);
+			gValueSum = goal.getGValue();
 		    System.out.print(","+(System.nanoTime()-start_time)/1000+","+step+","+hValueSum+","+gValueSum);
 		}else{
 		    System.out.print("Failure"+","+(System.nanoTime()-start_time)/1000+","+step+","+hValueSum+","+gValueSum);
@@ -458,9 +473,10 @@ public class Search1 {
 		if (success) {
 			//System.out.println("*** Solution ***");
 			hValueSum = 0;
-			gValueSum = 0;
+			//gValueSum = 0;
 		    printSolution(goal);
-		    System.out.print(","+(System.nanoTime()-start_time)/1000+","+step+","+hValueSum+","+gValueSum);
+			gValueSum = goal.getGValue();
+			System.out.print(","+(System.nanoTime()-start_time)/1000+","+step+","+hValueSum+","+gValueSum);
 		}else{
 		    System.out.print("Failure"+","+(System.nanoTime()-start_time)/1000+","+step+","+hValueSum+","+gValueSum);
 		}
@@ -475,11 +491,11 @@ public class Search1 {
 		if (theNode == start) {
 			System.out.print(theNode.toString());
 			hValueSum += theNode.getHValue();
-			gValueSum += theNode.getGValue();
+			//gValueSum += theNode.getGValue();
 		} else {
 			System.out.print(theNode.toString() + " <- ");
 			hValueSum += theNode.getHValue();
-			gValueSum += theNode.getGValue();
+			//gValueSum += theNode.getGValue();
 			printSolution(theNode.getPointer());
 		}
 	}
