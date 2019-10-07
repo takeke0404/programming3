@@ -505,52 +505,24 @@ public class Search {
 	}
 
 	public static void main(String[] args) {
-		if (args.length != 1) {
-			System.out.println("USAGE:");
-			System.out.println("java Search [Number]");
-			System.out.println("[Number] = 1 : Bredth First Search");
-			System.out.println("[Number] = 2 : Depth  First Search");
-			System.out.println("[Number] = 3 : Branch and Bound Search");
-			System.out.println("[Number] = 4 : Hill Climbing Search");
-			System.out.println("[Number] = 5 : Best First Search");
-			System.out.println("[Number] = 6 : A star Algorithm");
-		} else {
-			int which = Integer.parseInt(args[0]);
-			switch (which) {
-			case 1:
-				// 幅優先探索
-				//System.out.println("\nBreadth First Search");
-				(new Search()).breadthFirst();
-				break;
-			case 2:
-				// 深さ優先探索
-				//System.out.println("\nDepth First Search");
-				(new Search()).depthFirst();
-				break;
-			case 3:
-				// 分岐限定法
-				//System.out.println("\nBranch and Bound Search");
-				(new Search()).branchAndBound();
-				break;
-			case 4:
-				// 山登り法
-				//System.out.println("\nHill Climbing Search");
-				(new Search()).hillClimbing();
-				break;
-			case 5:
-				// 最良優先探索
-				//System.out.println("\nBest First Search");
-				(new Search()).bestFirst();
-				break;
-			case 6:
-				// A*アルゴリズム
-				//System.out.println("\nA star Algorithm");
-				(new Search()).aStar();
-				break;
-			default:
-				System.out.println("Please input numbers 1 to 6");
-			}
-		}
+		System.out.print("探索手法,到着ルート,実行時間(ms),実行ステップ数");
+		System.out.print("\nBreadth First Search,");
+		(new Search()).breadthFirst();
+		// 深さ優先探索
+		System.out.print("\nDepth First Search,");
+		(new Search()).depthFirst();
+		// 分岐限定法
+		System.out.print("\nBranch and Bound Search,");
+		(new Search()).branchAndBound();
+		// 山登り法
+		System.out.print("\nHill Climbing Search,");
+		(new Search()).hillClimbing();
+		// 最良優先探索
+		System.out.print("\nBest First Search,");
+		(new Search()).bestFirst();
+		// A*アルゴリズム
+		System.out.print("\nA star Algorithm,");
+		(new Search()).aStar();
 	}
 }
 
