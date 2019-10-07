@@ -55,10 +55,13 @@ public class Search {
 		boolean success = false;
 		int step = 0;
 
+		long start_time = System.currentTimeMillis();
+
 		for (;;) {
-			System.out.println("STEP:" + (step++));
-			System.out.println("OPEN:" + open.toString());
-			System.out.println("CLOSED:" + closed.toString());
+		    step++;
+		    //System.out.println("STEP:" + (step++));
+		    //System.out.println("OPEN:" + open.toString());
+		    //System.out.println("CLOSED:" + closed.toString());
 			// openは空か？
 			if (open.size() == 0) {
 				success = false;
@@ -93,8 +96,9 @@ public class Search {
 			}
 		}
 		if (success) {
-			System.out.println("*** Solution ***");
+		    //System.out.println("*** Solution ***");
 			printSolution(goal);
+			System.out.print(","+(System.currentTimeMillis()-start_time)+","+step);
 		}
 	}
 
@@ -108,10 +112,13 @@ public class Search {
 		boolean success = false;
 		int step = 0;
 
+		long start_time = System.currentTimeMillis();
+
 		for (;;) {
-			System.out.println("STEP:" + (step++));
-			System.out.println("OPEN:" + open.toString());
-			System.out.println("CLOSED:" + closed.toString());
+		    step++;
+		    //System.out.println("STEP:" + (step++));
+		    //System.out.println("OPEN:" + open.toString());
+		    //System.out.println("CLOSED:" + closed.toString());
 			// openは空か？
 			if (open.size() == 0) {
 				success = false;
@@ -152,8 +159,9 @@ public class Search {
 			}
 		}
 		if (success) {
-			System.out.println("*** Solution ***");
+		    //System.out.println("*** Solution ***");
 			printSolution(goal);
+			System.out.print(","+(System.currentTimeMillis()-start_time)+","+step);
 		}
 	}
 
@@ -168,10 +176,13 @@ public class Search {
 		boolean success = false;
 		int step = 0;
 
+		long start_time = System.currentTimeMillis();
+
 		for (;;) {
-			System.out.println("STEP:" + (step++));
-			System.out.println("OPEN:" + open.toString());
-			System.out.println("CLOSED:" + closed.toString());
+		    step++;
+		    //System.out.println("STEP:" + (step++));
+		    //System.out.println("OPEN:" + open.toString());
+		    //System.out.println("CLOSED:" + closed.toString());
 			// openは空か？
 			if (open.size() == 0) {
 				success = false;
@@ -215,8 +226,9 @@ public class Search {
 			open = sortUpperByGValue(open);
 		}
 		if (success) {
-			System.out.println("*** Solution ***");
+		    //System.out.println("*** Solution ***");
 			printSolution(goal);
+			System.out.print(","+(System.currentTimeMillis()-start_time)+","+step);
 		}
 	}
 
@@ -242,7 +254,7 @@ public class Search {
 			} else {
 				// node を展開して子節点をすべて求める．
 				ArrayList<Node> children = node.getChildren();
-				System.out.println(children.toString());
+				//System.out.println(children.toString());
 				for (int i = 0; i < children.size(); i++) {
 					Node m = children.get(i);
 					// m から node へのポインタを付ける．
@@ -268,13 +280,15 @@ public class Search {
 				}
 			}
 			if(System.currentTimeMillis()-start_time>1000){
-			    System.out.println("***Time Over***");
+			    //System.out.println("***Time Over***");
+			    System.out.print("Time Over"+","+(System.currentTimeMillis()-start_time));
 			    break;
 			}
 		}
 		if (success) {
-			System.out.println("*** Solution ***");
+		    //System.out.println("*** Solution ***");
 			printSolution(goal);
+			System.out.print(","+(System.currentTimeMillis()-start_time));
 		}
 	}
 
@@ -289,10 +303,13 @@ public class Search {
 		boolean success = false;
 		int step = 0;
 
+		long start_time = System.currentTimeMillis();
+
 		for (;;) {
-			System.out.println("STEP:" + (step++));
-			System.out.println("OPEN:" + open.toString());
-			System.out.println("CLOSED:" + closed.toString());
+		    step++;
+		    //System.out.println("STEP:" + (step++));
+		    //System.out.println("OPEN:" + open.toString());
+		    //System.out.println("CLOSED:" + closed.toString());
 			// openは空か？
 			if (open.size() == 0) {
 				success = false;
@@ -324,8 +341,9 @@ public class Search {
 			open = sortUpperByHValue(open);
 		}
 		if (success) {
-			System.out.println("*** Solution ***");
+		    //System.out.println("*** Solution ***");
 			printSolution(goal);
+			System.out.print(","+(System.currentTimeMillis()-start_time)+","+step);
 		}
 	}
 
@@ -341,10 +359,13 @@ public class Search {
 		boolean success = false;
 		int step = 0;
 
+		long start_time = System.currentTimeMillis();
+		
 		for (;;) {
-			System.out.println("STEP:" + (step++));
-			System.out.println("OPEN:" + open.toString());
-			System.out.println("CLOSED:" + closed.toString());
+		    step++;
+		    //System.out.println("STEP:" + (step++));
+		    //System.out.println("OPEN:" + open.toString());
+		    //System.out.println("CLOSED:" + closed.toString());
 			// openは空か？
 			if (open.size() == 0) {
 				success = false;
@@ -402,8 +423,9 @@ public class Search {
 			open = sortUpperByFValue(open);
 		}
 		if (success) {
-			System.out.println("*** Solution ***");
-			printSolution(goal);
+		    //System.out.println("*** Solution ***");
+		    printSolution(goal);
+		    System.out.print(","+(System.currentTimeMillis()-start_time)+","+step);
 		}
 	}
 
@@ -414,7 +436,7 @@ public class Search {
 	 */
 	public void printSolution(Node theNode) {
 		if (theNode == start) {
-			System.out.println(theNode.toString());
+			System.out.print(theNode.toString());
 		} else {
 			System.out.print(theNode.toString() + " <- ");
 			printSolution(theNode.getPointer());
@@ -497,32 +519,32 @@ public class Search {
 			switch (which) {
 			case 1:
 				// 幅優先探索
-				System.out.println("\nBreadth First Search");
+				//System.out.println("\nBreadth First Search");
 				(new Search()).breadthFirst();
 				break;
 			case 2:
 				// 深さ優先探索
-				System.out.println("\nDepth First Search");
+				//System.out.println("\nDepth First Search");
 				(new Search()).depthFirst();
 				break;
 			case 3:
 				// 分岐限定法
-				System.out.println("\nBranch and Bound Search");
+				//System.out.println("\nBranch and Bound Search");
 				(new Search()).branchAndBound();
 				break;
 			case 4:
 				// 山登り法
-				System.out.println("\nHill Climbing Search");
+				//System.out.println("\nHill Climbing Search");
 				(new Search()).hillClimbing();
 				break;
 			case 5:
 				// 最良優先探索
-				System.out.println("\nBest First Search");
+				//System.out.println("\nBest First Search");
 				(new Search()).bestFirst();
 				break;
 			case 6:
 				// A*アルゴリズム
-				System.out.println("\nA star Algorithm");
+				//System.out.println("\nA star Algorithm");
 				(new Search()).aStar();
 				break;
 			default:
