@@ -260,12 +260,14 @@ public class Search {
 		start.setGValue(0);
 		ArrayList<Node> closed = new ArrayList<Node>();
 		boolean success = false;
-
+		int step = 0;
+		
 		long start_time = System.currentTimeMillis();
 		
 		// Start を node とする．
 		Node node = start;
 		for (;;) {
+		    step++;
 			// node は ゴールか？
 			if (node == goal) {
 				success = true;
@@ -300,14 +302,14 @@ public class Search {
 			}
 			if(System.currentTimeMillis()-start_time>1000){
 			    //System.out.println("***Time Over***");
-			    System.out.print("Time Over"+","+(System.currentTimeMillis()-start_time));
+			    System.out.print("Time Over"+","+(System.currentTimeMillis()-start_time)+","+step);
 			    break;
 			}
 		}
 		if (success) {
 		    //System.out.println("*** Solution ***");
 			printSolution(goal);
-			System.out.print(","+(System.currentTimeMillis()-start_time));
+			System.out.print(","+(System.currentTimeMillis()-start_time)+","+step);
 		}else{
 		    System.out.print("Failure"+","+(System.currentTimeMillis()-start_time)+","+step);
 		}
