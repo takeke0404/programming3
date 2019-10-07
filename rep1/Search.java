@@ -7,11 +7,11 @@ public class Search {
 	int hValueSum = 0;
 	int gValueSum = 0;
 
-	Search() {
-		makeStateSpace();
+	Search(int r1,int r2) {
+		makeStateSpace(r1,r2);
 	}
 
-	private void makeStateSpace() {
+	private void makeStateSpace(int r1,int r2) {
 		node = new Node[10];
 		// 状態空間の生成
 		node[0] = new Node("L.A.Airport", 0);
@@ -25,21 +25,13 @@ public class Search {
 		node[8] = new Node("DisneyLand", 2);
 		node[9] = new Node("Las Vegas", 0);
 		
-		//---乱数生成---
-		Random rand = new Random();
-		int r1=rand.nextInt(10);
-		int r2=rand.nextInt(10);
-		while(r2==r1){
-			r2=rand.nextInt(10);
-		}
-		/*
 		start = node[r1];
 		goal = node[r2];
-		*/
 		
+		/*
 		start = node[0];
 		goal = node[9];
-
+		*/
 		System.out.print(start.getName()+","+goal.getName()+",");
 
 		node[0].addChild(node[1], 1);
@@ -553,23 +545,31 @@ public class Search {
 
 	public static void main(String[] args) {
 		System.out.print("探索手法,start,goal,到着ルート,実行時間(マイクロ秒),実行ステップ数,hValue,gValue");
+		//---乱数生成---
+		Random rand = new Random();
+		int r1=rand.nextInt(10);
+		int r2=rand.nextInt(10);
+		while(r2==r1){
+			r2=rand.nextInt(10);
+		}
+
 		System.out.print("\nBreadth First Search,");
-		(new Search()).breadthFirst();
+		(new Search(r1,r2)).breadthFirst();
 		// 深さ優先探索
 		System.out.print("\nDepth First Search,");
-		(new Search()).depthFirst();
+		(new Search(r1,r2)).depthFirst();
 		// 分岐限定法
 		System.out.print("\nBranch and Bound Search,");
-		(new Search()).branchAndBound();
+		(new Search(r1,r2)).branchAndBound();
 		// 山登り法
 		System.out.print("\nHill Climbing Search,");
-		(new Search()).hillClimbing();
+		(new Search(r1,r2)).hillClimbing();
 		// 最良優先探索
 		System.out.print("\nBest First Search,");
-		(new Search()).bestFirst();
+		(new Search(r1,r2)).bestFirst();
 		// A*アルゴリズム
 		System.out.print("\nA star Algorithm,");
-		(new Search()).aStar();
+		(new Search(r1,r2)).aStar();
 	}
 }
 
