@@ -1,1 +1,7 @@
-Time Over,1002
+探索手法,到着ルート,実行時間(ms),実行ステップ数
+Breadth First Search,Las Vegas(h:0) <- Pasadena(h:4) <- Hoolywood(h:4) <- L.A.Airport(h:0),0,7
+Depth First Search,Las Vegas(h:0) <- Pasadena(h:4) <- Downtown(h:3) <- UCLA(h:7) <- L.A.Airport(h:0),0,6
+Branch and Bound Search,Las Vegas(h:0)(g:11) <- DisneyLand(h:2)(g:6) <- Pasadena(h:4)(g:5) <- Hoolywood(h:4)(g:2) <- UCLA(h:7)(g:1) <- L.A.Airport(h:0)(g:0),1,8
+Hill Climbing Search,Time Over,1001
+Best First Search,Las Vegas(h:0) <- Pasadena(h:4) <- Hoolywood(h:4) <- L.A.Airport(h:0)(g:0),0,6
+A star Algorithm,Las Vegas(h:0)(g:11)(f:11) <- DisneyLand(h:2)(g:6)(f:8) <- Pasadena(h:4)(g:5)(f:9) <- Hoolywood(h:4)(g:2)(f:6) <- UCLA(h:7)(g:1)(f:8) <- L.A.Airport(h:0)(g:0)(f:0),0,8

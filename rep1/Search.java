@@ -112,6 +112,8 @@ public class Search {
 		    //System.out.println("*** Solution ***");
 			printSolution(goal);
 			System.out.print(","+(System.currentTimeMillis()-start_time)+","+step);
+		}else{
+		    System.out.print("Failure"+","+(System.currentTimeMillis()-start_time)+","+step);
 		}
 	}
 
@@ -175,6 +177,8 @@ public class Search {
 		    //System.out.println("*** Solution ***");
 			printSolution(goal);
 			System.out.print(","+(System.currentTimeMillis()-start_time)+","+step);
+		}else{
+		    System.out.print("Failure"+","+(System.currentTimeMillis()-start_time)+","+step);
 		}
 	}
 
@@ -242,6 +246,8 @@ public class Search {
 		    //System.out.println("*** Solution ***");
 			printSolution(goal);
 			System.out.print(","+(System.currentTimeMillis()-start_time)+","+step);
+		}else{
+		    System.out.print("Failure"+","+(System.currentTimeMillis()-start_time)+","+step);
 		}
 	}
 
@@ -302,6 +308,8 @@ public class Search {
 		    //System.out.println("*** Solution ***");
 			printSolution(goal);
 			System.out.print(","+(System.currentTimeMillis()-start_time));
+		}else{
+		    System.out.print("Failure"+","+(System.currentTimeMillis()-start_time)+","+step);
 		}
 	}
 
@@ -357,6 +365,8 @@ public class Search {
 		    //System.out.println("*** Solution ***");
 			printSolution(goal);
 			System.out.print(","+(System.currentTimeMillis()-start_time)+","+step);
+		}else{
+		    System.out.print("Failure"+","+(System.currentTimeMillis()-start_time)+","+step);
 		}
 	}
 
@@ -439,6 +449,8 @@ public class Search {
 		    //System.out.println("*** Solution ***");
 		    printSolution(goal);
 		    System.out.print(","+(System.currentTimeMillis()-start_time)+","+step);
+		}else{
+		    System.out.print("Failure"+","+(System.currentTimeMillis()-start_time)+","+step);
 		}
 	}
 
