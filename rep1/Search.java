@@ -6,34 +6,33 @@ public class Search {
 	Node start;
 	int hValueSum = 0;
 	int gValueSum = 0;
+	int[] hrand; //推定コスト
 
-	Search(int r1,int r2) {
-		makeStateSpace(r1,r2);
+	Search(int[] hrand) {
+		makeStateSpace(hrand);
 	}
 
-	private void makeStateSpace(int r1,int r2) {
+	private void makeStateSpace(int[] hrand) {
 		node = new Node[10];
 		// 状態空間の生成
-		node[0] = new Node("L.A.Airport", 0);
-		node[1] = new Node("UCLA", 7);
-		node[2] = new Node("Hoolywood", 4);
-		node[3] = new Node("Anaheim", 6);
-		node[4] = new Node("GrandCanyon", 1);
-		node[5] = new Node("SanDiego", 2);
-		node[6] = new Node("Downtown", 3);
-		node[7] = new Node("Pasadena", 4);
-		node[8] = new Node("DisneyLand", 2);
-		node[9] = new Node("Las Vegas", 0);
-		
+		node[0] = new Node("L.A.Airport", hrand[0]);
+		node[1] = new Node("UCLA", hrand[1]);
+		node[2] = new Node("Hoolywood", hrand[2]);
+		node[3] = new Node("Anaheim", hrand[3]);
+		node[4] = new Node("GrandCanyon", hrand[4]);
+		node[5] = new Node("SanDiego", hrand[5]);
+		node[6] = new Node("Downtown", hrand[6]);
+		node[7] = new Node("Pasadena", hrand[7]);
+		node[8] = new Node("DisneyLand", hrand[8]);
+		node[9] = new Node("Las Vegas", hrand[9]);
+
 		/*
 		start = node[r1];
 		goal = node[r2];
 		*/
 		
 		start = node[0];
-		goal = node[9];
-		
-		System.out.print(start.getName()+","+goal.getName()+",");
+		goal = node[9];		
 
 		node[0].addChild(node[1], 1);
 		node[0].addChild(node[2], 3);
@@ -112,9 +111,9 @@ public class Search {
 			//System.out.println("*** Solution ***");
 			hValueSum = 0;
 			//gValueSum = 0;
-			printSolution(goal);
+		    printSolution(goal);
 			gValueSum = goal.getGValue();
-		    System.out.print(","+(System.nanoTime()-start_time)/1000+","+step+","+hValueSum+","+gValueSum);
+			System.out.print(","+(System.nanoTime()-start_time)/1000+","+step+","+hValueSum+","+gValueSum);
 		}else{
 		    System.out.print("Failure"+","+(System.nanoTime()-start_time)/1000+","+step+","+hValueSum+","+gValueSum);
 		}
@@ -183,7 +182,7 @@ public class Search {
 			//System.out.println("*** Solution ***");
 			hValueSum = 0;
 			//gValueSum = 0;
-		    printSolution(goal);
+			printSolution(goal);
 			gValueSum = goal.getGValue();
 		    System.out.print(","+(System.nanoTime()-start_time)/1000+","+step+","+hValueSum+","+gValueSum);
 		}else{
@@ -255,7 +254,7 @@ public class Search {
 			//System.out.println("*** Solution ***");
 			hValueSum = 0;
 			//gValueSum = 0;
-		    printSolution(goal);
+			printSolution(goal);
 			gValueSum = goal.getGValue();
 		    System.out.print(","+(System.nanoTime()-start_time)/1000+","+step+","+hValueSum+","+gValueSum);
 		}else{
@@ -324,7 +323,7 @@ public class Search {
 			//System.out.println("*** Solution ***");
 			hValueSum = 0;
 			//gValueSum = 0;
-		    printSolution(goal);
+			printSolution(goal);
 			gValueSum = goal.getGValue();
 		    System.out.print(","+(System.nanoTime()-start_time)/1000+","+step+","+hValueSum+","+gValueSum);
 		}else{
@@ -386,7 +385,7 @@ public class Search {
 			//System.out.println("*** Solution ***");
 			hValueSum = 0;
 			//gValueSum = 0;
-		    printSolution(goal);
+			printSolution(goal);
 			gValueSum = goal.getGValue();
 		    System.out.print(","+(System.nanoTime()-start_time)/1000+","+step+","+hValueSum+","+gValueSum);
 		}else{
@@ -475,7 +474,7 @@ public class Search {
 			//gValueSum = 0;
 		    printSolution(goal);
 			gValueSum = goal.getGValue();
-		    System.out.print(","+(System.nanoTime()-start_time)/1000+","+step+","+hValueSum+","+gValueSum);
+			System.out.print(","+(System.nanoTime()-start_time)/1000+","+step+","+hValueSum+","+gValueSum);
 		}else{
 		    System.out.print("Failure"+","+(System.nanoTime()-start_time)/1000+","+step+","+hValueSum+","+gValueSum);
 		}
@@ -561,32 +560,49 @@ public class Search {
 	}
 
 	public static void main(String[] args) {
-		System.out.print("探索手法,start,goal,到着ルート,実行時間(マイクロ秒),実行ステップ数,hValue,gValue");
-		//---乱数生成---
-		Random rand = new Random();
-		int r1=rand.nextInt(10);
-		int r2=rand.nextInt(10);
-		while(r2==r1){
-			r2=rand.nextInt(10);
+		// 10回ループを回す。各回に状態空間の生成のパラメータをランダムに生成し、探査結果を出力する
+		for(int index = 0; index < 10; index++){
+			//---乱数生成---
+			int hrand[] = new int[10]; //１０個のノードの推定コスト
+			Random rand = new Random();
+			for(int i=0; i<10; i++){
+				hrand[i] = rand.nextInt(10); //一応0以上９以下の範囲にしておきました
+			}
+			System.out.print("\n第"+(index+1)+"回目。生成したパラメータ,");
+			// //hrandの表示
+			System.out.print("[");
+			for(int i=0; i<hrand.length-1; i++){
+				System.out.print(hrand[i]+"|");
+			}
+			System.out.print(hrand[hrand.length-1]+"]");
+			// 以下はCSVファイルに探索結果を出力するための処理
+			// CSV 出力のヘッダ
+			System.out.print("\n探索手法,start,goal,到着ルート,実行時間(マイクロ秒),実行ステップ数,hValue,gValue");
+			Search instance = new Search(hrand);
+			System.out.print("\nBreadth First Search,");
+			System.out.print(instance.start.getName() + "," + instance.goal.getName() + ",");
+			instance.breadthFirst();
+			// 深さ優先探索
+			System.out.print("\nDepth First Search,");
+			System.out.print(instance.start.getName() + "," + instance.goal.getName() + ",");
+			instance.depthFirst();
+			// 分岐限定法
+			System.out.print("\nBranch and Bound Search,");
+			System.out.print(instance.start.getName() + "," + instance.goal.getName() + ",");
+			instance.branchAndBound();
+			// 山登り法
+			System.out.print("\nHill Climbing Search,");
+			System.out.print(instance.start.getName() + "," + instance.goal.getName() + ",");
+			instance.hillClimbing();
+			// 最良優先探索
+			System.out.print("\nBest First Search,");
+			System.out.print(instance.start.getName() + "," + instance.goal.getName() + ",");
+			instance.bestFirst();
+			// A*アルゴリズム
+			System.out.print("\nA star Algorithm,");
+			System.out.print(instance.start.getName() + "," + instance.goal.getName() + ",");
+			instance.aStar();
 		}
-
-		System.out.print("\nBreadth First Search,");
-		(new Search(r1,r2)).breadthFirst();
-		// 深さ優先探索
-		System.out.print("\nDepth First Search,");
-		(new Search(r1,r2)).depthFirst();
-		// 分岐限定法
-		System.out.print("\nBranch and Bound Search,");
-		(new Search(r1,r2)).branchAndBound();
-		// 山登り法
-		System.out.print("\nHill Climbing Search,");
-		(new Search(r1,r2)).hillClimbing();
-		// 最良優先探索
-		System.out.print("\nBest First Search,");
-		(new Search(r1,r2)).bestFirst();
-		// A*アルゴリズム
-		System.out.print("\nA star Algorithm,");
-		(new Search(r1,r2)).aStar();
 	}
 }
 
