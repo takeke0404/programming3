@@ -6,13 +6,12 @@ public class Search {
 	Node start;
 	int hValueSum = 0;
 	int gValueSum = 0;
-	int[] hrand; //推定コスト
 
-	Search(int[] hrand) {
-		makeStateSpace(hrand);
+	Search(int[] hrand,int[] grand) {
+		makeStateSpace(hrand,grand);
 	}
 
-	private void makeStateSpace(int[] hrand) {
+	private void makeStateSpace(int[] hrand,int[] grand) {
 		node = new Node[10];
 		// 状態空間の生成
 		node[0] = new Node("L.A.Airport", hrand[0]);
@@ -34,24 +33,24 @@ public class Search {
 		start = node[0];
 		goal = node[9];		
 
-		node[0].addChild(node[1], 1);
-		node[0].addChild(node[2], 3);
-		node[1].addChild(node[2], 1);
-		node[1].addChild(node[6], 6);
-		node[2].addChild(node[3], 6);
-		node[2].addChild(node[6], 6);
-		node[2].addChild(node[7], 3);
-		node[3].addChild(node[4], 5);
-		node[3].addChild(node[7], 2);
-		node[3].addChild(node[8], 4);
-		node[4].addChild(node[8], 2);
-		node[4].addChild(node[9], 1);
-		node[5].addChild(node[1], 1);
-		node[6].addChild(node[5], 7);
-		node[6].addChild(node[7], 2);
-		node[7].addChild(node[8], 1);
-		node[7].addChild(node[9], 7);
-		node[8].addChild(node[9], 5);
+		node[0].addChild(node[1], grand[0]);
+		node[0].addChild(node[2], grand[1]);
+		node[1].addChild(node[2], grand[2]);
+		node[1].addChild(node[6], grand[3]);
+		node[2].addChild(node[3], grand[4]);
+		node[2].addChild(node[6], grand[5]);
+		node[2].addChild(node[7], grand[6]);
+		node[3].addChild(node[4], grand[7]);
+		node[3].addChild(node[7], grand[8]);
+		node[3].addChild(node[8], grand[9]);
+		node[4].addChild(node[8], grand[10]);
+		node[4].addChild(node[9], grand[11]);
+		node[5].addChild(node[1], grand[12]);
+		node[6].addChild(node[5], grand[13]);
+		node[6].addChild(node[7], grand[14]);
+		node[7].addChild(node[8], grand[15]);
+		node[7].addChild(node[9], grand[16]);
+		node[8].addChild(node[9], grand[17]);
 	}
 
 	/***
@@ -68,7 +67,7 @@ public class Search {
 		long start_time = System.nanoTime();
 
 		for (;;) {
-		    step++;
+			step++;
 		    //System.out.println("STEP:" + (step++));
 		    //System.out.println("OPEN:" + open.toString());
 		    //System.out.println("CLOSED:" + closed.toString());
@@ -111,11 +110,11 @@ public class Search {
 			//System.out.println("*** Solution ***");
 			hValueSum = 0;
 			//gValueSum = 0;
-		    printSolution(goal);
+			printSolution(goal);
 			gValueSum = goal.getGValue();
 			System.out.print(","+(System.nanoTime()-start_time)/1000+","+step+","+hValueSum+","+gValueSum);
 		}else{
-		    System.out.print("Failure"+","+(System.nanoTime()-start_time)/1000+","+step+","+hValueSum+","+gValueSum);
+			System.out.print("Failure"+","+(System.nanoTime()-start_time)/1000+","+step+","+hValueSum+","+gValueSum);
 		}
 	}
 
@@ -133,7 +132,7 @@ public class Search {
 		long start_time = System.nanoTime();
 
 		for (;;) {
-		    step++;
+			step++;
 		    //System.out.println("STEP:" + (step++));
 		    //System.out.println("OPEN:" + open.toString());
 		    //System.out.println("CLOSED:" + closed.toString());
@@ -184,9 +183,9 @@ public class Search {
 			//gValueSum = 0;
 			printSolution(goal);
 			gValueSum = goal.getGValue();
-		    System.out.print(","+(System.nanoTime()-start_time)/1000+","+step+","+hValueSum+","+gValueSum);
+			System.out.print(","+(System.nanoTime()-start_time)/1000+","+step+","+hValueSum+","+gValueSum);
 		}else{
-		    System.out.print("Failure"+","+(System.nanoTime()-start_time)/1000+","+step+","+hValueSum+","+gValueSum);
+			System.out.print("Failure"+","+(System.nanoTime()-start_time)/1000+","+step+","+hValueSum+","+gValueSum);
 		}
 	}
 
@@ -204,7 +203,7 @@ public class Search {
 		long start_time = System.nanoTime();
 
 		for (;;) {
-		    step++;
+			step++;
 		    //System.out.println("STEP:" + (step++));
 		    //System.out.println("OPEN:" + open.toString());
 		    //System.out.println("CLOSED:" + closed.toString());
@@ -256,9 +255,9 @@ public class Search {
 			//gValueSum = 0;
 			printSolution(goal);
 			gValueSum = goal.getGValue();
-		    System.out.print(","+(System.nanoTime()-start_time)/1000+","+step+","+hValueSum+","+gValueSum);
+			System.out.print(","+(System.nanoTime()-start_time)/1000+","+step+","+hValueSum+","+gValueSum);
 		}else{
-		    System.out.print("Failure"+","+(System.nanoTime()-start_time)/1000+","+step+","+hValueSum+","+gValueSum);
+			System.out.print("Failure"+","+(System.nanoTime()-start_time)/1000+","+step+","+hValueSum+","+gValueSum);
 		}
 	}
 
@@ -278,7 +277,7 @@ public class Search {
 		// Start を node とする．
 		Node node = start;
 		for (;;) {
-		    step++;
+			step++;
 			// node は ゴールか？
 			if (node == goal) {
 				success = true;
@@ -315,8 +314,8 @@ public class Search {
 			}
 			if((System.nanoTime()-start_time)/1000>1000000){
 			    //System.out.println("***Time Over***");
-			    System.out.print("Time Over"+","+(System.nanoTime()-start_time)/1000+","+step);
-			    return;
+				System.out.print("Time Over"+","+(System.nanoTime()-start_time)/1000+","+step);
+				return;
 			}
 		}
 		if (success) {
@@ -325,9 +324,9 @@ public class Search {
 			//gValueSum = 0;
 			printSolution(goal);
 			gValueSum = goal.getGValue();
-		    System.out.print(","+(System.nanoTime()-start_time)/1000+","+step+","+hValueSum+","+gValueSum);
+			System.out.print(","+(System.nanoTime()-start_time)/1000+","+step+","+hValueSum+","+gValueSum);
 		}else{
-		    System.out.print("Failure"+","+(System.nanoTime()-start_time)/1000+","+step+","+hValueSum+","+gValueSum);
+			System.out.print("Failure"+","+(System.nanoTime()-start_time)/1000+","+step+","+hValueSum+","+gValueSum);
 		}
 	}
 
@@ -345,7 +344,7 @@ public class Search {
 		long start_time = System.nanoTime();
 
 		for (;;) {
-		    step++;
+			step++;
 		    //System.out.println("STEP:" + (step++));
 		    //System.out.println("OPEN:" + open.toString());
 		    //System.out.println("CLOSED:" + closed.toString());
@@ -387,9 +386,9 @@ public class Search {
 			//gValueSum = 0;
 			printSolution(goal);
 			gValueSum = goal.getGValue();
-		    System.out.print(","+(System.nanoTime()-start_time)/1000+","+step+","+hValueSum+","+gValueSum);
+			System.out.print(","+(System.nanoTime()-start_time)/1000+","+step+","+hValueSum+","+gValueSum);
 		}else{
-		    System.out.print("Failure"+","+(System.nanoTime()-start_time)/1000+","+step+","+hValueSum+","+gValueSum);
+			System.out.print("Failure"+","+(System.nanoTime()-start_time)/1000+","+step+","+hValueSum+","+gValueSum);
 		}
 	}
 
@@ -408,7 +407,7 @@ public class Search {
 		long start_time = System.nanoTime();
 		
 		for (;;) {
-		    step++;
+			step++;
 		    //System.out.println("STEP:" + (step++));
 		    //System.out.println("OPEN:" + open.toString());
 		    //System.out.println("CLOSED:" + closed.toString());
@@ -472,11 +471,11 @@ public class Search {
 			//System.out.println("*** Solution ***");
 			hValueSum = 0;
 			//gValueSum = 0;
-		    printSolution(goal);
+			printSolution(goal);
 			gValueSum = goal.getGValue();
 			System.out.print(","+(System.nanoTime()-start_time)/1000+","+step+","+hValueSum+","+gValueSum);
 		}else{
-		    System.out.print("Failure"+","+(System.nanoTime()-start_time)/1000+","+step+","+hValueSum+","+gValueSum);
+			System.out.print("Failure"+","+(System.nanoTime()-start_time)/1000+","+step+","+hValueSum+","+gValueSum);
 		}
 	}
 
@@ -563,23 +562,35 @@ public class Search {
 		// 10回ループを回す。各回に状態空間の生成のパラメータをランダムに生成し、探査結果を出力する
 		for(int index = 0; index < 10; index++){
 			//---乱数生成---
-			int hrand[] = new int[10]; //１０個のノードの推定コスト
+			int hrand[] = new int[10]; //10個のノードの推定コスト
+			int grand[] = new int[18]; //１8個のノードのコスト
 			Random rand = new Random();
-			for(int i=0; i<10; i++){
-				hrand[i] = rand.nextInt(10); //一応0以上９以下の範囲にしておきました
+			for(int i=0; i<hrand.length; i++){
+				hrand[i] = rand.nextInt(10); //一応0以9以下の範囲にしておきました
 			}
-			System.out.print("\n第"+(index+1)+"回目。生成したパラメータ,");
+			for(int i=0; i<grand.length; i++){
+				grand[i] = rand.nextInt(7)+1; //一応1以上7以下の範囲にしておきました
+			}
+
+			System.out.println("\n第"+(index+1)+"回目。生成したパラメータ");
 			// //hrandの表示
-			System.out.print("[");
+			System.out.print("hrand,[");
 			for(int i=0; i<hrand.length-1; i++){
 				System.out.print(hrand[i]+"|");
 			}
-			System.out.print(hrand[hrand.length-1]+"]");
+			System.out.println(hrand[hrand.length-1]+"]");
+			// //grandの表示
+			System.out.print("grand,[");
+			for(int i=0; i<grand.length-1; i++){
+				System.out.print(grand[i]+"|");
+			}
+			System.out.println(grand[grand.length-1]+"]");
+
 			// 以下はCSVファイルに探索結果を出力するための処理
 			// CSV 出力のヘッダ
-			System.out.print("\n探索手法,start,goal,到着ルート,実行時間(マイクロ秒),実行ステップ数,hValue,gValue");
-			Search instance = new Search(hrand);
-			System.out.print("\nBreadth First Search,");
+			System.out.println("探索手法,start,goal,到着ルート,実行時間(マイクロ秒),実行ステップ数,hValue,gValue");
+			Search instance = new Search(hrand,grand);
+			System.out.print("Breadth First Search,");
 			System.out.print(instance.start.getName() + "," + instance.goal.getName() + ",");
 			instance.breadthFirst();
 			// 深さ優先探索
