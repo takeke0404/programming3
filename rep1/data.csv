@@ -1,101 +1,101 @@
 
 第1回目。生成したパラメータ
-hrand,[6|2|0|9|4|7|9|3|6|5]
-grand,[7|4|2|1|5|1|3|6|3|6|4|4|4|1|3|6|6|5]
+hrand,[2|7|4|1|0|0|6|9|1|3]
+grand,[5|6|5|5|4|5|5|5|7|7|5|7|4|1|4|1|5|6]
 探索手法,start,goal,到着ルート,実行時間(マイクロ秒),実行ステップ数,hValue,gValue
-Breadth First Search,L.A.Airport,Las Vegas,Las Vegas(h:5)(g:13) <- Pasadena(h:3)(g:7) <- Hoolywood(h:0)(g:4) <- L.A.Airport(h:6)(g:0),139,7,14,13
-Depth First Search,L.A.Airport,Las Vegas,Las Vegas(h:5)(g:17) <- Pasadena(h:3)(g:11) <- Downtown(h:9)(g:8) <- UCLA(h:2)(g:7) <- L.A.Airport(h:6)(g:0),107,6,25,17
-Branch and Bound Search,L.A.Airport,Las Vegas,Las Vegas(h:5)(g:13) <- Pasadena(h:3)(g:7) <- Hoolywood(h:0)(g:4) <- L.A.Airport(h:6)(g:0),381,9,14,13
-Hill Climbing Search,L.A.Airport,Las Vegas,Las Vegas(h:5)(g:13) <- Pasadena(h:3)(g:7) <- Hoolywood(h:0)(g:4) <- L.A.Airport(h:6)(g:0),70,4,14,13
-Best First Search,L.A.Airport,Las Vegas,Las Vegas(h:5)(g:13) <- Pasadena(h:3)(g:7) <- Hoolywood(h:0)(g:4) <- L.A.Airport(h:6)(g:0),101,5,14,13
-A star Algorithm,L.A.Airport,Las Vegas,Las Vegas(h:5)(g:13)(f:18) <- Pasadena(h:3)(g:7)(f:10) <- Hoolywood(h:0)(g:4)(f:4) <- L.A.Airport(h:6)(g:0)(f:0),1159,8,14,13
+Breadth First Search,L.A.Airport,Las Vegas,Las Vegas(h:3)(g:16) <- Pasadena(h:9)(g:11) <- Hoolywood(h:4)(g:6) <- L.A.Airport(h:2)(g:0),77,7,18,16
+Depth First Search,L.A.Airport,Las Vegas,Las Vegas(h:3)(g:19) <- Pasadena(h:9)(g:14) <- Downtown(h:6)(g:10) <- UCLA(h:7)(g:5) <- L.A.Airport(h:2)(g:0),51,6,27,19
+Branch and Bound Search,L.A.Airport,Las Vegas,Las Vegas(h:3)(g:16) <- Pasadena(h:9)(g:11) <- Hoolywood(h:4)(g:6) <- L.A.Airport(h:2)(g:0),214,10,18,16
+Hill Climbing Search,L.A.Airport,Las Vegas,Las Vegas(h:3)(g:22) <- GrandCanyon(h:0)(g:15) <- Anaheim(h:1)(g:10) <- Hoolywood(h:4)(g:6) <- L.A.Airport(h:2)(g:0),34,5,10,22
+Best First Search,L.A.Airport,Las Vegas,Las Vegas(h:3)(g:22) <- GrandCanyon(h:0)(g:15) <- Anaheim(h:1)(g:10) <- Hoolywood(h:4)(g:6) <- L.A.Airport(h:2)(g:0),105,6,10,22
+A star Algorithm,L.A.Airport,Las Vegas,Las Vegas(h:3)(g:16)(f:19) <- Pasadena(h:9)(g:11)(f:20) <- Hoolywood(h:4)(g:6)(f:10) <- L.A.Airport(h:2)(g:0)(f:0),205,11,18,16
 第2回目。生成したパラメータ
-hrand,[4|0|3|2|0|9|1|3|5|8]
-grand,[7|4|3|3|1|6|7|2|6|2|6|3|4|2|3|7|1|5]
+hrand,[0|4|5|3|1|7|4|6|6|8]
+grand,[6|1|5|4|3|5|1|4|4|6|2|7|6|1|1|7|4|3]
 探索手法,start,goal,到着ルート,実行時間(マイクロ秒),実行ステップ数,hValue,gValue
-Breadth First Search,L.A.Airport,Las Vegas,Las Vegas(h:8)(g:12) <- Pasadena(h:3)(g:11) <- Hoolywood(h:3)(g:4) <- L.A.Airport(h:4)(g:0),69,7,18,12
-Depth First Search,L.A.Airport,Las Vegas,Las Vegas(h:8)(g:14) <- Pasadena(h:3)(g:13) <- Downtown(h:1)(g:10) <- UCLA(h:0)(g:7) <- L.A.Airport(h:4)(g:0),233,6,16,14
-Branch and Bound Search,L.A.Airport,Las Vegas,Las Vegas(h:8)(g:10) <- GrandCanyon(h:0)(g:7) <- Anaheim(h:2)(g:5) <- Hoolywood(h:3)(g:4) <- L.A.Airport(h:4)(g:0),557,8,17,10
-Hill Climbing Search,L.A.Airport,Las Vegas,Las Vegas(h:8)(g:14) <- Pasadena(h:3)(g:13) <- Downtown(h:1)(g:10) <- UCLA(h:0)(g:7) <- L.A.Airport(h:4)(g:0),71,5,16,14
-Best First Search,L.A.Airport,Las Vegas,Las Vegas(h:8)(g:10) <- GrandCanyon(h:0)(g:7) <- Anaheim(h:2)(g:5) <- Hoolywood(h:3)(g:4) <- L.A.Airport(h:4)(g:0),315,9,17,10
-A star Algorithm,L.A.Airport,Las Vegas,Las Vegas(h:8)(g:10)(f:18) <- GrandCanyon(h:0)(g:7)(f:7) <- Anaheim(h:2)(g:5)(f:7) <- Hoolywood(h:3)(g:4)(f:7) <- L.A.Airport(h:4)(g:0)(f:0),115,9,17,10
+Breadth First Search,L.A.Airport,Las Vegas,Las Vegas(h:8)(g:6) <- Pasadena(h:6)(g:2) <- Hoolywood(h:5)(g:1) <- L.A.Airport(h:0)(g:0),47,7,19,6
+Depth First Search,L.A.Airport,Las Vegas,Las Vegas(h:8)(g:15) <- Pasadena(h:6)(g:11) <- Downtown(h:4)(g:10) <- UCLA(h:4)(g:6) <- L.A.Airport(h:0)(g:0),56,6,22,15
+Branch and Bound Search,L.A.Airport,Las Vegas,Las Vegas(h:8)(g:6) <- Pasadena(h:6)(g:2) <- Hoolywood(h:5)(g:1) <- L.A.Airport(h:0)(g:0),130,7,19,6
+Hill Climbing Search,L.A.Airport,Las Vegas,Las Vegas(h:8)(g:15) <- Pasadena(h:6)(g:11) <- Downtown(h:4)(g:10) <- UCLA(h:4)(g:6) <- L.A.Airport(h:0)(g:0),27,5,22,15
+Best First Search,L.A.Airport,Las Vegas,Las Vegas(h:8)(g:15) <- GrandCanyon(h:1)(g:8) <- Anaheim(h:3)(g:4) <- Hoolywood(h:5)(g:1) <- L.A.Airport(h:0)(g:0),117,10,17,15
+A star Algorithm,L.A.Airport,Las Vegas,Las Vegas(h:8)(g:6)(f:14) <- Pasadena(h:6)(g:2)(f:8) <- Hoolywood(h:5)(g:1)(f:6) <- L.A.Airport(h:0)(g:0)(f:0),119,8,19,6
 第3回目。生成したパラメータ
-hrand,[8|2|8|9|9|0|1|5|0|0]
-grand,[6|3|6|4|7|6|7|6|5|7|2|4|6|1|2|5|7|4]
+hrand,[8|2|6|4|8|1|7|0|3|2]
+grand,[1|1|3|2|7|7|1|2|7|3|5|5|1|4|5|5|2|3]
 探索手法,start,goal,到着ルート,実行時間(マイクロ秒),実行ステップ数,hValue,gValue
-Breadth First Search,L.A.Airport,Las Vegas,Las Vegas(h:0)(g:17) <- Pasadena(h:5)(g:10) <- Hoolywood(h:8)(g:3) <- L.A.Airport(h:8)(g:0),63,7,21,17
-Depth First Search,L.A.Airport,Las Vegas,Las Vegas(h:0)(g:19) <- Pasadena(h:5)(g:12) <- Downtown(h:1)(g:10) <- UCLA(h:2)(g:6) <- L.A.Airport(h:8)(g:0),79,6,16,19
-Branch and Bound Search,L.A.Airport,Las Vegas,Las Vegas(h:0)(g:17) <- Pasadena(h:5)(g:10) <- Hoolywood(h:8)(g:3) <- L.A.Airport(h:8)(g:0),133,10,21,17
-Hill Climbing Search,L.A.Airport,Las Vegas,Time Over,1000107,23439254
-Best First Search,L.A.Airport,Las Vegas,Las Vegas(h:0)(g:19) <- Pasadena(h:5)(g:12) <- Downtown(h:1)(g:10) <- UCLA(h:2)(g:6) <- L.A.Airport(h:8)(g:0),129,7,16,19
-A star Algorithm,L.A.Airport,Las Vegas,Las Vegas(h:0)(g:17)(f:17) <- Pasadena(h:5)(g:10)(f:15) <- Hoolywood(h:8)(g:3)(f:11) <- L.A.Airport(h:8)(g:0)(f:0),68,8,21,17
+Breadth First Search,L.A.Airport,Las Vegas,Las Vegas(h:2)(g:4) <- Pasadena(h:0)(g:2) <- Hoolywood(h:6)(g:1) <- L.A.Airport(h:8)(g:0),40,7,16,4
+Depth First Search,L.A.Airport,Las Vegas,Las Vegas(h:2)(g:10) <- Pasadena(h:0)(g:8) <- Downtown(h:7)(g:3) <- UCLA(h:2)(g:1) <- L.A.Airport(h:8)(g:0),288,6,19,10
+Branch and Bound Search,L.A.Airport,Las Vegas,Las Vegas(h:2)(g:4) <- Pasadena(h:0)(g:2) <- Hoolywood(h:6)(g:1) <- L.A.Airport(h:8)(g:0),78,6,16,4
+Hill Climbing Search,L.A.Airport,Las Vegas,Las Vegas(h:2)(g:7) <- Pasadena(h:0)(g:5) <- Hoolywood(h:6)(g:4) <- UCLA(h:2)(g:1) <- L.A.Airport(h:8)(g:0),13,5,18,7
+Best First Search,L.A.Airport,Las Vegas,Las Vegas(h:2)(g:4) <- Pasadena(h:0)(g:2) <- Hoolywood(h:6)(g:1) <- L.A.Airport(h:8)(g:0),39,5,16,4
+A star Algorithm,L.A.Airport,Las Vegas,Las Vegas(h:2)(g:4)(f:6) <- Pasadena(h:0)(g:2)(f:2) <- Hoolywood(h:6)(g:1)(f:7) <- L.A.Airport(h:8)(g:0)(f:0),50,5,16,4
 第4回目。生成したパラメータ
-hrand,[9|4|9|7|5|1|4|4|3|4]
-grand,[5|7|5|7|7|4|4|1|5|7|6|6|3|3|3|4|4|1]
+hrand,[6|8|8|8|9|8|6|2|2|1]
+grand,[3|5|6|6|4|3|6|7|2|1|1|7|7|7|4|5|6|1]
 探索手法,start,goal,到着ルート,実行時間(マイクロ秒),実行ステップ数,hValue,gValue
-Breadth First Search,L.A.Airport,Las Vegas,Las Vegas(h:4)(g:15) <- Pasadena(h:4)(g:11) <- Hoolywood(h:9)(g:7) <- L.A.Airport(h:9)(g:0),42,7,26,15
-Depth First Search,L.A.Airport,Las Vegas,Las Vegas(h:4)(g:19) <- Pasadena(h:4)(g:15) <- Downtown(h:4)(g:12) <- UCLA(h:4)(g:5) <- L.A.Airport(h:9)(g:0),44,6,25,19
-Branch and Bound Search,L.A.Airport,Las Vegas,Las Vegas(h:4)(g:15) <- Pasadena(h:4)(g:11) <- Hoolywood(h:9)(g:7) <- L.A.Airport(h:9)(g:0),61,9,26,15
-Hill Climbing Search,L.A.Airport,Las Vegas,Time Over,1000059,24552182
-Best First Search,L.A.Airport,Las Vegas,Las Vegas(h:4)(g:19) <- Pasadena(h:4)(g:15) <- Downtown(h:4)(g:12) <- UCLA(h:4)(g:5) <- L.A.Airport(h:9)(g:0),86,7,25,19
-A star Algorithm,L.A.Airport,Las Vegas,Las Vegas(h:4)(g:15)(f:19) <- Pasadena(h:4)(g:11)(f:15) <- Hoolywood(h:9)(g:7)(f:16) <- L.A.Airport(h:9)(g:0)(f:0),54,8,26,15
+Breadth First Search,L.A.Airport,Las Vegas,Las Vegas(h:1)(g:17) <- Pasadena(h:2)(g:11) <- Hoolywood(h:8)(g:5) <- L.A.Airport(h:6)(g:0),35,7,17,17
+Depth First Search,L.A.Airport,Las Vegas,Las Vegas(h:1)(g:19) <- Pasadena(h:2)(g:13) <- Downtown(h:6)(g:9) <- UCLA(h:8)(g:3) <- L.A.Airport(h:6)(g:0),29,6,23,19
+Branch and Bound Search,L.A.Airport,Las Vegas,Las Vegas(h:1)(g:11) <- DisneyLand(h:2)(g:10) <- Anaheim(h:8)(g:9) <- Hoolywood(h:8)(g:5) <- L.A.Airport(h:6)(g:0),74,8,25,11
+Hill Climbing Search,L.A.Airport,Las Vegas,Las Vegas(h:1)(g:19) <- Pasadena(h:2)(g:13) <- Downtown(h:6)(g:9) <- UCLA(h:8)(g:3) <- L.A.Airport(h:6)(g:0),11,5,23,19
+Best First Search,L.A.Airport,Las Vegas,Las Vegas(h:1)(g:19) <- Pasadena(h:2)(g:13) <- Downtown(h:6)(g:9) <- UCLA(h:8)(g:3) <- L.A.Airport(h:6)(g:0),60,5,23,19
+A star Algorithm,L.A.Airport,Las Vegas,Las Vegas(h:1)(g:11)(f:12) <- DisneyLand(h:2)(g:10)(f:12) <- Anaheim(h:8)(g:9)(f:17) <- Hoolywood(h:8)(g:5)(f:13) <- L.A.Airport(h:6)(g:0)(f:0),112,8,25,11
 第5回目。生成したパラメータ
-hrand,[9|0|8|7|1|1|4|3|4|8]
-grand,[1|7|3|7|7|7|6|1|5|2|7|7|7|3|1|1|3|6]
+hrand,[9|1|2|1|2|9|6|8|0|6]
+grand,[5|5|6|4|6|4|2|3|2|3|2|6|7|6|2|4|7|6]
 探索手法,start,goal,到着ルート,実行時間(マイクロ秒),実行ステップ数,hValue,gValue
-Breadth First Search,L.A.Airport,Las Vegas,Las Vegas(h:8)(g:16) <- Pasadena(h:3)(g:13) <- Hoolywood(h:8)(g:7) <- L.A.Airport(h:9)(g:0),37,7,28,16
-Depth First Search,L.A.Airport,Las Vegas,Las Vegas(h:8)(g:12) <- Pasadena(h:3)(g:9) <- Downtown(h:4)(g:8) <- UCLA(h:0)(g:1) <- L.A.Airport(h:9)(g:0),42,6,24,12
-Branch and Bound Search,L.A.Airport,Las Vegas,Las Vegas(h:8)(g:12) <- Pasadena(h:3)(g:9) <- Downtown(h:4)(g:8) <- UCLA(h:0)(g:1) <- L.A.Airport(h:9)(g:0),66,9,24,12
-Hill Climbing Search,L.A.Airport,Las Vegas,Time Over,1000039,26245242
-Best First Search,L.A.Airport,Las Vegas,Las Vegas(h:8)(g:12) <- Pasadena(h:3)(g:9) <- Downtown(h:4)(g:8) <- UCLA(h:0)(g:1) <- L.A.Airport(h:9)(g:0),89,10,24,12
-A star Algorithm,L.A.Airport,Las Vegas,Las Vegas(h:8)(g:12)(f:20) <- Pasadena(h:3)(g:9)(f:12) <- Downtown(h:4)(g:8)(f:12) <- UCLA(h:0)(g:1)(f:1) <- L.A.Airport(h:9)(g:0)(f:0),90,10,24,12
+Breadth First Search,L.A.Airport,Las Vegas,Las Vegas(h:6)(g:14) <- Pasadena(h:8)(g:7) <- Hoolywood(h:2)(g:5) <- L.A.Airport(h:9)(g:0),46,7,25,14
+Depth First Search,L.A.Airport,Las Vegas,Las Vegas(h:6)(g:18) <- Pasadena(h:8)(g:11) <- Downtown(h:6)(g:9) <- UCLA(h:1)(g:5) <- L.A.Airport(h:9)(g:0),25,6,30,18
+Branch and Bound Search,L.A.Airport,Las Vegas,Las Vegas(h:6)(g:14) <- Pasadena(h:8)(g:7) <- Hoolywood(h:2)(g:5) <- L.A.Airport(h:9)(g:0),63,8,25,14
+Hill Climbing Search,L.A.Airport,Las Vegas,Las Vegas(h:6)(g:26) <- DisneyLand(h:0)(g:20) <- Anaheim(h:1)(g:17) <- Hoolywood(h:2)(g:11) <- UCLA(h:1)(g:5) <- L.A.Airport(h:9)(g:0),14,6,19,26
+Best First Search,L.A.Airport,Las Vegas,Las Vegas(h:6)(g:20) <- DisneyLand(h:0)(g:14) <- Anaheim(h:1)(g:11) <- Hoolywood(h:2)(g:5) <- L.A.Airport(h:9)(g:0),50,8,18,20
+A star Algorithm,L.A.Airport,Las Vegas,Las Vegas(h:6)(g:14)(f:20) <- Pasadena(h:8)(g:7)(f:15) <- Hoolywood(h:2)(g:5)(f:7) <- L.A.Airport(h:9)(g:0)(f:0),77,10,25,14
 第6回目。生成したパラメータ
-hrand,[5|3|9|1|4|1|5|7|2|4]
-grand,[5|2|2|3|1|5|7|4|6|3|3|1|6|4|6|5|3|1]
+hrand,[5|9|4|2|5|1|8|6|1|2]
+grand,[4|6|6|1|1|7|7|4|1|5|2|3|2|7|2|6|6|2]
 探索手法,start,goal,到着ルート,実行時間(マイクロ秒),実行ステップ数,hValue,gValue
-Breadth First Search,L.A.Airport,Las Vegas,Las Vegas(h:4)(g:12) <- Pasadena(h:7)(g:9) <- Hoolywood(h:9)(g:2) <- L.A.Airport(h:5)(g:0),33,7,25,12
-Depth First Search,L.A.Airport,Las Vegas,Las Vegas(h:4)(g:17) <- Pasadena(h:7)(g:14) <- Downtown(h:5)(g:8) <- UCLA(h:3)(g:5) <- L.A.Airport(h:5)(g:0),42,6,24,17
-Branch and Bound Search,L.A.Airport,Las Vegas,Las Vegas(h:4)(g:7) <- DisneyLand(h:2)(g:6) <- Anaheim(h:1)(g:3) <- Hoolywood(h:9)(g:2) <- L.A.Airport(h:5)(g:0),190,8,21,7
-Hill Climbing Search,L.A.Airport,Las Vegas,Time Over,1000003,26365694
-Best First Search,L.A.Airport,Las Vegas,Las Vegas(h:4)(g:17) <- Pasadena(h:7)(g:14) <- Downtown(h:5)(g:8) <- UCLA(h:3)(g:5) <- L.A.Airport(h:5)(g:0),106,7,24,17
-A star Algorithm,L.A.Airport,Las Vegas,Las Vegas(h:4)(g:7)(f:11) <- DisneyLand(h:2)(g:6)(f:8) <- Anaheim(h:1)(g:3)(f:4) <- Hoolywood(h:9)(g:2)(f:11) <- L.A.Airport(h:5)(g:0)(f:0),134,7,21,7
+Breadth First Search,L.A.Airport,Las Vegas,Las Vegas(h:2)(g:19) <- Pasadena(h:6)(g:13) <- Hoolywood(h:4)(g:6) <- L.A.Airport(h:5)(g:0),36,7,17,19
+Depth First Search,L.A.Airport,Las Vegas,Las Vegas(h:2)(g:13) <- Pasadena(h:6)(g:7) <- Downtown(h:8)(g:5) <- UCLA(h:9)(g:4) <- L.A.Airport(h:5)(g:0),21,6,30,13
+Branch and Bound Search,L.A.Airport,Las Vegas,Las Vegas(h:2)(g:13) <- Pasadena(h:6)(g:7) <- Downtown(h:8)(g:5) <- UCLA(h:9)(g:4) <- L.A.Airport(h:5)(g:0),63,10,30,13
+Hill Climbing Search,L.A.Airport,Las Vegas,Las Vegas(h:2)(g:14) <- DisneyLand(h:1)(g:12) <- Anaheim(h:2)(g:7) <- Hoolywood(h:4)(g:6) <- L.A.Airport(h:5)(g:0),13,5,14,14
+Best First Search,L.A.Airport,Las Vegas,Las Vegas(h:2)(g:14) <- DisneyLand(h:1)(g:12) <- Anaheim(h:2)(g:7) <- Hoolywood(h:4)(g:6) <- L.A.Airport(h:5)(g:0),48,5,14,14
+A star Algorithm,L.A.Airport,Las Vegas,Las Vegas(h:2)(g:13)(f:15) <- Pasadena(h:6)(g:7)(f:13) <- Downtown(h:8)(g:5)(f:13) <- UCLA(h:9)(g:4)(f:13) <- L.A.Airport(h:5)(g:0)(f:0),71,9,30,13
 第7回目。生成したパラメータ
-hrand,[2|9|2|5|5|2|1|0|5|3]
-grand,[3|4|1|6|3|5|2|1|6|2|3|1|1|1|6|3|2|5]
+hrand,[6|1|1|0|5|6|5|1|5|0]
+grand,[5|7|2|3|3|5|3|1|3|2|1|3|5|6|4|4|3|6]
 探索手法,start,goal,到着ルート,実行時間(マイクロ秒),実行ステップ数,hValue,gValue
-Breadth First Search,L.A.Airport,Las Vegas,Las Vegas(h:3)(g:8) <- Pasadena(h:0)(g:6) <- Hoolywood(h:2)(g:4) <- L.A.Airport(h:2)(g:0),34,7,7,8
-Depth First Search,L.A.Airport,Las Vegas,Las Vegas(h:3)(g:17) <- Pasadena(h:0)(g:15) <- Downtown(h:1)(g:9) <- UCLA(h:9)(g:3) <- L.A.Airport(h:2)(g:0),38,6,15,17
-Branch and Bound Search,L.A.Airport,Las Vegas,Las Vegas(h:3)(g:8) <- Pasadena(h:0)(g:6) <- Hoolywood(h:2)(g:4) <- L.A.Airport(h:2)(g:0),44,6,7,8
-Hill Climbing Search,L.A.Airport,Las Vegas,Las Vegas(h:3)(g:8) <- Pasadena(h:0)(g:6) <- Hoolywood(h:2)(g:4) <- L.A.Airport(h:2)(g:0),55,4,7,8
-Best First Search,L.A.Airport,Las Vegas,Las Vegas(h:3)(g:8) <- Pasadena(h:0)(g:6) <- Hoolywood(h:2)(g:4) <- L.A.Airport(h:2)(g:0),42,6,7,8
-A star Algorithm,L.A.Airport,Las Vegas,Las Vegas(h:3)(g:8)(f:11) <- Pasadena(h:0)(g:6)(f:6) <- Hoolywood(h:2)(g:4)(f:6) <- L.A.Airport(h:2)(g:0)(f:0),37,5,7,8
+Breadth First Search,L.A.Airport,Las Vegas,Las Vegas(h:0)(g:13) <- Pasadena(h:1)(g:10) <- Hoolywood(h:1)(g:7) <- L.A.Airport(h:6)(g:0),27,7,8,13
+Depth First Search,L.A.Airport,Las Vegas,Las Vegas(h:0)(g:15) <- Pasadena(h:1)(g:12) <- Downtown(h:5)(g:8) <- UCLA(h:1)(g:5) <- L.A.Airport(h:6)(g:0),22,6,13,15
+Branch and Bound Search,L.A.Airport,Las Vegas,Las Vegas(h:0)(g:13) <- Pasadena(h:1)(g:10) <- Hoolywood(h:1)(g:7) <- L.A.Airport(h:6)(g:0),62,9,8,13
+Hill Climbing Search,L.A.Airport,Las Vegas,Las Vegas(h:0)(g:16) <- Pasadena(h:1)(g:13) <- Anaheim(h:0)(g:10) <- Hoolywood(h:1)(g:7) <- UCLA(h:1)(g:5) <- L.A.Airport(h:6)(g:0),15,6,9,16
+Best First Search,L.A.Airport,Las Vegas,Las Vegas(h:0)(g:13) <- Pasadena(h:1)(g:10) <- Hoolywood(h:1)(g:7) <- L.A.Airport(h:6)(g:0),39,6,8,13
+A star Algorithm,L.A.Airport,Las Vegas,Las Vegas(h:0)(g:13)(f:13) <- Pasadena(h:1)(g:10)(f:11) <- Hoolywood(h:1)(g:7)(f:8) <- L.A.Airport(h:6)(g:0)(f:0),55,7,8,13
 第8回目。生成したパラメータ
-hrand,[5|0|8|6|7|9|5|3|0|2]
-grand,[4|3|4|3|3|7|3|6|1|2|4|1|2|7|3|2|4|4]
+hrand,[4|9|4|0|8|1|4|5|5|6]
+grand,[6|5|5|5|2|5|5|2|6|6|3|6|1|6|2|2|6|7]
 探索手法,start,goal,到着ルート,実行時間(マイクロ秒),実行ステップ数,hValue,gValue
-Breadth First Search,L.A.Airport,Las Vegas,Las Vegas(h:2)(g:10) <- Pasadena(h:3)(g:6) <- Hoolywood(h:8)(g:3) <- L.A.Airport(h:5)(g:0),28,7,18,10
-Depth First Search,L.A.Airport,Las Vegas,Las Vegas(h:2)(g:14) <- Pasadena(h:3)(g:10) <- Downtown(h:5)(g:7) <- UCLA(h:0)(g:4) <- L.A.Airport(h:5)(g:0),1474,6,15,14
-Branch and Bound Search,L.A.Airport,Las Vegas,Las Vegas(h:2)(g:10) <- Pasadena(h:3)(g:6) <- Hoolywood(h:8)(g:3) <- L.A.Airport(h:5)(g:0),35,8,18,10
-Hill Climbing Search,L.A.Airport,Las Vegas,Las Vegas(h:2)(g:14) <- Pasadena(h:3)(g:10) <- Downtown(h:5)(g:7) <- UCLA(h:0)(g:4) <- L.A.Airport(h:5)(g:0),24,5,15,14
-Best First Search,L.A.Airport,Las Vegas,Las Vegas(h:2)(g:14) <- Pasadena(h:3)(g:10) <- Downtown(h:5)(g:7) <- UCLA(h:0)(g:4) <- L.A.Airport(h:5)(g:0),30,6,15,14
-A star Algorithm,L.A.Airport,Las Vegas,Las Vegas(h:2)(g:10)(f:12) <- Pasadena(h:3)(g:6)(f:9) <- Hoolywood(h:8)(g:3)(f:11) <- L.A.Airport(h:5)(g:0)(f:0),54,8,18,10
+Breadth First Search,L.A.Airport,Las Vegas,Las Vegas(h:6)(g:16) <- Pasadena(h:5)(g:10) <- Hoolywood(h:4)(g:5) <- L.A.Airport(h:4)(g:0),27,7,19,16
+Depth First Search,L.A.Airport,Las Vegas,Las Vegas(h:6)(g:19) <- Pasadena(h:5)(g:13) <- Downtown(h:4)(g:11) <- UCLA(h:9)(g:6) <- L.A.Airport(h:4)(g:0),49,6,28,19
+Branch and Bound Search,L.A.Airport,Las Vegas,Las Vegas(h:6)(g:15) <- GrandCanyon(h:8)(g:9) <- Anaheim(h:0)(g:7) <- Hoolywood(h:4)(g:5) <- L.A.Airport(h:4)(g:0),60,9,22,15
+Hill Climbing Search,L.A.Airport,Las Vegas,Las Vegas(h:6)(g:19) <- Pasadena(h:5)(g:13) <- Anaheim(h:0)(g:7) <- Hoolywood(h:4)(g:5) <- L.A.Airport(h:4)(g:0),12,5,19,19
+Best First Search,L.A.Airport,Las Vegas,Las Vegas(h:6)(g:16) <- Pasadena(h:5)(g:10) <- Hoolywood(h:4)(g:5) <- L.A.Airport(h:4)(g:0),54,8,19,16
+A star Algorithm,L.A.Airport,Las Vegas,Las Vegas(h:6)(g:15)(f:21) <- GrandCanyon(h:8)(g:9)(f:17) <- Anaheim(h:0)(g:7)(f:7) <- Hoolywood(h:4)(g:5)(f:9) <- L.A.Airport(h:4)(g:0)(f:0),82,10,22,15
 第9回目。生成したパラメータ
-hrand,[2|3|1|0|3|9|7|5|2|1]
-grand,[3|5|3|6|3|4|2|1|7|1|2|6|2|3|7|6|2|6]
+hrand,[4|5|7|3|1|2|0|1|9|3]
+grand,[4|1|6|2|7|4|5|7|3|5|6|1|3|2|7|1|7|6]
 探索手法,start,goal,到着ルート,実行時間(マイクロ秒),実行ステップ数,hValue,gValue
-Breadth First Search,L.A.Airport,Las Vegas,Las Vegas(h:1)(g:9) <- Pasadena(h:5)(g:7) <- Hoolywood(h:1)(g:5) <- L.A.Airport(h:2)(g:0),24,7,9,9
-Depth First Search,L.A.Airport,Las Vegas,Las Vegas(h:1)(g:18) <- Pasadena(h:5)(g:16) <- Downtown(h:7)(g:9) <- UCLA(h:3)(g:3) <- L.A.Airport(h:2)(g:0),25,6,18,18
-Branch and Bound Search,L.A.Airport,Las Vegas,Las Vegas(h:1)(g:9) <- Pasadena(h:5)(g:7) <- Hoolywood(h:1)(g:5) <- L.A.Airport(h:2)(g:0),32,7,9,9
-Hill Climbing Search,L.A.Airport,Las Vegas,Las Vegas(h:1)(g:15) <- DisneyLand(h:2)(g:9) <- Anaheim(h:0)(g:8) <- Hoolywood(h:1)(g:5) <- L.A.Airport(h:2)(g:0),26,5,6,15
-Best First Search,L.A.Airport,Las Vegas,Las Vegas(h:1)(g:15) <- DisneyLand(h:2)(g:9) <- Anaheim(h:0)(g:8) <- Hoolywood(h:1)(g:5) <- L.A.Airport(h:2)(g:0),29,5,6,15
-A star Algorithm,L.A.Airport,Las Vegas,Las Vegas(h:1)(g:9)(f:10) <- Pasadena(h:5)(g:7)(f:12) <- Hoolywood(h:1)(g:5)(f:6) <- L.A.Airport(h:2)(g:0)(f:0),47,7,9,9
+Breadth First Search,L.A.Airport,Las Vegas,Las Vegas(h:3)(g:13) <- Pasadena(h:1)(g:6) <- Hoolywood(h:7)(g:1) <- L.A.Airport(h:4)(g:0),24,7,15,13
+Depth First Search,L.A.Airport,Las Vegas,Las Vegas(h:3)(g:20) <- Pasadena(h:1)(g:13) <- Downtown(h:0)(g:6) <- UCLA(h:5)(g:4) <- L.A.Airport(h:4)(g:0),22,6,13,20
+Branch and Bound Search,L.A.Airport,Las Vegas,Las Vegas(h:3)(g:13) <- Pasadena(h:1)(g:6) <- Hoolywood(h:7)(g:1) <- L.A.Airport(h:4)(g:0),57,9,15,13
+Hill Climbing Search,L.A.Airport,Las Vegas,Las Vegas(h:3)(g:20) <- Pasadena(h:1)(g:13) <- Downtown(h:0)(g:6) <- UCLA(h:5)(g:4) <- L.A.Airport(h:4)(g:0),21,5,13,20
+Best First Search,L.A.Airport,Las Vegas,Las Vegas(h:3)(g:20) <- Pasadena(h:1)(g:13) <- Downtown(h:0)(g:6) <- UCLA(h:5)(g:4) <- L.A.Airport(h:4)(g:0),66,6,13,20
+A star Algorithm,L.A.Airport,Las Vegas,Las Vegas(h:3)(g:13)(f:16) <- Pasadena(h:1)(g:6)(f:7) <- Hoolywood(h:7)(g:1)(f:8) <- L.A.Airport(h:4)(g:0)(f:0),62,9,15,13
 第10回目。生成したパラメータ
-hrand,[0|6|5|6|2|8|1|7|8|2]
-grand,[5|7|1|6|5|6|2|1|4|4|6|3|5|3|5|2|6|3]
+hrand,[7|8|4|1|9|0|4|4|0|9]
+grand,[3|4|2|6|4|5|3|3|3|1|3|3|6|7|2|7|3|4]
 探索手法,start,goal,到着ルート,実行時間(マイクロ秒),実行ステップ数,hValue,gValue
-Breadth First Search,L.A.Airport,Las Vegas,Las Vegas(h:2)(g:15) <- Pasadena(h:7)(g:9) <- Hoolywood(h:5)(g:7) <- L.A.Airport(h:0)(g:0),25,7,14,15
-Depth First Search,L.A.Airport,Las Vegas,Las Vegas(h:2)(g:22) <- Pasadena(h:7)(g:16) <- Downtown(h:1)(g:11) <- UCLA(h:6)(g:5) <- L.A.Airport(h:0)(g:0),26,6,16,22
-Branch and Bound Search,L.A.Airport,Las Vegas,Las Vegas(h:2)(g:13) <- DisneyLand(h:8)(g:10) <- Pasadena(h:7)(g:8) <- Hoolywood(h:5)(g:6) <- UCLA(h:6)(g:5) <- L.A.Airport(h:0)(g:0),40,9,28,13
-Hill Climbing Search,L.A.Airport,Las Vegas,Las Vegas(h:2)(g:24) <- Pasadena(h:7)(g:18) <- Downtown(h:1)(g:13) <- Hoolywood(h:5)(g:7) <- L.A.Airport(h:0)(g:0),31,5,15,24
-Best First Search,L.A.Airport,Las Vegas,Las Vegas(h:2)(g:16) <- GrandCanyon(h:2)(g:13) <- Anaheim(h:6)(g:12) <- Hoolywood(h:5)(g:7) <- L.A.Airport(h:0)(g:0),33,7,15,16
-A star Algorithm,L.A.Airport,Las Vegas,Las Vegas(h:2)(g:14)(f:16) <- Pasadena(h:7)(g:8)(f:15) <- Hoolywood(h:5)(g:6)(f:11) <- UCLA(h:6)(g:5)(f:11) <- L.A.Airport(h:0)(g:0)(f:0),31,6,20,14
+Breadth First Search,L.A.Airport,Las Vegas,Las Vegas(h:9)(g:10) <- Pasadena(h:4)(g:7) <- Hoolywood(h:4)(g:4) <- L.A.Airport(h:7)(g:0),25,7,24,10
+Depth First Search,L.A.Airport,Las Vegas,Las Vegas(h:9)(g:14) <- Pasadena(h:4)(g:11) <- Downtown(h:4)(g:9) <- UCLA(h:8)(g:3) <- L.A.Airport(h:7)(g:0),19,6,32,14
+Branch and Bound Search,L.A.Airport,Las Vegas,Las Vegas(h:9)(g:10) <- Pasadena(h:4)(g:7) <- Hoolywood(h:4)(g:4) <- L.A.Airport(h:7)(g:0),45,8,24,10
+Hill Climbing Search,L.A.Airport,Las Vegas,Las Vegas(h:9)(g:13) <- DisneyLand(h:0)(g:9) <- Anaheim(h:1)(g:8) <- Hoolywood(h:4)(g:4) <- L.A.Airport(h:7)(g:0),10,5,21,13
+Best First Search,L.A.Airport,Las Vegas,Las Vegas(h:9)(g:13) <- DisneyLand(h:0)(g:9) <- Anaheim(h:1)(g:8) <- Hoolywood(h:4)(g:4) <- L.A.Airport(h:7)(g:0),57,10,21,13
+A star Algorithm,L.A.Airport,Las Vegas,Las Vegas(h:9)(g:10)(f:19) <- Pasadena(h:4)(g:7)(f:11) <- Hoolywood(h:4)(g:4)(f:8) <- L.A.Airport(h:7)(g:0)(f:0),42,9,24,10

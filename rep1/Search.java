@@ -106,15 +106,16 @@ public class Search {
 				}
 			}
 		}
+		long end_time = System.nanoTime();
 		if (success) {
 			//System.out.println("*** Solution ***");
 			hValueSum = 0;
 			//gValueSum = 0;
 			printSolution(goal);
 			gValueSum = goal.getGValue();
-			System.out.print(","+(System.nanoTime()-start_time)/1000+","+step+","+hValueSum+","+gValueSum);
+			System.out.print(","+(end_time-start_time)/1000+","+step+","+hValueSum+","+gValueSum);
 		}else{
-			System.out.print("Failure"+","+(System.nanoTime()-start_time)/1000+","+step+","+hValueSum+","+gValueSum);
+			System.out.print("Failure"+","+(end_time-start_time)/1000+","+step+","+hValueSum+","+gValueSum);
 		}
 	}
 
@@ -177,15 +178,16 @@ public class Search {
 				}
 			}
 		}
+		long end_time = System.nanoTime();
 		if (success) {
 			//System.out.println("*** Solution ***");
 			hValueSum = 0;
 			//gValueSum = 0;
 			printSolution(goal);
 			gValueSum = goal.getGValue();
-			System.out.print(","+(System.nanoTime()-start_time)/1000+","+step+","+hValueSum+","+gValueSum);
+			System.out.print(","+(end_time-start_time)/1000+","+step+","+hValueSum+","+gValueSum);
 		}else{
-			System.out.print("Failure"+","+(System.nanoTime()-start_time)/1000+","+step+","+hValueSum+","+gValueSum);
+			System.out.print("Failure"+","+(end_time-start_time)/1000+","+step+","+hValueSum+","+gValueSum);
 		}
 	}
 
@@ -249,15 +251,16 @@ public class Search {
 			}
 			open = sortUpperByGValue(open);
 		}
+		long end_time = System.nanoTime();
 		if (success) {
 			//System.out.println("*** Solution ***");
 			hValueSum = 0;
 			//gValueSum = 0;
 			printSolution(goal);
 			gValueSum = goal.getGValue();
-			System.out.print(","+(System.nanoTime()-start_time)/1000+","+step+","+hValueSum+","+gValueSum);
+			System.out.print(","+(end_time-start_time)/1000+","+step+","+hValueSum+","+gValueSum);
 		}else{
-			System.out.print("Failure"+","+(System.nanoTime()-start_time)/1000+","+step+","+hValueSum+","+gValueSum);
+			System.out.print("Failure"+","+(end_time-start_time)/1000+","+step+","+hValueSum+","+gValueSum);
 		}
 	}
 
@@ -318,15 +321,16 @@ public class Search {
 				return;
 			}
 		}
+		long end_time = System.nanoTime();
 		if (success) {
 			//System.out.println("*** Solution ***");
 			hValueSum = 0;
 			//gValueSum = 0;
 			printSolution(goal);
 			gValueSum = goal.getGValue();
-			System.out.print(","+(System.nanoTime()-start_time)/1000+","+step+","+hValueSum+","+gValueSum);
+			System.out.print(","+(end_time-start_time)/1000+","+step+","+hValueSum+","+gValueSum);
 		}else{
-			System.out.print("Failure"+","+(System.nanoTime()-start_time)/1000+","+step+","+hValueSum+","+gValueSum);
+			System.out.print("Failure"+","+(end_time-start_time)/1000+","+step+","+hValueSum+","+gValueSum);
 		}
 	}
 
@@ -380,15 +384,16 @@ public class Search {
 			}
 			open = sortUpperByHValue(open);
 		}
+		long end_time = System.nanoTime();
 		if (success) {
 			//System.out.println("*** Solution ***");
 			hValueSum = 0;
 			//gValueSum = 0;
 			printSolution(goal);
 			gValueSum = goal.getGValue();
-			System.out.print(","+(System.nanoTime()-start_time)/1000+","+step+","+hValueSum+","+gValueSum);
+			System.out.print(","+(end_time-start_time)/1000+","+step+","+hValueSum+","+gValueSum);
 		}else{
-			System.out.print("Failure"+","+(System.nanoTime()-start_time)/1000+","+step+","+hValueSum+","+gValueSum);
+			System.out.print("Failure"+","+(end_time-start_time)/1000+","+step+","+hValueSum+","+gValueSum);
 		}
 	}
 
@@ -467,15 +472,16 @@ public class Search {
 			}
 			open = sortUpperByFValue(open);
 		}
+		long end_time = System.nanoTime();
 		if (success) {
 			//System.out.println("*** Solution ***");
 			hValueSum = 0;
 			//gValueSum = 0;
 			printSolution(goal);
 			gValueSum = goal.getGValue();
-			System.out.print(","+(System.nanoTime()-start_time)/1000+","+step+","+hValueSum+","+gValueSum);
+			System.out.print(","+(end_time-start_time)/1000+","+step+","+hValueSum+","+gValueSum);
 		}else{
-			System.out.print("Failure"+","+(System.nanoTime()-start_time)/1000+","+step+","+hValueSum+","+gValueSum);
+			System.out.print("Failure"+","+(end_time-start_time)/1000+","+step+","+hValueSum+","+gValueSum);
 		}
 	}
 
