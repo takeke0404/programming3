@@ -92,13 +92,24 @@ class Screen extends JFrame{
     }
 
     void search(String searchText){
-	String[] searchTexts = searchText.split(" ");
+        Pattern p = Pattern.compile("\"[^\"]*\"");
+        java.util.regex.Matcher countGroup = p.matcher(searchText);
+	int count = 0;
+	while(countGroup.find()){
+	    count++;
+	}
+	String[] searchTexts = new String[count];
+	java.util.regex.Matcher args = p.matcher(searchText);
+	count = 0;
+	while(args.find()){
+	    searchTexts[count] = args.group().replaceAll("\"","");
+	    count++;
+	}
 	//標準出力を受け取る
         ByteArrayOutputStream out = new ByteArrayOutputStream();
 	System.setOut(new PrintStream(new BufferedOutputStream(out)));
 	Matching m = new Matching();
 	m.main(searchTexts);
-	System.setOut(System.out);
 
 	//結果の表示とボタンの表示
 	System.out.flush();
@@ -106,6 +117,7 @@ class Screen extends JFrame{
 	pane.setEditable(false);
         saveButton.setVisible(false);
 	backButton.setVisible(true);
+	System.setOut(System.out);
     }
 
     void back(){
