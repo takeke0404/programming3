@@ -2,8 +2,6 @@
 /***
 	Matching Program written
 
-
-
 	変数:前に？をつける．  
 
 	Examle:
@@ -22,16 +20,13 @@
 	% Matching "?x is ?x" "a is a"
 	?x = a .
 
-
 	Mating は，パターン表現と通常表現とを比較して，通常表現が
 	パターン表現の例であるかどうかを調べる．
 	Unify は，ユニフィケーション照合アルゴリズムを実現し，
 	パターン表現を比較して矛盾のない代入によって同一と判断
 	できるかどうかを調べる．
-	
 ***/
 
-import java.lang.*;
 import java.util.*;
 import java.io.*;
 
@@ -43,60 +38,50 @@ class Matching {
 	public static void main(String arg[]) {
 		if (arg.length < 1) {
 			System.out.println("Usgae : % Matching [string1] [string2] ...");
-		}
-		try { // ファイル読み込みに失敗した時の例外処理のためのtry-catch構文
-			String fileName = "dataset_example.txt"; // ファイル名指定
+		}else{
+			try { // ファイル読み込みに失敗した時の例外処理のためのtry-catch構文
+				String fileName = "dataset_example.txt"; // ファイル名指定
 
-			int questionNum = 0;
-			ArrayList<ArrayList> result = new ArrayList<ArrayList>();
-			for (int i = 0; i < arg.length; i++) {
-				// 文字コードUTF-8を指定してBufferedReaderオブジェクトを作る
-				BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(fileName), "UTF-8"));
-				ArrayList<HashMap> tmp = new ArrayList<HashMap>();
-				String argString = arg[i];
-				// 変数lineに1行ずつ読み込むfor文
-				for (String line = in.readLine(); line != null; line = in.readLine()) {
-					Matcher m = new Matcher();
-					if(m.matching(argString, line)){
-						//result.putAll(m.vars);
-						tmp.add(m.vars);
-						//System.out.println("vars: " + m.vars);
-					}
-				}
-				result.add(tmp);
-				in.close(); // ファイルを閉じる
-			}
-			//System.out.println(result);
-			
-			ArrayList<HashMap> ans = result.get(0);
-			for(ArrayList al : result){
-				ArrayList<HashMap> tmp = new ArrayList<HashMap>();
-				for(HashMap<String,String> map : (ArrayList<HashMap>)al){
-					for(HashMap<String,String> m : (ArrayList<HashMap>)ans){
-						boolean flug = true;
-						for(String nKey : map.keySet()){
-							if(!map.get(nKey).equals(m.get(nKey)) && m.get(nKey)!=null)
-								flug = false;
+				ArrayList<ArrayList<HashMap<String,String>>> result = new ArrayList<ArrayList<HashMap<String,String>>>();
+				for (int i = 0; i < arg.length; i++) {
+					// 文字コードUTF-8を指定してBufferedReaderオブジェクトを作る
+					BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(fileName), "UTF-8"));
+					ArrayList<HashMap<String,String>> tmp = new ArrayList<HashMap<String,String>>();
+					String argString = arg[i];
+					// 変数lineに1行ずつ読み込むfor文
+					for (String line = in.readLine(); line != null; line = in.readLine()) {
+						Matcher m = new Matcher();
+						if(m.matching(argString, line)){
+							tmp.add(m.vars);
+							//System.out.println("vars: " + m.vars);
 						}
-						if(flug == true)
-							tmp.add(composition(map,m)); //ここのmをHashMapを合成したものに変える
 					}
+					result.add(tmp);
+					in.close(); // ファイルを閉じる
 				}
-				ans = tmp;
-			}
-			print(ans);
-			
-			/*
-			String[] parameterArray = new String[questionNum];
-			for(int i=0; i<arg.length;i++){
-				String argString = arg[i];
-			}
-			*/
+				//System.out.println(result);
 
-		} catch (IOException e) {
-			e.printStackTrace(); // 例外が発生した所までのスタックトレースを表示
+				ArrayList<HashMap<String,String>> ans = result.get(0);
+				for(ArrayList<HashMap<String,String>> al : result){
+					ArrayList<HashMap<String,String>> tmp = new ArrayList<HashMap<String,String>>();
+					for(HashMap<String,String> map : (ArrayList<HashMap<String,String>>)al){
+						for(HashMap<String,String> m : (ArrayList<HashMap<String,String>>)ans){
+							boolean flug = true;
+							for(String nKey : map.keySet()){
+								if(!map.get(nKey).equals(m.get(nKey)) && m.get(nKey)!=null)
+									flug = false;
+							}
+							if(flug == true)
+								tmp.add(composition(map,m)); //ここのmをHashMapを合成したものに変える
+						}
+					}
+					ans = tmp;
+				}
+				print(ans);
+			} catch (IOException e) {
+				e.printStackTrace(); // 例外が発生した所までのスタックトレースを表示
+			}
 		}
-		// System.out.println((new Matcher()).matching(arg[0],arg[1]));
 	}
 
 	static HashMap<String,String> composition(HashMap<String,String> m1,HashMap<String,String> m2){
