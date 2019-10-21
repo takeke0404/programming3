@@ -92,10 +92,10 @@ class Matching {
 		return map;
 	}
 
-	static void print(ArrayList<HashMap> list){
+	static void print(ArrayList<HashMap<String,String>> list){
+		System.out.print(list.get(0).keySet() + " = ");
 		for(HashMap<String,String> map:list){
-			//System.out.print(map.values());
-			System.out.print(map);
+			System.out.print(map.values());
 		}
 		System.out.println();
 	}
