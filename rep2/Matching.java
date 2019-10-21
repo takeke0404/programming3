@@ -67,17 +67,25 @@ class Matching {
 				in.close(); // ファイルを閉じる
 			}
 			System.out.println(result);
-			/*
-			ArrayList<HashMap> ans = new ArrayList<HashMap>();
+			
+			ArrayList<HashMap> ans = result.get(0);
 			for(ArrayList al : result){
 				ArrayList<HashMap> tmp = new ArrayList<HashMap>();
-				for(int i=0; i<al.size();i++){
-					for (String nKey : al.get(i).keySet()){
-						System.out.println(mMap1.get(nKey));
+				for(HashMap<String,String> map : (ArrayList<HashMap>)al){
+					for(HashMap<String,String> m : (ArrayList<HashMap>)ans){
+						boolean flug = true;
+						for(String nKey : map.keySet()){
+							if(!map.get(nKey).equals(m.get(nKey)) && m.get(nKey)!=null)
+								flug = false;
+						}
+						if(flug == true)
+							tmp.add(m); //ここのmをHashMapを合成したものに変える
 					}
 				}
+				ans = tmp;
 			}
-			*/
+			System.out.println(ans);
+			
 			/*
 			String[] parameterArray = new String[questionNum];
 			for(int i=0; i<arg.length;i++){
