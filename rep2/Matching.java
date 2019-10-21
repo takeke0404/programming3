@@ -32,6 +32,7 @@
 
 import java.lang.*;
 import java.util.*;
+import java.io.*;
 
 /**
  * マッチングのプログラム
@@ -39,12 +40,28 @@ import java.util.*;
  */
 class Matching {
     public static void main(String arg[]){
-	if(arg.length != 2){
+	if(arg.length != 1){
 	    System.out.println("Usgae : % Matching [string1] [string2]");
 	}
-	System.out.println((new Matcher()).matching(arg[0],arg[1]));
+	try {    // ファイル読み込みに失敗した時の例外処理のためのtry-catch構文
+            String fileName = "dataset_example.txt"; // ファイル名指定
+
+            // 文字コードUTF-8を指定してBufferedReaderオブジェクトを作る
+            BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(fileName), "UTF-8"));
+
+            // 変数lineに1行ずつ読み込むfor文
+            for (String line = in.readLine(); line != null; line = in.readLine()) {
+		if((new Matcher()).matching(arg[0],line)){
+		    System.out.println(line);  // 1行表示
+				       }
+            }
+            in.close();  // ファイルを閉じる
+        } catch (IOException e) {
+            e.printStackTrace(); // 例外が発生した所までのスタックトレースを表示
+        }
     }
-}
+    //System.out.println((new Matcher()).matching(arg[0],arg[1]));
+    }
 
 /**
  * 実際にマッチングを行うクラス
