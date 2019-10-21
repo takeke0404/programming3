@@ -4,10 +4,11 @@ import java.util.*;
 import java.io.*;
 import java.util.regex.*;
 import java.sql.*;
+import java.awt.event.*;
 
 public class MatchingGUI{
     public static void main(String[] args) throws Exception{
-	Screen s = new Screen("matching");
+	Screen s = new Screen("matchingGUI");
 	s.setVisible(true);
     }
 }
@@ -17,20 +18,29 @@ class Screen extends JFrame{
     JPanel buttonPane = new JPanel();
     JTextPane pane = new JTextPane();
     JScrollPane scrollPane = new JScrollPane(pane);
+    private static JFrame frame = new JFrame();
 
     Screen(String title){
 	setTitle(title);
-	setBounds(100,100,600,400);
+	setBounds(660,340,600,400);
 	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	pane.setEditable(false);
+	pane.setEditable(true);
 
 	JButton searchButton = new JButton("検索");
-	JButton addButton = new JButton("追加");
-	JButton deleteButton = new JButton("削除");
+	JButton saveButton = new JButton("保存");
+
+	saveButton.addActionListener(
+	    new ActionListener(){
+		public void actionPerformed(ActionEvent event){
+		    saveDataSet();
+		    JLabel msg = new JLabel("保存されました");
+		    JOptionPane.showMessageDialog(frame, msg);
+		}
+	    }
+	);
     
 	buttonPane.add(searchButton);
-	buttonPane.add(addButton);
-	buttonPane.add(deleteButton);
+	buttonPane.add(saveButton);
 
 	contentPane.add(scrollPane, BorderLayout.CENTER);
 	contentPane.add(buttonPane, BorderLayout.SOUTH);
@@ -45,6 +55,10 @@ class Screen extends JFrame{
 
     void loadDataSet(){
 	//setTextを呼ぶ
-	setText("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+	setText("aaaaaaaaaaaaaaaaaa\naaaaaaaaaaaaaaaaaaa");
+    }
+
+    void saveDataSet(){
+	//saveDataSet
     }
 }
