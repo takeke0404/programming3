@@ -1,35 +1,35 @@
 
 /***
-  Matching Program written
+	Matching Program written
 
 
 
-  変数:前に？をつける．  
+	変数:前に？をつける．  
 
-  Examle:
-  % Matching "Takayuki" "Takayuki"
-  true
+	Examle:
+	% Matching "Takayuki" "Takayuki"
+	true
 
-  % Matching "Takayuki" "Takoyuki"
-  false
+	% Matching "Takayuki" "Takoyuki"
+	false
 
-  % Matching "?x am Takayuki" "I am Takayuki"
-  ?x = I .
+	% Matching "?x am Takayuki" "I am Takayuki"
+	?x = I .
 
-  % Matching "?x is ?x" "a is b"
-  false
+	% Matching "?x is ?x" "a is b"
+	false
 
-  % Matching "?x is ?x" "a is a"
-  ?x = a .
+	% Matching "?x is ?x" "a is a"
+	?x = a .
 
 
-  Mating は，パターン表現と通常表現とを比較して，通常表現が
-  パターン表現の例であるかどうかを調べる．
-  Unify は，ユニフィケーション照合アルゴリズムを実現し，
-  パターン表現を比較して矛盾のない代入によって同一と判断
-  できるかどうかを調べる．
-  
-  ***/
+	Mating は，パターン表現と通常表現とを比較して，通常表現が
+	パターン表現の例であるかどうかを調べる．
+	Unify は，ユニフィケーション照合アルゴリズムを実現し，
+	パターン表現を比較して矛盾のない代入によって同一と判断
+	できるかどうかを調べる．
+	
+***/
 
 import java.lang.*;
 import java.util.*;
@@ -47,33 +47,44 @@ class Matching {
 		try { // ファイル読み込みに失敗した時の例外処理のためのtry-catch構文
 			String fileName = "dataset_example.txt"; // ファイル名指定
 
-			// 文字コードUTF-8を指定してBufferedReaderオブジェクトを作る
-			BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(fileName), "UTF-8"));
-
-
 			int questionNum = 0;
-			HashMap<String, String> result = new HashMap<>();
+			ArrayList<ArrayList> result = new ArrayList<ArrayList>();
 			for (int i = 0; i < arg.length; i++) {
+				// 文字コードUTF-8を指定してBufferedReaderオブジェクトを作る
+				BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(fileName), "UTF-8"));
+				ArrayList<HashMap> tmp = new ArrayList<HashMap>();
 				String argString = arg[i];
 				// 変数lineに1行ずつ読み込むfor文
 				for (String line = in.readLine(); line != null; line = in.readLine()) {
 					Matcher m = new Matcher();
 					if(m.matching(argString, line)){
-						result.putAll(m.vars);
+						//result.putAll(m.vars);
+						tmp.add(m.vars);
 						System.out.println("vars: " + m.vars);
-
+					}
+				}
+				result.add(tmp);
+				in.close(); // ファイルを閉じる
+			}
+			System.out.println(result);
+			/*
+			ArrayList<HashMap> ans = new ArrayList<HashMap>();
+			for(ArrayList al : result){
+				ArrayList<HashMap> tmp = new ArrayList<HashMap>();
+				for(int i=0; i<al.size();i++){
+					for (String nKey : al.get(i).keySet()){
+						System.out.println(mMap1.get(nKey));
 					}
 				}
 			}
-			System.out.println(result.values());
+			*/
+			/*
 			String[] parameterArray = new String[questionNum];
 			for(int i=0; i<arg.length;i++){
 				String argString = arg[i];
-
 			}
+			*/
 
-
-			in.close(); // ファイルを閉じる
 		} catch (IOException e) {
 			e.printStackTrace(); // 例外が発生した所までのスタックトレースを表示
 		}
