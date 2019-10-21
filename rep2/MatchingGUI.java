@@ -15,11 +15,16 @@ public class MatchingGUI{
 
 class Screen extends JFrame{
     Container contentPane=getContentPane();
-    JPanel buttonPane = new JPanel();
     JTextPane pane = new JTextPane();
     JScrollPane scrollPane = new JScrollPane(pane);
-    private static JTextField search = new JTextField();
+    private static JTextField searchPane = new JTextField();
+    private static JPanel buttonPane = new JPanel();
+    JButton searchButton = new JButton("検索");
+    JButton saveButton = new JButton("保存");
+    JButton backButton = new JButton("戻る");
+    private static JPanel southPane = new JPanel();
     private static JFrame frame = new JFrame();
+    private static String dataSet = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
 
     Screen(String title){
 	setTitle(title);
@@ -27,16 +32,10 @@ class Screen extends JFrame{
 	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	pane.setEditable(true);
 
-	JButton searchButton = new JButton("検索");
-	JButton saveButton = new JButton("保存");
-
-
 	searchButton.addActionListener(
 	    new ActionListener(){
 		public void actionPerformed(ActionEvent event){
-		    search();
-		    JLabel msg = new JLabel("検索");
-		    JOptionPane.showMessageDialog(frame, msg);
+		    search(searchPane.getText());
 		}
 	    }
 	);
@@ -50,18 +49,29 @@ class Screen extends JFrame{
 		}
 	    }
 	);
-    
+
+	backButton.addActionListener(
+            new ActionListener(){
+	        public void actionPerformed(ActionEvent event){
+		    back();
+		}
+	    }
+	);
+
+       	buttonPane.add(saveButton);
+	buttonPane.add(backButton);
 	buttonPane.add(searchButton);
-	buttonPane.add(saveButton);
 
-	JPanel southPanel = new JPanel();
-	southPanel.setLayout(new BoxLayout(southPanel, BoxLayout.PAGE_AXIS));
+	backButton.setVisible(false);
 
-	southPanel.add(search);
-	southPanel.add(buttonPane);
+	JPanel southPane = new JPanel();
+	southPane.setLayout(new BoxLayout(southPane, BoxLayout.PAGE_AXIS));
+
+       	southPane.add(searchPane);
+      	southPane.add(buttonPane);
 
 	contentPane.add(scrollPane, BorderLayout.CENTER);
-	contentPane.add(southPanel, BorderLayout.PAGE_END);
+	contentPane.add(southPane, BorderLayout.SOUTH);
 	
 	loadDataSet();
     }
@@ -73,14 +83,43 @@ class Screen extends JFrame{
 
     void loadDataSet(){
 	//setTextを呼ぶ
-	setText("aaaaaaaaaaaaaaaaaa\naaaaaaaaaaaaaaaaaaa");
+	//dataSetに格納する
+	setText(dataSet);
     }
 
     void saveDataSet(){
 	//saveDataSet
     }
 
-    void search(){
-	//setTextを呼ぶ
+    void search(String searchText){
+	String[] searchTexts = searchText.split(" ");
+	//標準出力を受け取る
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+	System.setOut(new PrintStream(new BufferedOutputStream(out)));
+	Matching m = new Matching();
+	m.main(searchTexts);
+	System.setOut(System.out);
+
+	//結果の表示とボタンの表示
+	System.out.flush();
+      	setText(out.toString());
+	pane.setEditable(false);
+        saveButton.setVisible(false);
+	backButton.setVisible(true);
+    }
+
+    void back(){
+	//検索結果からdatasetの一覧に戻る
+	pane.setEditable(true);
+	setText(dataSet);
+	saveButton.setVisible(true);
+	backButton.setVisible(false);
     }
 }
+
+
+/*
+参考
+https://qiita.com/boss_ape/items/b68b0bd6d85cf18d1626
+https://www.javadrive.jp/tutorial/jbutton/
+ */
