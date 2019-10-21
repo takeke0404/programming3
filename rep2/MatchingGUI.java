@@ -18,6 +18,7 @@ class Screen extends JFrame{
     JPanel buttonPane = new JPanel();
     JTextPane pane = new JTextPane();
     JScrollPane scrollPane = new JScrollPane(pane);
+    private static JTextField search = new JTextField();
     private static JFrame frame = new JFrame();
 
     Screen(String title){
@@ -29,6 +30,17 @@ class Screen extends JFrame{
 	JButton searchButton = new JButton("検索");
 	JButton saveButton = new JButton("保存");
 
+
+	searchButton.addActionListener(
+	    new ActionListener(){
+		public void actionPerformed(ActionEvent event){
+		    search();
+		    JLabel msg = new JLabel("検索");
+		    JOptionPane.showMessageDialog(frame, msg);
+		}
+	    }
+	);
+	
 	saveButton.addActionListener(
 	    new ActionListener(){
 		public void actionPerformed(ActionEvent event){
@@ -42,9 +54,15 @@ class Screen extends JFrame{
 	buttonPane.add(searchButton);
 	buttonPane.add(saveButton);
 
-	contentPane.add(scrollPane, BorderLayout.CENTER);
-	contentPane.add(buttonPane, BorderLayout.SOUTH);
+	JPanel southPanel = new JPanel();
+	southPanel.setLayout(new BoxLayout(southPanel, BoxLayout.PAGE_AXIS));
 
+	southPanel.add(search);
+	southPanel.add(buttonPane);
+
+	contentPane.add(scrollPane, BorderLayout.CENTER);
+	contentPane.add(southPanel, BorderLayout.PAGE_END);
+	
 	loadDataSet();
     }
 
@@ -60,5 +78,9 @@ class Screen extends JFrame{
 
     void saveDataSet(){
 	//saveDataSet
+    }
+
+    void search(){
+	//setTextを呼ぶ
     }
 }
