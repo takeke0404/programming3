@@ -60,13 +60,13 @@ class Matching {
 					if(m.matching(argString, line)){
 						//result.putAll(m.vars);
 						tmp.add(m.vars);
-						System.out.println("vars: " + m.vars);
+						//System.out.println("vars: " + m.vars);
 					}
 				}
 				result.add(tmp);
 				in.close(); // ファイルを閉じる
 			}
-			System.out.println(result);
+			//System.out.println(result);
 			
 			ArrayList<HashMap> ans = result.get(0);
 			for(ArrayList al : result){
@@ -79,12 +79,12 @@ class Matching {
 								flug = false;
 						}
 						if(flug == true)
-							tmp.add(m); //ここのmをHashMapを合成したものに変える
+							tmp.add(composition(map,m)); //ここのmをHashMapを合成したものに変える
 					}
 				}
 				ans = tmp;
 			}
-			System.out.println(ans);
+			print(ans);
 			
 			/*
 			String[] parameterArray = new String[questionNum];
@@ -96,8 +96,24 @@ class Matching {
 		} catch (IOException e) {
 			e.printStackTrace(); // 例外が発生した所までのスタックトレースを表示
 		}
+		// System.out.println((new Matcher()).matching(arg[0],arg[1]));
 	}
-	// System.out.println((new Matcher()).matching(arg[0],arg[1]));
+
+	static HashMap<String,String> composition(HashMap<String,String> m1,HashMap<String,String> m2){
+		HashMap<String,String> map = m1;
+		for(String nKey : m2.keySet()){
+			map.put(nKey,m2.get(nKey));
+		}
+		return map;
+	}
+
+	static void print(ArrayList<HashMap> list){
+		for(HashMap<String,String> map:list){
+			//System.out.print(map.values());
+			System.out.print(map);
+		}
+		System.out.println();
+	}
 }
 
 /**
