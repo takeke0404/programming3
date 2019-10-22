@@ -1,32 +1,3 @@
-
-/***
-	Matching Program written
-
-	変数:前に？をつける．  
-
-	Examle:
-	% Matching "Takayuki" "Takayuki"
-	true
-
-	% Matching "Takayuki" "Takoyuki"
-	false
-
-	% Matching "?x am Takayuki" "I am Takayuki"
-	?x = I .
-
-	% Matching "?x is ?x" "a is b"
-	false
-
-	% Matching "?x is ?x" "a is a"
-	?x = a .
-
-	Mating は，パターン表現と通常表現とを比較して，通常表現が
-	パターン表現の例であるかどうかを調べる．
-	Unify は，ユニフィケーション照合アルゴリズムを実現し，
-	パターン表現を比較して矛盾のない代入によって同一と判断
-	できるかどうかを調べる．
-***/
-
 import java.util.*;
 import java.io.*;
 
@@ -41,63 +12,58 @@ class Matching {
 		}else{
 			try { // ファイル読み込みに失敗した時の例外処理のためのtry-catch構文
 				String fileName = "dataset_example.txt"; // ファイル名指定
+				ArrayList<HashMap<String, String>> result = new ArrayList<HashMap<String, String>>(); //今までの変数束縛情報を格納
 
-				ArrayList<ArrayList<HashMap<String,String>>> result = new ArrayList<ArrayList<HashMap<String,String>>>();
 				for (int i = 0; i < arg.length; i++) {
 					// 文字コードUTF-8を指定してBufferedReaderオブジェクトを作る
 					BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(fileName), "UTF-8"));
-					ArrayList<HashMap<String,String>> tmp = new ArrayList<HashMap<String,String>>();
 					String argString = arg[i];
+					ArrayList<HashMap<String, String>> tmp = new ArrayList<HashMap<String, String>>();
+
 					// 変数lineに1行ずつ読み込むfor文
 					for (String line = in.readLine(); line != null; line = in.readLine()) {
-						Matcher m = new Matcher();
-						if(m.matching(argString, line)){
-							tmp.add(m.vars);
-							//System.out.println("vars: " + m.vars);
-						}
-					}
-					result.add(tmp);
-					in.close(); // ファイルを閉じる
-				}
-				//System.out.println(result);
-
-				ArrayList<HashMap<String,String>> ans = result.get(0);
-				for(ArrayList<HashMap<String,String>> al : result){
-					ArrayList<HashMap<String,String>> tmp = new ArrayList<HashMap<String,String>>();
-					for(HashMap<String,String> map : (ArrayList<HashMap<String,String>>)al){
-						for(HashMap<String,String> m : (ArrayList<HashMap<String,String>>)ans){
-							boolean flug = true;
-							for(String nKey : map.keySet()){
-								if(!map.get(nKey).equals(m.get(nKey)) && m.get(nKey)!=null)
-									flug = false;
+						//前回の引数とのマッチングによる変数束縛情報の引継ぎがある場合
+						if(!result.isEmpty()){
+							for(int k = 0; k < result.size(); k++){
+								Matcher m = new Matcher();
+								//bindingsにresultの内容をディープコピー
+								HashMap<String, String> bindings = new HashMap<String, String>(result.get(k));
+								if(m.matching(argString, line, bindings)){
+									tmp.add(m.vars); //resultに今回のmatchingによって成功した変数束縛情報を記録
+								}
 							}
-							if(flug == true)
-								tmp.add(composition(map,m)); //ここのmをHashMapを合成したものに変える
+						}else{
+							//引き継ぐ変数束縛情報がない場合
+							Matcher m = new Matcher();
+							if(m.matching(argString, line)){
+								tmp.add(m.vars); //resultに今回のmatchingによって成功した変数束縛情報を記録
+							}
 						}
 					}
-					ans = tmp;
+					in.close(); // ファイルを閉じる
+					//resultに入っている前回の束縛情報を削除
+					result.clear();
+					//tmpの内容をresultにコピー
+					for(int j = 0; j < tmp.size(); j++){
+						result.add(tmp.get(j));
+					}
+					//tmpの内容をリセット
+					//tmp.clear();
 				}
-				print(ans);
+				//結果を表示
+				if(!result.isEmpty()){
+					System.out.print(result.get(0).keySet() + " = {");
+					for(HashMap<String,String> map:result){
+						System.out.print(map.values());
+					}
+					System.out.println("}");
+				}else{
+					System.out.println("not matching.");
+				}
 			} catch (IOException e) {
 				e.printStackTrace(); // 例外が発生した所までのスタックトレースを表示
 			}
 		}
-	}
-
-	static HashMap<String,String> composition(HashMap<String,String> m1,HashMap<String,String> m2){
-		HashMap<String,String> map = m1;
-		for(String nKey : m2.keySet()){
-			map.put(nKey,m2.get(nKey));
-		}
-		return map;
-	}
-
-	static void print(ArrayList<HashMap<String,String>> list){
-		System.out.print(list.get(0).keySet() + " = ");
-		for(HashMap<String,String> map:list){
-			System.out.print(map.values());
-		}
-		System.out.println();
 	}
 }
 
