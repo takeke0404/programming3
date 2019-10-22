@@ -1,4 +1,3 @@
-import java.lang.*;
 import java.util.*;
 import java.io.*;
 
@@ -10,67 +9,60 @@ class Matching2 {
 	public static void main(String arg[]) {
 		if (arg.length < 1) {
 			System.out.println("Usgae : % Matching [string1] [string2] ...");
-		}
-		try { // ファイル読み込みに失敗した時の例外処理のためのtry-catch構文
-			String fileName = "dataset_example.txt"; // ファイル名指定
-            ArrayList<HashMap<String, String>> result = new ArrayList<HashMap<String, String>>(); //今までの変数束縛情報を格納
+		}else{
+			try { // ファイル読み込みに失敗した時の例外処理のためのtry-catch構文
+				String fileName = "dataset_example.txt"; // ファイル名指定
+				ArrayList<HashMap<String, String>> result = new ArrayList<HashMap<String, String>>(); //今までの変数束縛情報を格納
 
-			int questionNum = 0;
-			for (int i = 0; i < arg.length; i++) {
-				// 文字コードUTF-8を指定してBufferedReaderオブジェクトを作る
-				BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(fileName), "UTF-8"));
-				String argString = arg[i];
-				ArrayList<HashMap<String, String>> tmp = new ArrayList<HashMap<String, String>>();
+				for (int i = 0; i < arg.length; i++) {
+					// 文字コードUTF-8を指定してBufferedReaderオブジェクトを作る
+					BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(fileName), "UTF-8"));
+					String argString = arg[i];
+					ArrayList<HashMap<String, String>> tmp = new ArrayList<HashMap<String, String>>();
 
-				// 変数lineに1行ずつ読み込むfor文
-				for (String line = in.readLine(); line != null; line = in.readLine()) {
-					//前回の引数とのマッチングによる変数束縛情報の引継ぎがある場合
-					if(result.size() > 0){   
-
-						for(int k = 0; k < result.size(); k++){
+					// 変数lineに1行ずつ読み込むfor文
+					for (String line = in.readLine(); line != null; line = in.readLine()) {
+						//前回の引数とのマッチングによる変数束縛情報の引継ぎがある場合
+						if(!result.isEmpty()){
+							for(int k = 0; k < result.size(); k++){
+								Matcher m = new Matcher();
+								//bindingsにresultの内容をディープコピー
+								HashMap<String, String> bindings = new HashMap<String, String>(result.get(k));
+								if(m.matching(argString, line, bindings)){
+									tmp.add(m.vars); //resultに今回のmatchingによって成功した変数束縛情報を記録
+								}
+							}
+						}else{
+							//引き継ぐ変数束縛情報がない場合
 							Matcher m = new Matcher();
-
-							//bindingsにresultの内容をディープコピー
-							HashMap<String, String> bindings = new HashMap<String, String>(result.get(k));
-							
-							if(m.matching(argString, line, bindings)){
+							if(m.matching(argString, line)){
 								tmp.add(m.vars); //resultに今回のmatchingによって成功した変数束縛情報を記録
-
 							}
 						}
-
-					}else{
-						//引き継ぐ変数束縛情報がない場合
-						Matcher m = new Matcher();
-						if(m.matching(argString, line)){
-							tmp.add(m.vars); //resultに今回のmatchingによって成功した変数束縛情報を記録
-						}
-
 					}
-
-				}
-				in.close(); // ファイルを閉じる
-
-				//resultに入っている前回の束縛情報を削除
-				result.clear();
-
-				//tmpの内容をresultにコピー
-				for(int j = 0; j < tmp.size(); j++){
-					result.add(tmp.get(j));
-				}
-
-				//tmpの内容をリセット
-				//tmp.clear();
-				//ラストのみ結果を表示
-				if(i == arg.length - 1){
-					for(int l = 0; l < result.size(); l++){
-						System.out.print(result.get(l));
+					in.close(); // ファイルを閉じる
+					//resultに入っている前回の束縛情報を削除
+					result.clear();
+					//tmpの内容をresultにコピー
+					for(int j = 0; j < tmp.size(); j++){
+						result.add(tmp.get(j));
 					}
-					System.out.println();
+					//tmpの内容をリセット
+					//tmp.clear();
 				}
+				//結果を表示
+				if(!result.isEmpty()){
+					System.out.print(result.get(0).keySet() + " = {");
+					for(HashMap<String,String> map:result){
+						System.out.print(map.values());
+					}
+					System.out.println("}");
+				}else{
+					System.out.println("not matching.");
+				}
+			} catch (IOException e) {
+				e.printStackTrace(); // 例外が発生した所までのスタックトレースを表示
 			}
-		} catch (IOException e) {
-			e.printStackTrace(); // 例外が発生した所までのスタックトレースを表示
 		}
 	}
 }
