@@ -118,7 +118,7 @@ public class SentenceDAO{
         try {
             Class.forName("org.h2.Driver");
 
-            conn = DriverManager.getConnection("jdbc:h2:database", "sa", "");
+            conn = DriverManager.getConnection("jdbc:h2:./database", "sa", "");
 
             try {
                 String fileName = "dataset_example.txt"; // ファイル名指定
