@@ -30,6 +30,9 @@ class Screen extends JFrame{
 	setTitle(title);
 	setBounds(660,340,600,400);
 	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	Font font = new Font("WenQuanYi Micro Hei Mono",Font.PLAIN,14);
+	pane.setFont(font);
+	searchPane.setFont(font);
 	pane.setEditable(true);
 
 	searchButton.addActionListener(
