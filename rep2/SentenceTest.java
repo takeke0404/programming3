@@ -8,7 +8,7 @@ public class SentenceTest {
 	//senList=senDAO.delete(x);	//レコードの削除(複数ある場合1つ)
 	//senList=senDAO.insert(x);	//レコードの追加
 	//senList=senDAO.deleteALL();	//レコード全削除
-	senList=senDAO.reset();	//レコードの初期化(dataset_example.txt)
+	//senList=senDAO.reset();	//レコードの初期化(dataset_example.txt)
 	for (Sentence sen: senList) {
 	    System.out.println(sen.getName());
 	}
