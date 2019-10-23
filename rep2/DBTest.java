@@ -10,7 +10,7 @@ public class DBTest{
 		List<Sentence> senList = senDAO.findAll();	//レコードの取得
 		System.out.println("データベースの操作を行います。番号で操作を選んでください");
 		while (1 <= answer && answer <= 6 && key) {
-			System.out.println("[1]一覧表示 [2]レコード追加 [3]レコード削除　[4]レコード全削除 [5]レコードの初期化 [6]終了");
+			System.out.println("[1]一覧表示 [2]レコード追加 [3]レコード削除 [4]レコード全削除 [5]レコードの初期化 [6]終了");
 			answer = scan.nextInt();
 			while (answer < 1 || 6 < answer) {
 				System.out.println("もう一度入力");
