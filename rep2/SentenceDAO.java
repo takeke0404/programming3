@@ -45,7 +45,8 @@ public class SentenceDAO{
 
             String sql = "INSERT INTO SENTENCE VALUES(?)";
             PreparedStatement pStmt = conn.prepareStatement(sql);
-            pStmt.setString(1, x.getName());	    
+            pStmt.setString(1, x.getName());
+            System.out.println(x.getName()+ "の挿入に成功しました。");
             pStmt.executeUpdate();
             conn.close();
 	   
@@ -75,7 +76,8 @@ public class SentenceDAO{
 
             String sql = "DELETE FROM SENTENCE WHERE NAME=(?) LIMIT 1"; //1回のみ削除
             PreparedStatement pStmt = conn.prepareStatement(sql);
-            pStmt.setString(1, x.getName());	    
+            pStmt.setString(1, x.getName());
+            System.out.println(x.getName()+ "の削除に成功しました。");
             pStmt.executeUpdate();
             conn.close();
 	   
