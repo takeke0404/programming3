@@ -1,0 +1,20 @@
+C language is a relatively old language
+Java is one of the most popular languages
+Java is used in many industries
+Java is an object-oriented programming language
+Fortran is the first High-level language
+Swift can make iOS application
+Python is adapted for machine-learning
+COBOL is one of the most popular languages
+COBOL is a relatively old language
+COBOL is used in many industries
+LISP is a relatively old language
+LISP is a functional language
+Scala is a function language
+Python the best suited programming language for Machine Learning
+Mongodb is the database for modern applications
+Reactjs is a JavaScript library for building user interfaces
+R is one of the most used tools for data science
+C++ is a computer programming language based on C
+Scratch is adapted for beginners
+Processing is adapted for beginners
