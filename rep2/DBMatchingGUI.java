@@ -66,8 +66,6 @@ class Screen extends JFrame {
 
 		buttonPane.add(searchButton);
 
-		scrollPane.setPreferredSize(new Dimension(40, 80));
-
 		JPanel	searchMatchingPanel = new JPanel();
 		JLabel searchLabel = new JLabel("検索");
 		JLabel resultLabel = new JLabel("検索結果");
@@ -86,7 +84,6 @@ class Screen extends JFrame {
 		databaseOperationJPanel.add(deleteButton);
 
 		databasePanel.setLayout(new BoxLayout(databasePanel, BoxLayout.PAGE_AXIS));
-		// databasePanel.setPreferredSize(new Dimension(300,400));
 		databasePanel.add(databaseLabel);
 		databasePanel.add(databaseScrollPane);
 		databasePanel.add(databaseAdd);
@@ -95,8 +92,13 @@ class Screen extends JFrame {
 
 
 		// main panel
-		contentPane.add(searchMatchingPanel, BorderLayout.CENTER);
-		contentPane.add(databasePanel, BorderLayout.AFTER_LAST_LINE);
+		contentPane.add(searchMatchingPanel, BorderLayout.BEFORE_FIRST_LINE);
+		contentPane.add(databasePanel, BorderLayout.CENTER);
+
+		scrollPane.setMinimumSize(new Dimension(600, 80));
+		databaseScrollPane.setMinimumSize(new Dimension(600,150));
+		databaseScrollPane.setPreferredSize(new Dimension(600,200));
+		databaseNewData.setMaximumSize(new Dimension(600,80));
 		
 		loadDataSet();
 	}
@@ -157,6 +159,7 @@ class Screen extends JFrame {
 		JList dataList = loadDatabase();
 		ListModel model = dataList.getModel();
 		list.setModel(model);
+		databaseNewData.setText("");
 	}
 
 	void delete() {
