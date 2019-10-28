@@ -1,4 +1,5 @@
-import java.util.HashSet;
+import java.util.*;
+import java.io.*;
 
 /*
  Example.java
@@ -13,10 +14,13 @@ public class Example {
   // フレームシステムの初期化
   AIFrameSystem fs = new AIFrameSystem();
   
+  // スロット値
+  String[] slots = {"studentNo", "major", "field", "laboName", "hobby", "language"};
+
   // クラスフレーム student の生成
   fs.createClassFrame( "student" );
   // 学籍番号 スロットを設定
-  fs.writeSlotValue( "student", "studentNo", new Integer( 29110000 ) );
+  fs.writeSlotValue( "student", "studentNo", new String("29114xxx") );
   //学科スロットを設定
   fs.writeSlotValue( "student", "major", new String("なし") );
   //分野スロットを設定
@@ -31,7 +35,7 @@ public class Example {
   // インスタンスフレーム haruto のﾌ生成
   fs.createInstanceFrame( "student", "haruto" );
 
-    fs.writeSlotValue( "haruto", "studentNo", new Integer( 29114128 ) );
+    fs.writeSlotValue( "haruto", "studentNo", new String("29114128") );
     fs.writeSlotValue( "haruto", "major", new String( "情報" ) );
     fs.writeSlotValue( "haruto", "field", new String( "知能" ) );
     fs.writeSlotValue( "haruto", "laboName", new String( "犬塚・武藤" ) );
@@ -54,42 +58,84 @@ public class Example {
   //System.out.println( fs.readSlotValue( "haruto", "height", true ) );
   //System.out.println( fs.readSlotValue( "haruto", "weight", true ) );
 
-    String[] sp = args[0].split(" ");
-    HashSet<String> set = new HashSet<>();
-    set.add("haruto");
-    for(int i=0;i<sp.length-1;i++){
-        String[] tmp = sp[i].split(":"); 
-        for(String s :set){
-            if(!fs.readSlotValue(s,tmp[0],false).toString().equals(tmp[1])){
-                set.remove(s);
-            }
+    // CSV output
+  // 出力ファイルの作成
+  try{
+    FileWriter f = new FileWriter("data.csv", false);
+  PrintWriter p = new PrintWriter(new BufferedWriter(f));
+   // ヘッダーを指定する
+   p.print("studentNo,");
+   p.print("major,");
+   p.print("field,");
+   p.print("laboName,");
+   p.print("hooby,");
+   p.print("language");
+   p.println();
+   for(String slot: slots){
+     String slotValue = fs.readSlotValue("haruto", slot, false).toString();
+     p.print(slotValue);
+     if(slot!=slots[slots.length-1]){
+      p.print(",");
+     }
+   }
+   p.println();
+   p.close();
+  }
+  catch (IOException ex) {
+    ex.printStackTrace();
+  }
+  String[] sp = args[0].split(" ");
+  HashSet<String> set = new HashSet<>();
+  set.add("haruto");
+  for(int i=0;i<sp.length-1;i++){
+      String[] tmp = sp[i].split(":"); 
+      for(String s :set){
+          if(!fs.readSlotValue(s,tmp[0],false).toString().equals(tmp[1])){
+              set.remove(s);
+          }
+      }
+  }
+  if(sp[sp.length-1].indexOf(":")!=-1){
+    String[] tmp = sp[sp.length-1].split(":"); 
+    for(String s :set){
+        if(!fs.readSlotValue(s,tmp[0],false).toString().equals(tmp[1])){
+            set.remove(s);
+        }else{
+            System.out.println(s);
+            System.out.println(fs.readSlotValue( s, "studentNo", false ));
+            System.out.println(fs.readSlotValue( s, "major", false ));
+            System.out.println(fs.readSlotValue( s, "field", false ));
+            System.out.println(fs.readSlotValue( s, "laboName", false ));
+            System.out.println(fs.readSlotValue( s, "hobby", false )) ;
+            System.out.println(fs.readSlotValue( s, "language", false ));
         }
     }
-
-    if(sp[sp.length-1].indexOf(":")!=-1){
-        String[] tmp = sp[sp.length-1].split(":"); 
-        for(String s :set){
-            if(!fs.readSlotValue(s,tmp[0],false).toString().equals(tmp[1])){
-                set.remove(s);
-            }else{
-                System.out.println(s);
-                System.out.println(fs.readSlotValue( s, "studentNo", false ));
-                System.out.println(fs.readSlotValue( s, "major", false ));
-                System.out.println(fs.readSlotValue( s, "field", false ));
-                System.out.println(fs.readSlotValue( s, "laboName", false ));
-                System.out.println(fs.readSlotValue( s, "hobby", false )) ;
-                System.out.println(fs.readSlotValue( s, "language", false ));
-            }
-        }
-    }else{
-        for(String s :set){
-            System.out.println(fs.readSlotValue(s,sp[sp.length-1],false));
-        }
+}else{
+    for(String s :set){
+        System.out.println(fs.readSlotValue(s,sp[sp.length-1],false));
     }
-
-    /*
-    System.out.println(fs.readSlotValue("student", "studentNo"));
-    */
 }
- 
+
+// readcsv();
+}
+static void readcsv() {
+    try {
+          File f = new File("data.csv");
+          BufferedReader br = new BufferedReader(new FileReader(f));
+          String line;
+          // 1行ずつCSVファイルを読み込む
+          while ((line = br.readLine()) != null) {
+            String[] data = line.split(",", 0); // 行をカンマ区切りで配列に変換
+     
+            for (String elem : data) {
+              System.out.println(elem);
+            }
+            br.close();
+          }
+        } catch (IOException e) {
+          System.out.println(e);
+        }
+      
+    }
+  
 }
