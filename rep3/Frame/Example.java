@@ -1,3 +1,5 @@
+import java.util.HashSet;
+
 /*
  Example.java
 
@@ -6,7 +8,7 @@
 public class Example {
 
  public static void main(String args[]) {
-  System.out.println( "Frame" );
+  System.out.println( "【Frame】" );
 
   // フレームシステムの初期化
   AIFrameSystem fs = new AIFrameSystem();
@@ -36,6 +38,7 @@ public class Example {
     fs.writeSlotValue( "haruto", "hobby", new String( "音楽鑑賞" ) );
     fs.writeSlotValue( "haruto", "language", new String( "java" ) );
 
+ /*
   // height と weight はデフォルト値
   System.out.println( fs.readSlotValue( "haruto", "studentNo", false ) );
   System.out.println( fs.readSlotValue( "haruto", "major", false ) );
@@ -43,12 +46,50 @@ public class Example {
   System.out.println( fs.readSlotValue( "haruto", "laboName", false ) );
   System.out.println( fs.readSlotValue( "haruto", "hobby", false ) );
   System.out.println( fs.readSlotValue( "haruto", "language", false ) );
-  
+  */
+
   // weight はデフォルト値
   // 再びデフォルト値を表示
   //fs.writeSlotValue( "haruto", "weight", new Integer( 50 ) );
   //System.out.println( fs.readSlotValue( "haruto", "height", true ) );
   //System.out.println( fs.readSlotValue( "haruto", "weight", true ) );
- }
+
+    String[] sp = args[0].split(" ");
+    HashSet<String> set = new HashSet<>();
+    set.add("haruto");
+    for(int i=0;i<sp.length-1;i++){
+        String[] tmp = sp[i].split(":"); 
+        for(String s :set){
+            if(!fs.readSlotValue(s,tmp[0],false).toString().equals(tmp[1])){
+                set.remove(s);
+            }
+        }
+    }
+
+    if(sp[sp.length-1].indexOf(":")!=-1){
+        String[] tmp = sp[sp.length-1].split(":"); 
+        for(String s :set){
+            if(!fs.readSlotValue(s,tmp[0],false).toString().equals(tmp[1])){
+                set.remove(s);
+            }else{
+                System.out.println(s);
+                System.out.println(fs.readSlotValue( s, "studentNo", false ));
+                System.out.println(fs.readSlotValue( s, "major", false ));
+                System.out.println(fs.readSlotValue( s, "field", false ));
+                System.out.println(fs.readSlotValue( s, "laboName", false ));
+                System.out.println(fs.readSlotValue( s, "hobby", false )) ;
+                System.out.println(fs.readSlotValue( s, "language", false ));
+            }
+        }
+    }else{
+        for(String s :set){
+            System.out.println(fs.readSlotValue(s,sp[sp.length-1],false));
+        }
+    }
+
+    /*
+    System.out.println(fs.readSlotValue("student", "studentNo"));
+    */
+}
  
 }
