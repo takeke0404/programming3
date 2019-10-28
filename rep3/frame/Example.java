@@ -1,20 +1,22 @@
+import java.util.*;
+import java.io.*;
+
 /*
  Example.java
 
 */
-import java.io.*;
 
 public class Example {
 
  public static void main(String args[]) {
-  System.out.println( "Frame" );
+  System.out.println( "【Frame】" );
 
   // フレームシステムの初期化
   AIFrameSystem fs = new AIFrameSystem();
 
   // スロット値
   String[] slots = {"studentNo", "major", "field", "laboName", "hobby", "language"};
-  
+
   // クラスフレーム student の生成
   fs.createClassFrame( "student" );
   // 学籍番号 スロットを設定
@@ -33,13 +35,14 @@ public class Example {
   // インスタンスフレーム haruto のﾌ生成
   fs.createInstanceFrame( "student", "haruto" );
 
-    fs.writeSlotValue( "haruto", "studentNo", new String( "29114128" ));
-    fs.writeSlotValue( "haruto", "major", new String( "情報" ) );
+  fs.writeSlotValue( "haruto", "studentNo", new String( "29114128" ));
+  fs.writeSlotValue( "haruto", "major", new String( "情報" ) );
     fs.writeSlotValue( "haruto", "field", new String( "知能" ) );
     fs.writeSlotValue( "haruto", "laboName", new String( "犬塚・武藤" ) );
     fs.writeSlotValue( "haruto", "hobby", new String( "音楽鑑賞" ) );
     fs.writeSlotValue( "haruto", "language", new String( "java" ) );
 
+ /*
   // height と weight はデフォルト値
   System.out.println( fs.readSlotValue( "haruto", "studentNo", false ) );
   System.out.println( fs.readSlotValue( "haruto", "major", false ) );
@@ -47,14 +50,15 @@ public class Example {
   System.out.println( fs.readSlotValue( "haruto", "laboName", false ) );
   System.out.println( fs.readSlotValue( "haruto", "hobby", false ) );
   System.out.println( fs.readSlotValue( "haruto", "language", false ) );
-  
+  */
+
   // weight はデフォルト値
   // 再びデフォルト値を表示
   //fs.writeSlotValue( "haruto", "weight", new Integer( 50 ) );
   //System.out.println( fs.readSlotValue( "haruto", "height", true ) );
   //System.out.println( fs.readSlotValue( "haruto", "weight", true ) );
 
-  // CSV output
+    // CSV output
   // 出力ファイルの作成
   try{
     FileWriter f = new FileWriter("data.csv", false);
@@ -80,6 +84,38 @@ public class Example {
   catch (IOException ex) {
     ex.printStackTrace();
   }
+  String[] sp = args[0].split(" ");
+  HashSet<String> set = new HashSet<>();
+  set.add("haruto");
+  for(int i=0;i<sp.length-1;i++){
+      String[] tmp = sp[i].split(":"); 
+      for(String s :set){
+          if(!fs.readSlotValue(s,tmp[0],false).toString().equals(tmp[1])){
+              set.remove(s);
+          }
+      }
+  }
+
+  if(sp[sp.length-1].indexOf(":")!=-1){
+      String[] tmp = sp[sp.length-1].split(":"); 
+      for(String s :set){
+          if(!fs.readSlotValue(s,tmp[0],false).toString().equals(tmp[1])){
+              set.remove(s);
+          }else{
+              System.out.println(s);
+              System.out.println(fs.readSlotValue( s, "studentNo", false ));
+              System.out.println(fs.readSlotValue( s, "major", false ));
+              System.out.println(fs.readSlotValue( s, "field", false ));
+              System.out.println(fs.readSlotValue( s, "laboName", false ));
+              System.out.println(fs.readSlotValue( s, "hobby", false )) ;
+              System.out.println(fs.readSlotValue( s, "language", false ));
+          }
+      }
+  }else{
+      for(String s :set){
+          System.out.println(fs.readSlotValue(s,sp[sp.length-1],false));
+      }
+  }
 
   // readcsv();
  }
@@ -96,12 +132,12 @@ public class Example {
           for (String elem : data) {
             System.out.println(elem);
           }
+          br.close();
         }
-        br.close();
       } catch (IOException e) {
         System.out.println(e);
       }
-  
+    
+  }
 }
-
-}
+ 
