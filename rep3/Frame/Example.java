@@ -11,30 +11,44 @@ public class Example {
   // フレームシステムの初期化
   AIFrameSystem fs = new AIFrameSystem();
   
-  // クラスフレーム human の生成
-  fs.createClassFrame( "human" );
-  // height スロットを設定
-  fs.writeSlotValue( "human", "height", new Integer( 160 ) );
-  // height から weight を計算するための式 weight = 0.9*(height-100) を
-  // when-requested demon として weight スロットに割り当てる  
-  fs.setWhenRequestedProc( "human", "weight", new AIDemonProcReadTest() );
+  // クラスフレーム student の生成
+  fs.createClassFrame( "student" );
+  // 学籍番号 スロットを設定
+  fs.writeSlotValue( "student", "studentNo", new Integer( 29110000 ) );
+  //学科スロットを設定
+  fs.writeSlotValue( "student", "major", new String("なし") );
+  //分野スロットを設定
+  fs.writeSlotValue( "student", "field", new String("なし") );
+  //研究室スロットを設定
+  fs.writeSlotValue( "student", "laboName", new String("なし") );
+  //趣味スロットを設定
+  fs.writeSlotValue( "student", "hobby", new String("なし" ));
+  //好きな言語スロットを設定
+  fs.writeSlotValue( "student", "language", new String("java") );
 
-  // インスタンスフレーム tora のﾌ生成
-  fs.createInstanceFrame( "human", "tora" );
+  // インスタンスフレーム haruto のﾌ生成
+  fs.createInstanceFrame( "student", "haruto" );
+
+    fs.writeSlotValue( "haruto", "studentNo", new Integer( 29114128 ) );
+    fs.writeSlotValue( "haruto", "major", new String( "情報" ) );
+    fs.writeSlotValue( "haruto", "field", new String( "知能" ) );
+    fs.writeSlotValue( "haruto", "laboName", new String( "犬塚・武藤" ) );
+    fs.writeSlotValue( "haruto", "hobby", new String( "音楽鑑賞" ) );
+    fs.writeSlotValue( "haruto", "language", new String( "java" ) );
 
   // height と weight はデフォルト値
-  System.out.println( fs.readSlotValue( "tora", "height", false ) );
-  System.out.println( fs.readSlotValue( "tora", "weight", false ) );
-
+  System.out.println( fs.readSlotValue( "haruto", "studentNo", false ) );
+  System.out.println( fs.readSlotValue( "haruto", "major", false ) );
+  System.out.println( fs.readSlotValue( "haruto", "field", false ) );
+  System.out.println( fs.readSlotValue( "haruto", "laboName", false ) );
+  System.out.println( fs.readSlotValue( "haruto", "hobby", false ) );
+  System.out.println( fs.readSlotValue( "haruto", "language", false ) );
+  
   // weight はデフォルト値
-  fs.writeSlotValue( "tora", "height", new Integer( 165 ) );
-  System.out.println( fs.readSlotValue( "tora", "height", false ) );
-  System.out.println( fs.readSlotValue( "tora", "weight", false ) );
-
   // 再びデフォルト値を表示
-  fs.writeSlotValue( "tora", "weight", new Integer( 50 ) );
-  System.out.println( fs.readSlotValue( "tora", "height", true ) );
-  System.out.println( fs.readSlotValue( "tora", "weight", true ) );
+  //fs.writeSlotValue( "haruto", "weight", new Integer( 50 ) );
+  //System.out.println( fs.readSlotValue( "haruto", "height", true ) );
+  //System.out.println( fs.readSlotValue( "haruto", "weight", true ) );
  }
  
 }
