@@ -2,10 +2,7 @@
  Example.java
 
 */
-import java.io.FileWriter;
-import java.io.BufferedWriter;
-import java.io.PrintWriter;
-import java.io.IOException;
+import java.io.*;
 
 public class Example {
 
@@ -68,12 +65,14 @@ public class Example {
    p.print("field,");
    p.print("laboName,");
    p.print("hooby,");
-   p.print("language,");
+   p.print("language");
    p.println();
    for(String slot: slots){
      String slotValue = fs.readSlotValue("haruto", slot, false).toString();
      p.print(slotValue);
-     p.print(",");
+     if(slot!=slots[slots.length-1]){
+      p.print(",");
+     }
    }
    p.println();
    p.close();
@@ -81,5 +80,28 @@ public class Example {
   catch (IOException ex) {
     ex.printStackTrace();
   }
+
+  // readcsv();
  }
+
+ static void readcsv() {
+  try {
+        File f = new File("data.csv");
+        BufferedReader br = new BufferedReader(new FileReader(f));
+        String line;
+        // 1行ずつCSVファイルを読み込む
+        while ((line = br.readLine()) != null) {
+          String[] data = line.split(",", 0); // 行をカンマ区切りで配列に変換
+   
+          for (String elem : data) {
+            System.out.println(elem);
+          }
+        }
+        br.close();
+      } catch (IOException e) {
+        System.out.println(e);
+      }
+  
+}
+
 }
