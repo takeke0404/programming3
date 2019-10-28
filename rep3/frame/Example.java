@@ -1,3 +1,5 @@
+import java.util.HashSet;
+
 /*
  Example.java
 
@@ -7,7 +9,7 @@ import java.io.*;
 public class Example {
 
  public static void main(String args[]) {
-  System.out.println( "Frame" );
+  System.out.println( "【Frame】" );
 
   // フレームシステムの初期化
   AIFrameSystem fs = new AIFrameSystem();
@@ -40,6 +42,7 @@ public class Example {
     fs.writeSlotValue( "haruto", "hobby", new String( "音楽鑑賞" ) );
     fs.writeSlotValue( "haruto", "language", new String( "java" ) );
 
+ /*
   // height と weight はデフォルト値
   System.out.println( fs.readSlotValue( "haruto", "studentNo", false ) );
   System.out.println( fs.readSlotValue( "haruto", "major", false ) );
@@ -47,7 +50,8 @@ public class Example {
   System.out.println( fs.readSlotValue( "haruto", "laboName", false ) );
   System.out.println( fs.readSlotValue( "haruto", "hobby", false ) );
   System.out.println( fs.readSlotValue( "haruto", "language", false ) );
-  
+  */
+
   // weight はデフォルト値
   // 再びデフォルト値を表示
   //fs.writeSlotValue( "haruto", "weight", new Integer( 50 ) );
