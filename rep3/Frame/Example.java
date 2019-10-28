@@ -18,7 +18,7 @@ public class Example {
         // クラスフレーム student の生成
         fs.createClassFrame( "student" );
         // 学籍番号 スロットを設定
-        fs.writeSlotValue( "student", "studentNo", new String("29114xxx") );
+        fs.writeSlotValue( "student", "studentNo", new String("2911xxxx") );
         //学科スロットを設定
         fs.writeSlotValue( "student", "major", new String("なし") );
         //分野スロットを設定
@@ -40,6 +40,15 @@ public class Example {
         fs.writeSlotValue( "haruto", "hobby", new String( "音楽鑑賞" ) );
         fs.writeSlotValue( "haruto", "language", new String( "java" ) );
 
+        // インスタンスフレーム rinto のﾌ生成
+        fs.createInstanceFrame( "student", "rinto" );
+
+        fs.writeSlotValue( "rinto", "studentNo", new String("29119010") );
+        fs.writeSlotValue( "rinto", "major", new String( "情報" ) );
+        fs.writeSlotValue( "rinto", "field", new String( "知能" ) );
+        fs.writeSlotValue( "rinto", "laboName", new String( "李・酒向" ) );
+        fs.writeSlotValue( "rinto", "hobby", new String( "ゲーム" ) );
+        fs.writeSlotValue( "rinto", "language", new String( "python" ) );
         /*
         // height と weight はデフォルト値
         System.out.println( fs.readSlotValue( "haruto", "studentNo", false ) );
@@ -85,6 +94,7 @@ public class Example {
         String[] sp = args[0].split(" ");
         HashSet<String> set = new HashSet<>();
         set.add("haruto");
+        set.add("rinto");
         for(int i=0;i<sp.length-1;i++){
             String[] tmp = sp[i].split(":"); 
             for(String s :set){
@@ -99,12 +109,12 @@ public class Example {
                 if(!fs.readSlotValue(s,tmp[0],false).toString().equals(tmp[1])){
                     set.remove(s);
                 }else{
-                    System.out.println(s);
-                    System.out.println(fs.readSlotValue( s, "studentNo", false ));
-                    System.out.println(fs.readSlotValue( s, "major", false ));
-                    System.out.println(fs.readSlotValue( s, "field", false ));
-                    System.out.println(fs.readSlotValue( s, "laboName", false ));
-                    System.out.println(fs.readSlotValue( s, "hobby", false )) ;
+                    System.out.print(s+" : ");
+                    System.out.print(fs.readSlotValue( s, "studentNo", false )+",");
+                    System.out.print(fs.readSlotValue( s, "major", false )+",");
+                    System.out.print(fs.readSlotValue( s, "field", false )+",");
+                    System.out.print(fs.readSlotValue( s, "laboName", false )+",");
+                    System.out.print(fs.readSlotValue( s, "hobby", false )+",") ;
                     System.out.println(fs.readSlotValue( s, "language", false ));
                 }
             }
