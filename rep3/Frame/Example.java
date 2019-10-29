@@ -7,48 +7,29 @@ Example.java
 
 public class Example {
     public static void main(String args[]) {
-        System.out.println( "【Frame】" );
+        //System.out.println( "【Frame】" );
 
         // フレームシステムの初期化
         AIFrameSystem fs = new AIFrameSystem();
 
         // スロット値
+        //学籍番号,学科,分野,研究室,趣味,好きな言語
         String[] slots = {"studentNo", "major", "field", "laboName", "hobby", "language"};
 
+        // フレーム名
+        String[] inFrameName = {"haruto","rinto"};
+
         // クラスフレーム student の生成
-        fs.createClassFrame( "student" );
-        // 学籍番号 スロットを設定
-        fs.writeSlotValue( "student", "studentNo", new String("2911xxxx") );
-        //学科スロットを設定
-        fs.writeSlotValue( "student", "major", new String("なし") );
-        //分野スロットを設定
-        fs.writeSlotValue( "student", "field", new String("なし") );
-        //研究室スロットを設定
-        fs.writeSlotValue( "student", "laboName", new String("なし") );
-        //趣味スロットを設定
-        fs.writeSlotValue( "student", "hobby", new String("なし" ));
-        //好きな言語スロットを設定
-        fs.writeSlotValue( "student", "language", new String("java") );
+        fs.frameSlotInit("student", slots, new String[]{
+            "2911xxxx","なし","なし","なし","なし","java"});
 
-        // インスタンスフレーム haruto のﾌ生成
-        fs.createInstanceFrame( "student", "haruto" );
+        // インスタンスフレーム haruto の生成
+        fs.frameSlotInit("student", inFrameName[0], slots, new String[]{
+            "29114128","情報","知能","犬塚・武藤","音楽鑑賞","java"});
 
-        fs.writeSlotValue( "haruto", "studentNo", new String("29114128") );
-        fs.writeSlotValue( "haruto", "major", new String( "情報" ) );
-        fs.writeSlotValue( "haruto", "field", new String( "知能" ) );
-        fs.writeSlotValue( "haruto", "laboName", new String( "犬塚・武藤" ) );
-        fs.writeSlotValue( "haruto", "hobby", new String( "音楽鑑賞" ) );
-        fs.writeSlotValue( "haruto", "language", new String( "java" ) );
-
-        // インスタンスフレーム rinto のﾌ生成
-        fs.createInstanceFrame( "student", "rinto" );
-
-        fs.writeSlotValue( "rinto", "studentNo", new String("29119010") );
-        fs.writeSlotValue( "rinto", "major", new String( "情報" ) );
-        fs.writeSlotValue( "rinto", "field", new String( "知能" ) );
-        fs.writeSlotValue( "rinto", "laboName", new String( "李・酒向" ) );
-        fs.writeSlotValue( "rinto", "hobby", new String( "ゲーム" ) );
-        fs.writeSlotValue( "rinto", "language", new String( "python" ) );
+        // インスタンスフレーム rinto の生成
+        fs.frameSlotInit("student", inFrameName[1], slots, new String[]{
+            "29119010","情報","知能","李・酒向","ゲーム","python"});
         /*
         // height と weight はデフォルト値
         System.out.println( fs.readSlotValue( "haruto", "studentNo", false ) );
@@ -71,21 +52,24 @@ public class Example {
             FileWriter f = new FileWriter("data.csv", false);
             PrintWriter p = new PrintWriter(new BufferedWriter(f));
             // ヘッダーを指定する
-            p.print("studentNo,");
-            p.print("major,");
-            p.print("field,");
-            p.print("laboName,");
-            p.print("hooby,");
-            p.print("language");
-            p.println();
-            for(String slot: slots){
-                String slotValue = fs.readSlotValue("haruto", slot, false).toString();
-                p.print(slotValue);
-                if(slot!=slots[slots.length-1]){
+            for(int index=0;index<slots.length;index++){
+                p.print(slots[index]);
+                if(index!=slots.length-1)
                     p.print(",");
+                else
+                    p.println();
+            }
+            for(String name:inFrameName){
+                for(String slot: slots){
+                    String slotValue = fs.readSlotValue(name, slot, false).toString();
+                    p.print(slotValue);
+                    if(!slot.equals(slots[slots.length-1])){
+                        p.print(",");
+                    }else{
+                        p.println();
+                    }
                 }
             }
-            p.println();
             p.close();
         }
         catch (IOException ex) {
@@ -93,12 +77,15 @@ public class Example {
         }
         String[] sp = args[0].split(" ");
         HashSet<String> set = new HashSet<>();
-        set.add("haruto");
-        set.add("rinto");
+        for(String name:inFrameName){
+            set.add(name);
+        }
         for(int i=0;i<sp.length-1;i++){
             String[] tmp = sp[i].split(":"); 
             for(String s :set){
+                //スロット値が不一致なら
                 if(!fs.readSlotValue(s,tmp[0],false).toString().equals(tmp[1])){
+                    //setから取り除く
                     set.remove(s);
                 }
             }
@@ -110,12 +97,13 @@ public class Example {
                     set.remove(s);
                 }else{
                     System.out.print(s+" : ");
-                    System.out.print(fs.readSlotValue( s, "studentNo", false )+",");
-                    System.out.print(fs.readSlotValue( s, "major", false )+",");
-                    System.out.print(fs.readSlotValue( s, "field", false )+",");
-                    System.out.print(fs.readSlotValue( s, "laboName", false )+",");
-                    System.out.print(fs.readSlotValue( s, "hobby", false )+",") ;
-                    System.out.println(fs.readSlotValue( s, "language", false ));
+                    for(String slot:slots){
+                        System.out.print(fs.readSlotValue(s,slot, false ));
+                        if(!slot.equals(slots[slots.length-1]))
+                            System.out.print(",");
+                        else
+                            System.out.println();
+                    }
                 }
             }
         }else{

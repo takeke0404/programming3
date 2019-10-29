@@ -183,6 +183,40 @@ void writeSlotValue(
  frame.writeSlotValue( this, inSlotName, inSlotValue );
 }
 
+/**
+ * frameSlotInit
+ *  クラスフレームの生成とスロット値の設定を行う.
+ *  @param inName フレーム名
+ *  @param inSlotName スロット名
+ *  @param inSlotValue スロット値
+ */
+public
+void frameSlotInit(String inName,String[] inSlotName,String[] inSlotValue){
+  // クラスフレームの生成
+  createFrame( sTopFrameName, inName, false );
+  for(int index=0;index<inSlotName.length;index++){
+    // スロット値の設定
+    writeSlotValue(inName,inSlotName[index],new String(inSlotValue[index]));
+  }
+}
+
+/**
+ * frameSlotInit
+ *  インスタンスフレームの生成とスロット値の設定を行う.
+ *  @param inSuperName スーパーフレームのフレーム名
+ *  @param inFrameName フレーム名
+ *  @param inSlotName スロット名
+ *  @param inSlotValue スロット値
+ */
+public
+void frameSlotInit(String inSuperName,String inFrameName,String[] inSlotName,String[] inSlotValue){
+  // インスタンスフレームの生成
+  createInstanceFrame(inSuperName,inFrameName);
+  for(int index=0;index<inSlotName.length;index++){
+    // スロット値の設定
+    writeSlotValue(inFrameName,inSlotName[index],new String(inSlotValue[index]));
+  }
+}
 
 // demon procedure の設定
 
