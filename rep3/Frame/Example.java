@@ -15,7 +15,7 @@ public class Example {
         // フレーム名
         String inName = "student";
         // スロット値
-        //学籍番号,学科,分野,研究室,趣味,好きな言語
+        // 学籍番号,学科,分野,研究室,趣味,好きな言語
         String[] slots = {"studentNo", "major", "field", "laboName", "hobby", "language"};
 
         // クラスフレーム student の生成
@@ -32,7 +32,7 @@ public class Example {
                 "29119010", "情報", "知能", "李・酒向", "ゲーム", "python" });
         
         for(String frameName: instance.keySet()){
-            fs.frameSlotInit("student", frameName, slots, instance.get(frameName));
+            fs.frameSlotInit(inName, frameName, slots, instance.get(frameName));
         }
 
         /*
@@ -85,59 +85,80 @@ public class Example {
         // readcsv();
 
         try{
-            String[] query = args[0].split(" ");
             HashSet<String> set = new HashSet<>();
             for(String name:instance.keySet()){
                 set.add(name);
             }
-            HashSet<String> ans = new HashSet<>();
-            for(String q:query){
-                if(q.indexOf(":")!=-1){
-                    HashSet<String> del = new HashSet<>();
-                    String[] tmp = q.split(":");
-                    if(tmp.length == 1){
-                        tmp = new String[]{tmp[0],""};
-                    }
-                    for(String s :set){
-                        //スロット値が不一致なら
-                        if(!fs.readSlotValue(s,tmp[0],false).toString().equals(tmp[1])){
-                            //setから取り除く
-                            del.add(s);
+            if(args.length!=0){
+                String[] query = args[0].split(" ");
+                HashSet<String> ans = new HashSet<>();
+                for(String q:query){
+                    // 「:」を含む場合
+                    if(q.indexOf(":")!=-1){
+                        HashSet<String> del = new HashSet<>();
+                        String[] tmp = q.split(":");
+                        if(tmp.length == 1){
+                            tmp = new String[]{tmp[0],""};
+                        }
+                        for(String s :set){
+                            //スロット値が不一致の場合
+                            if(!fs.readSlotValue(s,tmp[0],false).toString().equals(tmp[1])){
+                                //setから取り除く
+                                del.add(s);
+                            }
+                        }
+                        // setから取り除く
+                        for(String d : del){
+                            set.remove(d);
+                        }
+                    }else{
+                        if (Arrays.asList(slots).contains(q)) {
+                            ans.add(q);
+                        }else{
+                            // クエリが不適切な場合
+                            throw new NullPointerException();
                         }
                     }
-                    // setから取り除く
-                    for(String d : del){
-                        set.remove(d);
-                    }
-                }else{
-                    ans.add(q);
                 }
-            }
-            // 出力
-            for(String s : set){
-                System.out.print(s+" : ");
-                if(ans.isEmpty()){
+                // 出力
+                for(String s : set){
+                    System.out.print(s+" : ");
+                    if(ans.isEmpty()){
+                        for(String slot:slots){
+                            System.out.print(fs.readSlotValue(s,slot, false ));
+                            if(!slot.equals(slots[slots.length-1]))
+                                System.out.print(",");
+                        }
+                    }else{
+                        int count = 1;
+                        for(String a : ans){
+                            System.out.print(fs.readSlotValue(s,a,false));
+                            if(count != ans.size())
+                                System.out.print(",");
+                            count++;
+                        }
+                    }
+                    System.out.println();
+                }
+                if(set.isEmpty()){
+                    System.out.println("Not Found");
+                }
+            }else{
+                // コマンドライン引数がない場合
+                // すべて出力
+                for(String s : set){
+                    System.out.print(s+" : ");
                     for(String slot:slots){
                         System.out.print(fs.readSlotValue(s,slot, false ));
                         if(!slot.equals(slots[slots.length-1]))
                             System.out.print(",");
                     }
-                }else{
-                    int count = 1;
-                    for(String a : ans){
-                        System.out.print(fs.readSlotValue(s,a,false));
-                        if(count != ans.size())
-                            System.out.print(",");
-                        count++;
-                    }
+                    System.out.println();
                 }
-                System.out.println();
             }
-            if(set.isEmpty()){
-                System.out.println("Not Found");
-            }
-            
         } catch (ArrayIndexOutOfBoundsException e){
+            System.out.println("Not Found");
+        } catch (NullPointerException e){
             System.out.println("Not Found");
         } catch (ConcurrentModificationException e) {
             e.printStackTrace();
