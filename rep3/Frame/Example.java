@@ -81,8 +81,8 @@ public class Example {
             for(String name:inFrameName){
                 set.add(name);
             }
-            HashSet<String> del = new HashSet<>();
             for(int i=0;i<sp.length-1;i++){
+                HashSet<String> del = new HashSet<>();
                 String[] tmp = sp[i].split(":"); 
                 for(String s :set){
                     //スロット値が不一致なら
@@ -97,6 +97,7 @@ public class Example {
             }
             if(sp[sp.length-1].indexOf(":")!=-1){
                 String[] tmp = sp[sp.length-1].split(":"); 
+                HashSet<String> del = new HashSet<>();
                 for(String s :set){
                     if(!fs.readSlotValue(s,tmp[0],false).toString().equals(tmp[1])){
                         del.add(s);
