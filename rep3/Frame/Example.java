@@ -11,29 +11,30 @@ public class Example {
 
         // フレームシステムの初期化
         AIFrameSystem fs = new AIFrameSystem();
-
+        
+        // フレーム名
+        String inName = "student";
         // スロット値
         //学籍番号,学科,分野,研究室,趣味,好きな言語
         String[] slots = {"studentNo", "major", "field", "laboName", "hobby", "language"};
 
-        // フレーム名
-        String[] inFrameName = {"haruto","rinto","rintaro"};
-
         // クラスフレーム student の生成
-        fs.frameSlotInit("student", slots, new String[]{
-            "2911xxxx","なし","なし","なし","なし","java"});
+        fs.frameSlotInit(inName, slots, new String[]{
+                "2911xxxx","なし","なし","なし","なし","java"});
 
-        // インスタンスフレーム haruto の生成
-        fs.frameSlotInit("student", inFrameName[0], slots, new String[]{
+        // インスタンスフレームの生成
+        HashMap<String,String[]> instance = new HashMap<>();
+        instance.put("haruto", new String[]{
                 "29114128", "情報", "知能", "犬塚・武藤", "音楽鑑賞", "java" });
-
-        // インスタンスフレーム rinto の生成
-        fs.frameSlotInit("student", inFrameName[1], slots, new String[]{
+        instance.put("rintaro", new String[]{
+                "29114134", "情報", "知能", "竹内・烏山", "映画鑑賞", "C++" });
+        instance.put("rinto", new String[]{
                 "29119010", "情報", "知能", "李・酒向", "ゲーム", "python" });
         
-        // インスタンスフレーム rintaro の生成
-        fs.frameSlotInit("student", inFrameName[1], slots, new String[]{
-                "29114134", "情報", "知能", "竹内・烏山", "映画鑑賞", "C++" });
+        for(String frameName: instance.keySet()){
+            fs.frameSlotInit("student", frameName, slots, instance.get(frameName));
+        }
+
         /*
         // height と weight はデフォルト値
         System.out.println( fs.readSlotValue( "haruto", "studentNo", false ) );
@@ -56,6 +57,7 @@ public class Example {
             FileWriter f = new FileWriter("data.csv", false);
             PrintWriter p = new PrintWriter(new BufferedWriter(f));
             // ヘッダーを指定する
+            p.print(inName+",");
             for(int index=0;index<slots.length;index++){
                 p.print(slots[index]);
                 if(index!=slots.length-1)
@@ -63,7 +65,8 @@ public class Example {
                 else
                     p.println();
             }
-            for(String name:inFrameName){
+            for(String name:instance.keySet()){
+                p.print(name+",");
                 for(String slot: slots){
                     String slotValue = fs.readSlotValue(name, slot, false).toString();
                     p.print(slotValue);
@@ -82,7 +85,7 @@ public class Example {
         try{
             String[] sp = args[0].split(" ");
             HashSet<String> set = new HashSet<>();
-            for(String name:inFrameName){
+            for(String name:instance.keySet()){
                 set.add(name);
             }
             for(int i=0;i<sp.length-1;i++){
