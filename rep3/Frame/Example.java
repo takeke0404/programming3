@@ -94,7 +94,10 @@ public class Example {
             for(String q:query){
                 if(q.indexOf(":")!=-1){
                     HashSet<String> del = new HashSet<>();
-                    String[] tmp = q.split(":"); 
+                    String[] tmp = q.split(":");
+                    if(tmp.length == 1){
+                        tmp = new String[]{tmp[0],""};
+                    }
                     for(String s :set){
                         //スロット値が不一致なら
                         if(!fs.readSlotValue(s,tmp[0],false).toString().equals(tmp[1])){
@@ -129,6 +132,9 @@ public class Example {
                     }
                 }
                 System.out.println();
+            }
+            if(set.isEmpty()){
+                System.out.println("Not Found");
             }
             
         } catch (ArrayIndexOutOfBoundsException e){
