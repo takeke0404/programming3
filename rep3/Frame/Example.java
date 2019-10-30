@@ -17,7 +17,7 @@ public class Example {
         String[] slots = {"studentNo", "major", "field", "laboName", "hobby", "language"};
 
         // フレーム名
-        String[] inFrameName = {"haruto","rinto"};
+        String[] inFrameName = {"haruto","rinto","rintaro"};
 
         // クラスフレーム student の生成
         fs.frameSlotInit("student", slots, new String[]{
@@ -25,11 +25,15 @@ public class Example {
 
         // インスタンスフレーム haruto の生成
         fs.frameSlotInit("student", inFrameName[0], slots, new String[]{
-            "29114128","情報","知能","犬塚・武藤","音楽鑑賞","java"});
+                "29114128", "情報", "知能", "犬塚・武藤", "音楽鑑賞", "java" });
 
         // インスタンスフレーム rinto の生成
         fs.frameSlotInit("student", inFrameName[1], slots, new String[]{
-            "29119010","情報","知能","李・酒向","ゲーム","python"});
+                "29119010", "情報", "知能", "李・酒向", "ゲーム", "python" });
+        
+        // インスタンスフレーム rintaro の生成
+        fs.frameSlotInit("student", inFrameName[1], slots, new String[]{
+                "29114134", "情報", "知能", "竹内・烏山", "映画鑑賞", "C++" });
         /*
         // height と weight はデフォルト値
         System.out.println( fs.readSlotValue( "haruto", "studentNo", false ) );
