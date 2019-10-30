@@ -75,41 +75,54 @@ public class Example {
         catch (IOException ex) {
             ex.printStackTrace();
         }
-        String[] sp = args[0].split(" ");
-        HashSet<String> set = new HashSet<>();
-        for(String name:inFrameName){
-            set.add(name);
-        }
-        for(int i=0;i<sp.length-1;i++){
-            String[] tmp = sp[i].split(":"); 
-            for(String s :set){
-                //スロット値が不一致なら
-                if(!fs.readSlotValue(s,tmp[0],false).toString().equals(tmp[1])){
-                    //setから取り除く
-                    set.remove(s);
-                }
+        try{
+            String[] sp = args[0].split(" ");
+            HashSet<String> set = new HashSet<>();
+            for(String name:inFrameName){
+                set.add(name);
             }
-        }
-        if(sp[sp.length-1].indexOf(":")!=-1){
-            String[] tmp = sp[sp.length-1].split(":"); 
-            for(String s :set){
-                if(!fs.readSlotValue(s,tmp[0],false).toString().equals(tmp[1])){
-                    set.remove(s);
-                }else{
-                    System.out.print(s+" : ");
-                    for(String slot:slots){
-                        System.out.print(fs.readSlotValue(s,slot, false ));
-                        if(!slot.equals(slots[slots.length-1]))
-                            System.out.print(",");
-                        else
-                            System.out.println();
+            HashSet<String> del = new HashSet<>();
+            for(int i=0;i<sp.length-1;i++){
+                String[] tmp = sp[i].split(":"); 
+                for(String s :set){
+                    //スロット値が不一致なら
+                    if(!fs.readSlotValue(s,tmp[0],false).toString().equals(tmp[1])){
+                        //setから取り除く
+                        del.add(s);
                     }
                 }
+                for(String d : del){
+                    set.remove(d);
+                }
             }
-        }else{
-            for(String s :set){
-                System.out.println(fs.readSlotValue(s,sp[sp.length-1],false));
+            if(sp[sp.length-1].indexOf(":")!=-1){
+                String[] tmp = sp[sp.length-1].split(":"); 
+                for(String s :set){
+                    if(!fs.readSlotValue(s,tmp[0],false).toString().equals(tmp[1])){
+                        del.add(s);
+                    }else{
+                        // 出力
+                        System.out.print(s+" : ");
+                        for(String slot:slots){
+                            System.out.print(fs.readSlotValue(s,slot, false ));
+                            if(!slot.equals(slots[slots.length-1]))
+                                System.out.print(",");
+                            else
+                                System.out.println();
+                        }
+                    }
+                }
+                for(String d : del){
+                    set.remove(d);
+                }
+            }else{
+                // 出力
+                for(String s :set){
+                    System.out.println(fs.readSlotValue(s,sp[sp.length-1],false));
+                }
             }
+        } catch (ConcurrentModificationException e) {
+            e.printStackTrace();
         }
         // readcsv();
     }
