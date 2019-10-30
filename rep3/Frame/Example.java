@@ -82,57 +82,60 @@ public class Example {
         catch (IOException ex) {
             ex.printStackTrace();
         }
+        // readcsv();
+
         try{
-            String[] sp = args[0].split(" ");
+            String[] query = args[0].split(" ");
             HashSet<String> set = new HashSet<>();
             for(String name:instance.keySet()){
                 set.add(name);
             }
-            for(int i=0;i<sp.length-1;i++){
-                HashSet<String> del = new HashSet<>();
-                String[] tmp = sp[i].split(":"); 
-                for(String s :set){
-                    //スロット値が不一致なら
-                    if(!fs.readSlotValue(s,tmp[0],false).toString().equals(tmp[1])){
-                        //setから取り除く
-                        del.add(s);
-                    }
-                }
-                for(String d : del){
-                    set.remove(d);
-                }
-            }
-            if(sp[sp.length-1].indexOf(":")!=-1){
-                String[] tmp = sp[sp.length-1].split(":"); 
-                HashSet<String> del = new HashSet<>();
-                for(String s :set){
-                    if(!fs.readSlotValue(s,tmp[0],false).toString().equals(tmp[1])){
-                        del.add(s);
-                    }else{
-                        // 出力
-                        System.out.print(s+" : ");
-                        for(String slot:slots){
-                            System.out.print(fs.readSlotValue(s,slot, false ));
-                            if(!slot.equals(slots[slots.length-1]))
-                                System.out.print(",");
-                            else
-                                System.out.println();
+            HashSet<String> ans = new HashSet<>();
+            for(String q:query){
+                if(q.indexOf(":")!=-1){
+                    HashSet<String> del = new HashSet<>();
+                    String[] tmp = q.split(":"); 
+                    for(String s :set){
+                        //スロット値が不一致なら
+                        if(!fs.readSlotValue(s,tmp[0],false).toString().equals(tmp[1])){
+                            //setから取り除く
+                            del.add(s);
                         }
                     }
-                }
-                for(String d : del){
-                    set.remove(d);
-                }
-            }else{
-                // 出力
-                for(String s :set){
-                    System.out.println(fs.readSlotValue(s,sp[sp.length-1],false));
+                    // setから取り除く
+                    for(String d : del){
+                        set.remove(d);
+                    }
+                }else{
+                    ans.add(q);
                 }
             }
+            // 出力
+            for(String s : set){
+                System.out.print(s+" : ");
+                if(ans.isEmpty()){
+                    for(String slot:slots){
+                        System.out.print(fs.readSlotValue(s,slot, false ));
+                        if(!slot.equals(slots[slots.length-1]))
+                            System.out.print(",");
+                    }
+                }else{
+                    int count = 1;
+                    for(String a : ans){
+                        System.out.print(fs.readSlotValue(s,a,false));
+                        if(count != ans.size())
+                            System.out.print(",");
+                        count++;
+                    }
+                }
+                System.out.println();
+            }
+            
+        } catch (ArrayIndexOutOfBoundsException e){
+            System.out.println("Not Found");
         } catch (ConcurrentModificationException e) {
             e.printStackTrace();
         }
-        // readcsv();
     }
     static void readcsv() {
         try {
@@ -146,8 +149,8 @@ public class Example {
                 for (String elem : data) {
                     System.out.println(elem);
                 }
-                br.close();
             }
+            br.close();
         } catch (IOException e) {
             System.out.println(e);
         }
