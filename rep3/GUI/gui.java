@@ -25,6 +25,7 @@ public class gui extends JFrame {
 
 	private JPanel contentPane;
 	private JTable table;
+	private JScrollPane tableScrollPanel;
 
 	/**
 	 * Launch the application.
@@ -47,20 +48,27 @@ public class gui extends JFrame {
 	 */
 	public gui() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 640, 480);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
 		
 		JPanel panel = new JPanel();
+		JPanel panel_2 = new JPanel();
+		JScrollPane ScrollPane_1 = new JScrollPane();
 		contentPane.add(panel, BorderLayout.NORTH);
 		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-		
+		// define element
+		JScrollPane tableScrollPanel = new JScrollPane();
+		GraphDraw semanticNet = new GraphDraw();
+
 		JButton subject1 = new JButton("課題１");
 		subject1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("subject1");
+				panel_2.setVisible(false);
+				ScrollPane_1.setVisible(true);
 			}
 		});
 		panel.add(subject1);
@@ -69,10 +77,14 @@ public class gui extends JFrame {
 		subject2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("subject2");
+				panel_2.setVisible(true);
+				ScrollPane_1.setVisible(false);
+
 			}
 		});
 		panel.add(subject2);
-		
+
+
 		ArrayList<String[]> data = readcsv();
 		// スロット値
 //		String[] columns = {"studentNo", "major", "field", "laboName", "hobby", "language"};
@@ -92,9 +104,29 @@ public class gui extends JFrame {
 				}
 			}
 		}
-		JScrollPane sp = new JScrollPane(table);
-		contentPane.add(sp, BorderLayout.CENTER);
 		
+		tableScrollPanel = new JScrollPane(table);
+		panel_2.add(tableScrollPanel);
+
+		semanticNet.addNode("a", 50,50);
+		semanticNet.addNode("b", 50,100);
+		semanticNet.addNode("c",250,250);
+		semanticNet.addNode("d",350,250);
+		semanticNet.addNode("e",450,250);
+		semanticNet.addNode("f",550,250);
+		semanticNet.addNode("g",550,850);
+		semanticNet.addNode("longNode", 200,200);
+		semanticNet.addEdge(0,1);
+		semanticNet.addEdge(1,1);
+		semanticNet.addEdge(1,2);
+
+
+		contentPane.add(panel_2, BorderLayout.CENTER);
+		ScrollPane_1.setViewportView(semanticNet);
+		contentPane.add(ScrollPane_1, BorderLayout.CENTER);
+
+		panel_2.setVisible(false);
+		ScrollPane_1.setVisible(true);
 	}
 	
 	ArrayList<String[]> readcsv() {
@@ -113,7 +145,6 @@ public class gui extends JFrame {
 		      System.out.println(e);
 		    }
 		return temp;
-		
 	}
 
 }

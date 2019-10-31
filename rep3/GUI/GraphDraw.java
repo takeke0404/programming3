@@ -1,18 +1,9 @@
-/* Simple graph drawing class
-Bert Huang
-COMS 3137 Data Structures and Algorithms, Spring 2009
-
-This class is really elementary, but lets you draw 
-reasonably nice graphs/trees/diagrams. Feel free to 
-improve upon it!
- */
-
 import java.util.*;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-public class GraphDraw extends JFrame {
+public class GraphDraw extends JPanel {
     int width;
     int height;
 
@@ -20,16 +11,6 @@ public class GraphDraw extends JFrame {
     ArrayList<edge> edges;
 
     public GraphDraw() { //Constructor
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	nodes = new ArrayList<Node>();
-	edges = new ArrayList<edge>();
-	width = 30;
-	height = 30;
-    }
-
-    public GraphDraw(String name) { //Construct with label
-	this.setTitle(name);
-	this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	nodes = new ArrayList<Node>();
 	edges = new ArrayList<edge>();
 	width = 30;
