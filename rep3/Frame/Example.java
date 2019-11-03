@@ -6,24 +6,26 @@ Example.java
 */
 
 public class Example {
+
+    static HashMap<String,String[]> instance = new HashMap<>();
+    static AIFrameSystem fs = new AIFrameSystem();
+
+    // フレーム名
+    static String inName = "student";
+    // スロット値
+    // 学籍番号,学科,分野,研究室,趣味,好きな言語
+    static String[] slots = {"studentNo", "major", "field", "laboName", "hobby", "language"};
+    Example(){
+    }
+
     public static void main(String args[]) {
         //System.out.println( "【Frame】" );
-
-        // フレームシステムの初期化
-        AIFrameSystem fs = new AIFrameSystem();
-
-        // フレーム名
-        String inName = "student";
-        // スロット値
-        // 学籍番号,学科,分野,研究室,趣味,好きな言語
-        String[] slots = {"studentNo", "major", "field", "laboName", "hobby", "language"};
 
         // クラスフレーム student の生成
         fs.frameSlotInit(inName, slots, new String[]{
                 "2911xxxx","なし","なし","なし","なし","java"});
 
         // インスタンスフレームの生成
-        HashMap<String,String[]> instance = new HashMap<>();
         instance.put("haruto", new String[]{
                 "29114128", "情報", "知能", "犬塚・武藤", "音楽鑑賞", "java" });
         instance.put("rintaro", new String[]{
@@ -84,100 +86,108 @@ public class Example {
         catch (IOException ex) {
             ex.printStackTrace();
         }
-        // readcsv();
-
-        try{
-            HashSet<String> set = new HashSet<>();
-            for(String name:instance.keySet()){
-                set.add(name);
-            }
-            if(args.length!=0){
-                String[] query = args[0].split(" ");
-                HashSet<String> ans = new HashSet<>();
-                for(String q:query){
-                    // 「:」を含む場合
-                    if(q.indexOf(":")!=-1){
-                        HashSet<String> del = new HashSet<>();
-                        String[] tmp = q.split(":");
-                        if(tmp.length == 1){
-                            tmp = new String[]{tmp[0],""};
-                        }
-                        for(String s :set){
-                            //スロット値が不一致の場合
-                            if(!fs.readSlotValue(s,tmp[0],false).toString().equals(tmp[1])){
-                                //setから取り除く
-                                del.add(s);
-                            }
-                        }
-                        // setから取り除く
-                        for(String d : del){
-                            set.remove(d);
-                        }
-                    }else{
-                        if (Arrays.asList(slots).contains(q)) {
-                            ans.add(q);
-                        }else{
-                            // クエリが不適切な場合
-                            throw new NullPointerException();
-                        }
-                    }
-                }
-                // 出力
-                for(String s : set){
-                    System.out.print(s+" : ");
-                    if(ans.isEmpty()){
-                        for(String slot:slots){
-                            System.out.print(fs.readSlotValue(s,slot, false ));
-                            if(!slot.equals(slots[slots.length-1]))
-                                System.out.print(",");
-                        }
-                    }else{
-                        int count = 1;
-                        for(String a : ans){
-                            System.out.print(fs.readSlotValue(s,a,false));
-                            if(count != ans.size())
-                                System.out.print(",");
-                            count++;
-                        }
-                    }
-                    System.out.println();
-                }
-                if(set.isEmpty()){
-                    System.out.println("Not Found");
-                }
-            }else{
-                // コマンドライン引数がない場合
-                // すべて出力
-                for(String s : set){
-                    System.out.print(s+" : ");
-                    for(String slot:slots){
-                        System.out.print(fs.readSlotValue(s,slot, false ));
-                        if(!slot.equals(slots[slots.length-1]))
-                            System.out.print(",");
-                    }
-                    System.out.println();
-                }
-            }
-        } catch (ArrayIndexOutOfBoundsException e){
-            System.out.println("Not Found");
-        } catch (NullPointerException e){
-            System.out.println("Not Found");
-        } catch (ConcurrentModificationException e) {
-            e.printStackTrace();
+        if(args.length==0){
+            search(null);
+        }else{
+            search(args[0]);
         }
     }
+
+    static void search(String question){
+      try{
+          HashSet<String> set = new HashSet<>();
+          for(String name:instance.keySet()){
+              set.add(name);
+          }
+          if(question!=null){
+              String[] query = question.split(" ");
+              HashSet<String> ans = new HashSet<>();
+              for(String q:query){
+                  // 「:」を含む場合
+                  if(q.indexOf(":")!=-1){
+                      HashSet<String> del = new HashSet<>();
+                      String[] tmp = q.split(":");
+                      if(tmp.length == 1){
+                          tmp = new String[]{tmp[0],""};
+                      }
+                      for(String s :set){
+                          //スロット値が不一致の場合
+                          if(!fs.readSlotValue(s,tmp[0],false).toString().equals(tmp[1])){
+                              //setから取り除く
+                              del.add(s);
+                          }
+                      }
+                      // setから取り除く
+                      for(String d : del){
+                          set.remove(d);
+                      }
+                  }else{
+                      if (Arrays.asList(slots).contains(q)) {
+                          ans.add(q);
+                      }else{
+                          // クエリが不適切な場合
+                          throw new NullPointerException();
+                      }
+                  }
+              }
+              // 出力
+              for(String s : set){
+                  System.out.print(s+" : ");
+                  if(ans.isEmpty()){
+                      for(String slot:slots){
+                          System.out.print(fs.readSlotValue(s,slot, false ));
+                          if(!slot.equals(slots[slots.length-1]))
+                              System.out.print(",");
+                      }
+                  }else{
+                      int count = 1;
+                      for(String a : ans){
+                          System.out.print(fs.readSlotValue(s,a,false));
+                          if(count != ans.size())
+                              System.out.print(",");
+                          count++;
+                      }
+                  }
+                  System.out.println();
+              }
+              if(set.isEmpty()){
+                  System.out.println("Not Found");
+              }
+          }else{
+              // コマンドライン引数がない場合
+              // すべて出力
+              for(String s : set){
+                  System.out.print(s+" : ");
+                  for(String slot:slots){
+                      System.out.print(fs.readSlotValue(s,slot, false ));
+                      if(!slot.equals(slots[slots.length-1]))
+                          System.out.print(",");
+                  }
+                  System.out.println();
+              }
+          }
+      } catch (ArrayIndexOutOfBoundsException e){
+          System.out.println("Not Found");
+      } catch (NullPointerException e){
+          System.out.println("Not Found");
+      } catch (ConcurrentModificationException e) {
+          e.printStackTrace();
+      }
+    }
+
     static void readcsv() {
         try {
             File f = new File("data.csv");
-            BufferedReader br = new BufferedReader(new FileReader(f));
+            BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(f),"UTF-8"));
             String line;
             // 1行ずつCSVファイルを読み込む
             while ((line = br.readLine()) != null) {
                 String[] data = line.split(",", 0); // 行をカンマ区切りで配列に変換
 
                 for (String elem : data) {
-                    System.out.println(elem);
+                    System.out.print(elem+" ");
                 }
+                System.out.println();
             }
             br.close();
         } catch (IOException e) {
