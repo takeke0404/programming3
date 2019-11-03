@@ -56,8 +56,8 @@ public class Example {
         // CSV output
         // 出力ファイルの作成
         try{
-            FileWriter f = new FileWriter("data.csv", false);
-            PrintWriter p = new PrintWriter(new BufferedWriter(f));
+            File f = new File("data.csv");
+            PrintWriter p = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(f),"UTF-8")));
             // ヘッダーを指定する
             p.print(inName+",");
             for(int index=0;index<slots.length;index++){
