@@ -33,7 +33,7 @@ public class Example {
         // 卓球はスポーツである。
         sn.addLink(new Link("is-a", "tabletennis", "sports", sn));
         //登山はスポーツである。
-        sn.addLink(new Link("is-a", "climbing", sn));
+        sn.addLink(new Link("is-a", "climbing", "sports", sn));
 
         //研究室
         sn.addLink(new Link("lab", "okuda", "", sn));
