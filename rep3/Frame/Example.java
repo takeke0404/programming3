@@ -15,8 +15,7 @@ public class Example {
     // スロット値
     // 学籍番号,学科,分野,研究室,趣味,好きな言語
     static String[] slots = {"studentNo", "major", "field", "laboName", "hobby", "language"};
-    Example(){
-    }
+    Example(){}
 
     public static void main(String args[]) {
         //System.out.println( "【Frame】" );
@@ -180,14 +179,28 @@ public class Example {
             File f = new File("data.csv");
             BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(f),"UTF-8"));
             String line;
+            fs = new AIFrameSystem();
+            instance = new HashMap<>();
+            fs.frameSlotInit(inName, slots, new String[]{
+                    "2911xxxx","なし","なし","なし","なし","java"});
             // 1行ずつCSVファイルを読み込む
+            int i=0;
             while ((line = br.readLine()) != null) {
-                String[] data = line.split(",", 0); // 行をカンマ区切りで配列に変換
-
-                for (String elem : data) {
-                    System.out.print(elem+" ");
+                if(i==0){
+                    i++;
+                    continue;
                 }
-                System.out.println();
+                String[] data = line.split(",", 0); // 行をカンマ区切りで配列に変換
+                String[] value = Arrays.copyOfRange(data,1,data.length);
+                String name = data[0];
+                for (String elem : data) {
+                    //System.out.print(elem+" ");
+                }
+                instance.put(name, value);
+                //System.out.println();
+            }
+            for(String frameName: instance.keySet()){
+                fs.frameSlotInit(inName, frameName, slots, instance.get(frameName));
             }
             br.close();
         } catch (IOException e) {
