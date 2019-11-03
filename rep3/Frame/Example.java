@@ -11,7 +11,7 @@ public class Example {
 
         // フレームシステムの初期化
         AIFrameSystem fs = new AIFrameSystem();
-        
+
         // フレーム名
         String inName = "student";
         // スロット値
@@ -30,7 +30,9 @@ public class Example {
                 "29114134", "情報", "知能", "竹内・烏山", "映画鑑賞", "C++" });
         instance.put("rinto", new String[]{
                 "29119010", "情報", "知能", "李・酒向", "ゲーム", "python" });
-        
+        instance.put("kota", new String[]{
+                "29114078", "情報", "知能", "伊藤・ムスタファ", "アクアリウム", "java" });
+
         for(String frameName: instance.keySet()){
             fs.frameSlotInit(inName, frameName, slots, instance.get(frameName));
         }
@@ -172,7 +174,7 @@ public class Example {
             // 1行ずつCSVファイルを読み込む
             while ((line = br.readLine()) != null) {
                 String[] data = line.split(",", 0); // 行をカンマ区切りで配列に変換
-        
+
                 for (String elem : data) {
                     System.out.println(elem);
                 }
