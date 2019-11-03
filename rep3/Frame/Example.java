@@ -18,7 +18,6 @@ public class Example {
     Example(){}
 
     public static void main(String args[]) {
-        //System.out.println( "【Frame】" );
 
         // クラスフレーム student の生成
         fs.frameSlotInit(inName, slots, new String[]{
@@ -30,7 +29,7 @@ public class Example {
         instance.put("rintaro", new String[]{
                 "29114134", "情報", "知能", "竹内・烏山", "映画鑑賞", "C++" });
         instance.put("rinto", new String[]{
-                "29119010", "情報", "知能", "李・酒向", "ゲーム", "python" });
+                "29119010", "創造", "知能", "李・酒向", "ゲーム", "python" });
         instance.put("kota", new String[]{
                 "29114078", "情報", "知能", "伊藤・ムスタファ", "アクアリウム", "java" });
         instance.put("duy", new String[]{
@@ -39,22 +38,6 @@ public class Example {
         for(String frameName: instance.keySet()){
             fs.frameSlotInit(inName, frameName, slots, instance.get(frameName));
         }
-
-        /*
-        // height と weight はデフォルト値
-        System.out.println( fs.readSlotValue( "haruto", "studentNo", false ) );
-        System.out.println( fs.readSlotValue( "haruto", "major", false ) );
-        System.out.println( fs.readSlotValue( "haruto", "field", false ) );
-        System.out.println( fs.readSlotValue( "haruto", "laboName", false ) );
-        System.out.println( fs.readSlotValue( "haruto", "hobby", false ) );
-        System.out.println( fs.readSlotValue( "haruto", "language", false ) );
-        */
-
-        // weight はデフォルト値
-        // 再びデフォルト値を表示
-        //fs.writeSlotValue( "haruto", "weight", new Integer( 50 ) );
-        //System.out.println( fs.readSlotValue( "haruto", "height", true ) );
-        //System.out.println( fs.readSlotValue( "haruto", "weight", true ) );
 
         // CSV output
         // 出力ファイルの作成
