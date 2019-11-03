@@ -33,6 +33,8 @@ public class Example {
                 "29119010", "情報", "知能", "李・酒向", "ゲーム", "python" });
         instance.put("kota", new String[]{
                 "29114078", "情報", "知能", "伊藤・ムスタファ", "アクアリウム", "java" });
+        instance.put("duy", new String[]{
+                "29114154", "情報", "知能", "伊藤・ムスタファ", "サッカー", "python" });
 
         for(String frameName: instance.keySet()){
             fs.frameSlotInit(inName, frameName, slots, instance.get(frameName));
