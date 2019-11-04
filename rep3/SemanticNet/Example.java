@@ -5,19 +5,21 @@ import java.util.*;
  */
 public class Example {
     public static void main(String args[]){
-	SemanticNet sn = new SemanticNet();
+	SemanticNet sn = new 
 
-	// Kota
-	// Macbookはlaptopである．
-	sn.addLink(new Link("is-a","Macbook","laptop",sn));
+	Kota 
+	Macbookはlaptopである．
 
-	// 弘太は名古屋工業大学の学生である．
-	sn.addLink(new Link("is-a","Kota","NIT-student",sn));
+	
+	弘太は名古屋工業大学の学生である．
+	addLink(
+	
+	弘太の専門は人工知能である．  
 
-	// 弘太の専門は人工知能である．
-	sn.addLink(new Link("speciality","Kota","AI",sn));
+	addLink(n e
+	w
 
-	// Macbookはcomputerである．
+	Macbookはcomputerである．
 	sn.addLink(new Link("is-a","Macbook","computer",sn));
 
 	// computerはcpuを持つ．
@@ -58,6 +60,32 @@ public class Example {
 	// 通学生の移動手段は電車です.
 	sn.addLink(new Link("transportation","day-student","train",sn));
 
+	// Duy
+	// Duyは名古屋工業大学の学生である．
+    sn.addLink(new Link("is-a","Duy","NIT-student",sn));
+
+    // Duyの専門は人工知能である．
+    sn.addLink(new Link("speciality","Duy","AI",sn));
+
+    // Duyの趣味はサッカーである．
+    sn.addLink(new Link("hobby","Duy","soccer",sn));
+
+    // Duyはiphoneを所有する．
+    sn.addLink(new Link("own","Duy","iphone",sn));
+
+    // 名古屋工業大学の学生は，学生である．
+    sn.addLink(new Link("is-a","NIT-student","student",sn));
+
+    // 学生は勉強しない．
+    sn.addLink(new Link("donot","student","study",sn));
+
+    // iphoneはsmartphoneである．
+    sn.addLink(new Link("is-a","iphone","smartphone",sn));
+
+    // iphoneはカメラを持つ．
+    sn.addLink(new Link("has-a","iphone","camera",sn));
+
+
 	sn.printLinks();
 	sn.printNodes();
 
@@ -70,6 +98,128 @@ public class Example {
 	query.add(new Link("belong","?x1","NIT"));
 	query.add(new Link("transportation","?x1","train"));
 	query.add(new Link("hobby","?x1","?y1"));
+
+	query.add(new Link("has-a","?x","camera"));
+    query.add(new Link("is-a","?x","smartphone"));
+    query.add(new Link("own","?y","iphone"));
+    query.add(new Link("is-a","?y","student"));
+    query.add(new Link("hobby","?y","soccer"));
+
 	sn.query(query);
     }
 }
+
+	 
+		 
+			
+			    
+				
+			
+			    
+				
+				
+				    
+					
+					    
+						
+						
+						  
+							    
+						
+						   
+							 
+							    
+								 
+								
+							
+						
+						
+						  
+							
+						
+					  
+						
+							
+						  
+							
+							
+						
+					
+				
+				
+				  
+					  
+					  
+						    
+							 
+							   
+								
+						
+					  
+						
+						  
+							  
+							 
+								
+							
+						
+					
+					
+				
+				  
+					
+				
+			  
+				
+				
+				  
+					  
+					    
+						 
+						   
+							
+					
+					
+				
+			
+		 
+			
+		 
+			
+		
+			
+		
+	
+
+	
+		
+			
+			 
+			
+			
+			
+			        
+			
+			  
+			
+				    
+					
+					
+				
+				
+				  
+				
+				
+					 
+				
+				
+				 
+			
+			   
+				
+			
+			
+		
+			
+		
+	
