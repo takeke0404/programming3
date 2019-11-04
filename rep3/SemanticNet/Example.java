@@ -37,22 +37,22 @@ public class Example {
 
 
 	// Rinto
-	// Rintoは名古屋工業大学の学生である．
+	// Rintoは名古屋工業大学の学生である.
 	sn.addLink(new Link("is-a","Rinto","NIT-student",sn));
 
-	// Rintoの専門は人工知能である．
+	// Rintoの専門は人工知能である.
 	sn.addLink(new Link("speciality","Rinto","AI",sn));
 
-	// RintoはMacbookを所有する．
+	// RintoはMacbookを所有する.
 	sn.addLink(new Link("own","Rinto","Macbook",sn));
 	
-	// Rintoの趣味はゲームである．
+	// Rintoの趣味はゲームである.
 	sn.addLink(new Link("hobby","Rinto","games",sn));
 
-	// 名古屋工業大学の学生は名古屋工業大学に所属する.．
+	// 名古屋工業大学の学生は名古屋工業大学に所属する.
 	sn.addLink(new Link("belong","NIT-student","NIT",sn));
 	
-	// Rintoは通学生である.．
+	// Rintoは通学生である.
 	sn.addLink(new Link("is-a","Rinto","day-student",sn));
 	
 	// 通学生の移動手段は電車です.
