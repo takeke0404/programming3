@@ -9,71 +9,89 @@ public class GraphDraw extends JPanel {
 	int height;
 
 	ArrayList<Node> nodes;
-	ArrayList<edge> edges;
 
 	public GraphDraw() { // Constructor
 		nodes = new ArrayList<Node>();
-		edges = new ArrayList<edge>();
 		width = 30;
 		height = 30;
 	}
 
 	class Node {
 		int x, y;
-		String name;
+		String[] info;
 
-		public Node(String myName, int myX, int myY) {
+		public Node(String[] myInfo, int myX, int myY) {
 			x = myX;
 			y = myY;
-			name = myName;
+			info = myInfo;
 		}
 	}
 
-	class edge {
-		int i, j;
 
-		public edge(int ii, int jj) {
-			i = ii;
-			j = jj;
-		}
-	}
-
-	public void addNode(String name, int x, int y) {
+	public void addNode(String[] info, int x, int y) {
 		// add a node at pixel (x,y)
-		nodes.add(new Node(name, x, y));
+		nodes.add(new Node(info, x, y));
 		this.repaint();
 	}
 
-	public void addEdge(int i, int j) {
-		// add an edge between nodes i and j
-		edges.add(new edge(i, j));
-		this.repaint();
-	}
 
 	public void paint(Graphics g) { // draw the nodes and edges
 		FontMetrics f = g.getFontMetrics();
 		int nodeHeight = Math.max(height, f.getHeight());
+		int labelHeight = 20;
+		int length = 120;
+		int nodex = 0;
+		int nodey = 0;
 
 		g.setColor(Color.black);
-		for (edge e : edges) {
-			int endx = nodes.get(e.j).x;
-			int endy = nodes.get(e.j).y;
-			g.drawLine(nodes.get(e.i).x, nodes.get(e.i).y, nodes.get(e.j).x, nodes.get(e.j).y);
-			Polygon arrowHead = new Polygon();
-			arrowHead.addPoint(endx, endy + 5);
-			arrowHead.addPoint(endx - 5, endy - 5);
-			arrowHead.addPoint(endx + 5, endy - 5);
-			g.fillPolygon(arrowHead);
-		}
+		// for (edge e : edges) {
+		// 	int endx = nodes.get(e.j).x;
+		// 	int endy = nodes.get(e.j).y;
+		// 	g.drawLine(nodes.get(e.i).x, nodes.get(e.i).y, nodes.get(e.j).x, nodes.get(e.j).y);
+		// 	Polygon arrowHead = new Polygon();
+		// 	arrowHead.addPoint(endx, endy + 5);
+		// 	arrowHead.addPoint(endx - 5, endy - 5);
+		// 	arrowHead.addPoint(endx + 5, endy - 5);
+		// 	g.fillPolygon(arrowHead);
+		// }
 
 		for (Node n : nodes) {
-			int nodeWidth = Math.max(width, f.stringWidth(n.name) + width / 2);
+			// tail
+			int nodeWidth = Math.max(width, f.stringWidth(n.info[1]) + width / 2);
+			nodex = n.x-nodeWidth/2;
+			nodey = n.y -nodeHeight/2;
 			g.setColor(Color.white);
-			g.fillOval(n.x - nodeWidth / 2, n.y - nodeHeight / 2, nodeWidth, nodeHeight);
+			g.fillOval(nodex, nodey, nodeWidth, nodeHeight);
 			g.setColor(Color.black);
-			g.drawOval(n.x - nodeWidth / 2, n.y - nodeHeight / 2, nodeWidth, nodeHeight);
+			g.drawOval(nodex, nodey, nodeWidth, nodeHeight);
+			g.drawString(n.info[1], n.x - f.stringWidth(n.info[1]) / 2, n.y + f.getHeight() / 2);
 
-			g.drawString(n.name, n.x - f.stringWidth(n.name) / 2, n.y + f.getHeight() / 2);
+			// head
+			nodeWidth = Math.max(width, f.stringWidth(n.info[0]) + width / 2);
+			nodex = n.x-nodeWidth/2;
+			g.setColor(Color.white);
+			g.fillOval(nodex, nodey+length, nodeWidth, nodeHeight);
+			g.setColor(Color.black);
+			g.drawOval(nodex, nodey+length, nodeWidth, nodeHeight);
+			g.drawString(n.info[0], n.x - f.stringWidth(n.info[0])/2, n.y+f.getHeight()/2+length);
+
+			// label
+			String label = n.info[2];
+			int startx = nodex+nodeWidth/2;
+			int starty = nodey+nodeHeight;
+			int endx = startx;
+			int endy = nodey+length;
+			// g.drawLine(startx, starty, endx, endy);
+			g.drawLine(startx, starty, endx, starty+length/2-labelHeight);
+			g.drawLine(startx, starty+length/2+5, endx, endy);
+			g.drawString(label, startx-f.stringWidth(label)/2, starty+length/2);
+
+			Polygon arrowHead = new Polygon();
+			arrowHead.addPoint(endx, endy);
+			arrowHead.addPoint(endx - 3, endy - 5);
+			arrowHead.addPoint(endx + 3, endy - 5);
+			g.fillPolygon(arrowHead);
+			
 		}
 	}
 }

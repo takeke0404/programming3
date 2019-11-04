@@ -1,0 +1,12 @@
+head,tail,label
+NIT-student,Duy,is-a
+AI,Duy,speciality
+soccer,Duy,hobby
+iphone,Duy,own
+student,NIT-student,is-a
+student,Duy,is-a
+study,student,donot
+study,NIT-student,donot
+study,Duy,donot
+smartphone,iphone,is-a
+camera,iphone,has-a
