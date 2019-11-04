@@ -49,25 +49,27 @@ public class Example {
 	// Rintoの趣味はゲームである．
 	sn.addLink(new Link("hobby","Rinto","games",sn));
 
-	// 名古屋工業大学は名古屋工業大学の学生を持つ.．
-	sn.addLink(new Link("has-a","NIT","NIT-student",sn));
+	// 名古屋工業大学の学生は名古屋工業大学に所属する.．
+	sn.addLink(new Link("belong","NIT-student","NIT",sn));
 	
-	// 名古屋工業大学は大学である.．
-	sn.addLink(new Link("is-a","NIT","institute",sn));
+	// Rintoは通学生である.．
+	sn.addLink(new Link("is-a","Rinto","day-student",sn));
 	
-	// RintoはAPAに所属する.．
-	sn.addLink(new Link("affiliation","Rinto","APA",sn));
-
-	// APAはサークルである．
-	sn.addLink(new Link("is","APA","club",sn));
+	// 通学生の移動手段は電車です.
+	sn.addLink(new Link("transportation","day-student","train",sn));
 
 	sn.printLinks();
 	sn.printNodes();
 
 	ArrayList<Link> query = new ArrayList<Link>();
+	
 	query.add(new Link("own","?y","Macbook"));
 	query.add(new Link("is-a","?y","student"));
 	query.add(new Link("hobby","?y","Aquarium"));
+	
+	query.add(new Link("belong","?x1","NIT"));
+	query.add(new Link("transportation","?x1","train"));
+	query.add(new Link("hobby","?x1","?y1"));
 	sn.query(query);
     }
 }
