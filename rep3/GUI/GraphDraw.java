@@ -35,7 +35,7 @@ public class GraphDraw extends JPanel {
 	}
 
 
-	public void paint(Graphics g) { // draw the nodes and edges
+	public void paint(Graphics g) { // draw the nodes
 		FontMetrics f = g.getFontMetrics();
 		int nodeHeight = Math.max(height, f.getHeight());
 		int labelHeight = 20;
@@ -44,17 +44,6 @@ public class GraphDraw extends JPanel {
 		int nodey = 0;
 
 		g.setColor(Color.black);
-		// for (edge e : edges) {
-		// 	int endx = nodes.get(e.j).x;
-		// 	int endy = nodes.get(e.j).y;
-		// 	g.drawLine(nodes.get(e.i).x, nodes.get(e.i).y, nodes.get(e.j).x, nodes.get(e.j).y);
-		// 	Polygon arrowHead = new Polygon();
-		// 	arrowHead.addPoint(endx, endy + 5);
-		// 	arrowHead.addPoint(endx - 5, endy - 5);
-		// 	arrowHead.addPoint(endx + 5, endy - 5);
-		// 	g.fillPolygon(arrowHead);
-		// }
-
 		for (Node n : nodes) {
 			// tail
 			int nodeWidth = Math.max(width, f.stringWidth(n.info[1]) + width / 2);

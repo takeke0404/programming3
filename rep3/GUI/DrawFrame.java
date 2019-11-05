@@ -35,7 +35,7 @@ public class DrawFrame extends JPanel {
         this.repaint();
     }
 
-    public void paint(Graphics g) { // draw the Frames and edges
+    public void paint(Graphics g) { 
         FontMetrics f = g.getFontMetrics();
         int frameHeight = 180;
         int frameWidth = 230;

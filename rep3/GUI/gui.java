@@ -26,7 +26,6 @@ import java.util.ArrayList;
 public class gui extends JFrame {
 
 	private JPanel contentPane;
-	private JTable table;
 
 	/**
 	 * Launch the application.
@@ -62,7 +61,6 @@ public class gui extends JFrame {
 		// define element
 		GraphDraw semanticNet = new GraphDraw();
 		DrawFrame frames = new DrawFrame();
-		JTable tableScrollPanel;
 
 		JButton subject1 = new JButton("課題１");
 		subject1.addActionListener(new ActionListener() {
@@ -85,8 +83,6 @@ public class gui extends JFrame {
 
 		// フレーム情報を取得する
 		ArrayList<String[]> data = readcsv("data.csv");
-		// スロット値
-		String[] columns = data.get(0);
 		data.remove(0);
 		String[][] frameData = new String[data.size()][];
 		if(!data.isEmpty()) {
@@ -117,7 +113,6 @@ public class gui extends JFrame {
 
 		// セマンティックネット情報を取得する
 		ArrayList<String[]> semanticNetData = readcsv("semanticNet.csv");
-		columns = semanticNetData.get(0);
 		semanticNetData.remove(0);
 		String[][] tableData = new String[semanticNetData.size()][];
 		if(!semanticNetData.isEmpty()) {
