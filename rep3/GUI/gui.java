@@ -67,6 +67,7 @@ public class gui extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("subject1");
 				ScrollPane_1.setViewportView(semanticNet);
+				ScrollPane_1.repaint();
 			}
 		});
 		panel.add(subject1);
@@ -76,6 +77,7 @@ public class gui extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("subject2");
 				ScrollPane_1.setViewportView(frames);
+				ScrollPane_1.repaint();
 
 			}
 		});
