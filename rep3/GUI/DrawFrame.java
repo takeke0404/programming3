@@ -29,8 +29,6 @@ public class DrawFrame extends JPanel {
 
 
     public void addFrame(String[] data, int x, int y) {
-        //data: duy,29114154,情報,知能,伊藤・マスタファ,サッカー,python
-        //add a Frame at pixel (x,y)
         Frames.add(new Frame(data,x,y));
         this.repaint();
     }
@@ -61,9 +59,5 @@ public class DrawFrame extends JPanel {
                 g.drawRect(n.x+85, n.y+20*i+5, 120, 22);
             }
         }
-        
-        
-        
-
     }
 }

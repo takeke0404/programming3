@@ -70,7 +70,6 @@ public class GraphDraw extends JPanel {
 			int starty = nodey+nodeHeight;
 			int endx = startx;
 			int endy = nodey+length;
-			// g.drawLine(startx, starty, endx, endy);
 			g.drawLine(startx, starty, endx, starty+length/2-labelHeight);
 			g.drawLine(startx, starty+length/2+5, endx, endy);
 			g.drawString(label, startx-f.stringWidth(label)/2, starty+length/2);
