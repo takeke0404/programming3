@@ -112,7 +112,7 @@ class WorkingMemory {
  *
  * 
  */
-public class ForwardGraphDraw extends Jpanel {
+public class ForwardGraphDraw extends JPanel {
     String fileName;
     FileReader f;
     StreamTokenizer st;
@@ -168,12 +168,13 @@ public class ForwardGraphDraw extends Jpanel {
             newAssertionCreated = false;
             for(int i = 0 ; i < rules.size(); i++){
                 Rule aRule = (Rule)rules.get(i);
-                //System.out.println("apply rule:" + aRule.getName());
-                g.drawString(aRule.toString(), 0, i*10);
+                System.out.println("apply rule:" + aRule.getName());
+                //g.drawString(aRule.toString(), 0, i*10);
                 ArrayList<String> antecedents = aRule.getAntecedents();
                 String consequent  = aRule.getConsequent();
                 //HashMap bindings = wm.matchingAssertions(antecedents);
                 ArrayList bindings = wm.matchingAssertions(antecedents);
+		int count=10;
                 if(bindings != null){
                     for(int j = 0 ; j < bindings.size() ; j++){
                         //後件をインスタンシエーション
@@ -183,6 +184,8 @@ public class ForwardGraphDraw extends Jpanel {
                         //ワーキングメモリーになければ成功
                         if(!wm.contains(newAssertion)){
                             System.out.println("Success: "+newAssertion);
+			    g.drawString("test", 5, count);
+			    count+=10;
                             wm.addAssertion(newAssertion);
                             newAssertionCreated = true;
                         }
