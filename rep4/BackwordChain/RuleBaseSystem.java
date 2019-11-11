@@ -12,11 +12,11 @@ public class RuleBaseSystem {
 	    System.out.println("  %java RuleBaseSystem \"?x is b,?x is c\"");
 	} else {
 	    fm = new FileManager();
-	    ArrayList<Rule> rules = fm.loadRules("CarShop.data");
+	    ArrayList<Rule> rules = fm.loadRules("../Original.data");
 	    //ArrayList rules = fm.loadRules("AnimalWorld.data");
-	    ArrayList<String> wm    = fm.loadWm("CarShopWm.data");
+	    ArrayList<String> wm    = fm.loadWm("../OriginalWm.data");
 	    //ArrayList wm    = fm.loadWm("AnimalWorldWm.data");
-	    rb = new RuleBase(rules,wm);
+		rb = new RuleBase(rules,wm);
 	    StringTokenizer st = new StringTokenizer(args[0],",");
 	    ArrayList<String> queries = new ArrayList<String>();
 	    for(int i = 0 ; i < st.countTokens();){
@@ -45,8 +45,12 @@ class RuleBase implements Serializable{
 	rules = theRules;
     }
 
-    public void backwardChain(ArrayList<String> hypothesis){
-	System.out.println("Hypothesis:"+hypothesis);
+    public void backwardChain(ArrayList<String> ask){
+	ArrayList<String> hypothesis = new ArrayList<String>();
+	for(String s:ask){
+		hypothesis.add(s.replace("?","").replace("What", "?x"));
+	}
+	System.out.println("Hypothesis:"+ask);
 	ArrayList<String> orgQueries = (ArrayList)hypothesis.clone();
 	//HashMap<String,String> binding = new HashMap<String,String>();
 	HashMap<String,String> binding = new HashMap<String,String>();
@@ -56,9 +60,10 @@ class RuleBase implements Serializable{
 	    // 最終的な結果を基のクェリーに代入して表示する
 	    for(int i = 0 ; i < orgQueries.size() ; i++){
 		String aQuery = (String)orgQueries.get(i);
+		String query = (String)ask.get(i);
 		System.out.println("binding: "+binding);
 		String anAnswer = instantiate(aQuery,binding);
-		System.out.println("Query: "+aQuery);
+		System.out.println("Query: "+query);
 		System.out.println("Answer:"+anAnswer);
 	    }
 	} else {
