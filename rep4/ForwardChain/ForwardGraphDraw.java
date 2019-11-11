@@ -7,16 +7,16 @@ import java.awt.Polygon;
 
 /**
  * RuleBaseSystem
- * 
+ *
  */
 
 /**
  * ワーキングメモリを表すクラス．
  *
- * 
+ *
  */
 class WorkingMemory {
-    ArrayList<String> assertions;    
+    ArrayList<String> assertions;
 
     WorkingMemory(){
         assertions = new ArrayList<String>();
@@ -75,7 +75,7 @@ class WorkingMemory {
             }
         }
     }
-    
+
     /**
      * アサーションをワーキングメモリに加える．
      *
@@ -104,13 +104,13 @@ class WorkingMemory {
     public String toString(){
         return assertions.toString();
     }
-    
+
 }
 
 /**
  * ルールベースを表すクラス．
  *
- * 
+ *
  */
 public class ForwardGraphDraw extends JPanel {
     String fileName;
@@ -123,7 +123,7 @@ public class ForwardGraphDraw extends JPanel {
 	int height;
 
     ArrayList<Node> nodes;
-    
+
     ForwardGraphDraw(){
         fileName = "../Original.data";
         wm = new WorkingMemory();
@@ -154,20 +154,22 @@ public class ForwardGraphDraw extends JPanel {
         // add a node at pixel (x,y)
         nodes.add(new Node(info, x, y));
         this.repaint();
-    } 
-    
+    }
+
 
     /**
      * 前向き推論を行うためのメソッド
      *
      */
     public void paint(Graphics g){
+        FontMetrics f = g.getFontMetrics();
         boolean newAssertionCreated;
-        int count=10;
+        int count=20;
+        int left_margin=5;
         // 新しいアサーションが生成されなくなるまで続ける．
         do {
             newAssertionCreated = false;
-            
+
             for(int i = 0 ; i < rules.size(); i++){
                 Rule aRule = (Rule)rules.get(i);
                 System.out.println("apply rule:" + aRule.getName());
@@ -176,7 +178,7 @@ public class ForwardGraphDraw extends JPanel {
                 String consequent  = aRule.getConsequent();
                 //HashMap bindings = wm.matchingAssertions(antecedents);
                 ArrayList bindings = wm.matchingAssertions(antecedents);
-		
+
                 if(bindings != null){
                     for(int j = 0 ; j < bindings.size() ; j++){
                         //後件をインスタンシエーション
@@ -186,9 +188,9 @@ public class ForwardGraphDraw extends JPanel {
                         //ワーキングメモリーになければ成功
                         if(!wm.contains(newAssertion)){
                             System.out.println("Success: " + newAssertion);
-                            count+=10;
-			    g.drawString(newAssertion, 5, count);
-			    
+			                g.drawString(newAssertion, left_margin, count);
+                            drawStringLine(g,newAssertion,left_margin,count);
+                            count+=30;
                             wm.addAssertion(newAssertion);
                             newAssertionCreated = true;
                         }
@@ -198,6 +200,11 @@ public class ForwardGraphDraw extends JPanel {
             System.out.println("Working Memory"+wm);
         } while(newAssertionCreated);
         System.out.println("No rule produces a new assertion");
+    }
+
+    private void drawStringLine(Graphics g,String s,int left,int top){
+        FontMetrics f = g.getFontMetrics();
+        g.drawRoundRect(left-2,top-f.getHeight()+1,f.stringWidth(s)+5,f.getHeight()+5,5,10);
     }
 
     private String instantiate(String thePattern, HashMap theBindings){
@@ -248,7 +255,7 @@ public class ForwardGraphDraw extends JPanel {
                                         consequent = st.sval;
                                     }
                                 }
-//                            } 
+//                            }
                         }
 			// ルールの生成
                         rules.add(new Rule(name,antecedents,consequent));
@@ -270,7 +277,7 @@ public class ForwardGraphDraw extends JPanel {
 /**
  * ルールを表すクラス．
  *
- * 
+ *
  */
 class Rule {
     String name;
@@ -318,14 +325,14 @@ class Rule {
     public String getConsequent(){
         return consequent;
     }
-    
+
 }
 
 class Matcher {
     StringTokenizer st1;
     StringTokenizer st2;
     HashMap<String,String> vars;
-    
+
     Matcher(){
         vars = new HashMap<String,String>();
     }
@@ -334,21 +341,21 @@ class Matcher {
         this.vars = bindings;
         return matching(string1,string2);
     }
-    
+
     public boolean matching(String string1,String string2){
         //System.out.println(string1);
         //System.out.println(string2);
-        
+
         // 同じなら成功
         if(string1.equals(string2)) return true;
-        
+
         // 各々トークンに分ける
         st1 = new StringTokenizer(string1);
         st2 = new StringTokenizer(string2);
 
         // 数が異なったら失敗
         if(st1.countTokens() != st2.countTokens()) return false;
-                
+
         // 定数同士
         for(int i = 0 ; i < st1.countTokens();){
             if(!tokenMatching(st1.nextToken(),st2.nextToken())){
@@ -356,7 +363,7 @@ class Matcher {
                 return false;
             }
         }
-        
+
         // 最後まで O.K. なら成功
         return true;
     }
