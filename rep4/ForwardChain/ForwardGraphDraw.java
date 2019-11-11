@@ -163,9 +163,11 @@ public class ForwardGraphDraw extends JPanel {
      */
     public void paint(Graphics g){
         boolean newAssertionCreated;
+        int count=10;
         // 新しいアサーションが生成されなくなるまで続ける．
         do {
             newAssertionCreated = false;
+            
             for(int i = 0 ; i < rules.size(); i++){
                 Rule aRule = (Rule)rules.get(i);
                 System.out.println("apply rule:" + aRule.getName());
@@ -174,7 +176,7 @@ public class ForwardGraphDraw extends JPanel {
                 String consequent  = aRule.getConsequent();
                 //HashMap bindings = wm.matchingAssertions(antecedents);
                 ArrayList bindings = wm.matchingAssertions(antecedents);
-		int count=10;
+		
                 if(bindings != null){
                     for(int j = 0 ; j < bindings.size() ; j++){
                         //後件をインスタンシエーション
@@ -183,9 +185,10 @@ public class ForwardGraphDraw extends JPanel {
                                         (HashMap)bindings.get(j));
                         //ワーキングメモリーになければ成功
                         if(!wm.contains(newAssertion)){
-                            System.out.println("Success: "+newAssertion);
-			    g.drawString("test", 5, count);
-			    count+=10;
+                            System.out.println("Success: " + newAssertion);
+                            count+=10;
+			    g.drawString(newAssertion, 5, count);
+			    
                             wm.addAssertion(newAssertion);
                             newAssertionCreated = true;
                         }
