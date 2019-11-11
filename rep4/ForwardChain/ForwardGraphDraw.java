@@ -169,7 +169,6 @@ public class ForwardGraphDraw extends JPanel {
         // 新しいアサーションが生成されなくなるまで続ける．
         do {
             newAssertionCreated = false;
-
             for(int i = 0 ; i < rules.size(); i++){
                 Rule aRule = (Rule)rules.get(i);
                 System.out.println("apply rule:" + aRule.getName());
@@ -188,9 +187,20 @@ public class ForwardGraphDraw extends JPanel {
                         //ワーキングメモリーになければ成功
                         if(!wm.contains(newAssertion)){
                             System.out.println("Success: " + newAssertion);
-			                g.drawString(newAssertion, left_margin, count);
-                            drawStringLine(g,newAssertion,left_margin,count);
-                            count+=30;
+			                g.drawString(antecedents.toString(), 5, count);
+                            count += 15;
+                            g.drawString("------------------", 5, count);
+                            count += 15;
+                            g.drawString(aRule.getName(), 5, count);
+                            count += 15;
+                            g.drawString(antecedents.toString(), 5, count);
+                            count += 15;
+                            g.drawString(newAssertion, 5, count);
+                            count += 15;
+                            g.drawString("------------------", 5, count);
+                            count += 15;
+                            g.drawString(newAssertion, 5, count);
+                            count += 50;
                             wm.addAssertion(newAssertion);
                             newAssertionCreated = true;
                         }
