@@ -60,110 +60,16 @@ public class GuiTest extends JFrame {
 		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		// define element
 		ForwardGraphDraw semanticNet = new ForwardGraphDraw();
-		DrawFrame frames = new DrawFrame();
 
-		JButton subject1 = new JButton("課題１");
-		subject1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("subject1");
-				ScrollPane_1.setViewportView(semanticNet);
-				ScrollPane_1.repaint();
-			}
-		});
-		panel.add(subject1);
-		
-		JButton subject2 = new JButton("課題２");
-		subject2.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("subject2");
-				ScrollPane_1.setViewportView(frames);
-				ScrollPane_1.repaint();
-			}
-		});
-		panel.add(subject2);
 
-		// フレーム情報を取得する
-		ArrayList<String[]> data = readcsv("data.csv");
-		data.remove(0);
-		String[][] frameData = new String[data.size()][];
-		if(!data.isEmpty()) {
-			if(!data.isEmpty()) {
-				for(int j = 0; j < data.size(); j++){
-					frameData[j] = data.get(j);
-				}
-			}
-		}
-		
 
-		int x = 20;
-		int y = 50;
-		int counter = 0;
-		for(int i=0;i<Math.max(3,Math.round(frameData.length/3));i++){
-			x = 20;
-			for(int j=0;j<3;j++){
-				if(counter>frameData.length-1){
-					break;
-				}
-				String[] row = frameData[counter];
-				frames.addFrame(row, x, y);
-				counter++;
-				x+=250;
-			}
-			y+=210;
-		}
-
-		// セマンティックネット情報を取得する
-		ArrayList<String[]> semanticNetData = readcsv("semanticNet.csv");
-		semanticNetData.remove(0);
-		String[][] tableData = new String[semanticNetData.size()][];
-		if(!semanticNetData.isEmpty()) {
-			if(!semanticNetData.isEmpty()) {
-				for(int j = 0; j < semanticNetData.size(); j++){
-					tableData[j] = semanticNetData.get(j);
-				}
-			}
-		}
-		
-
-		x = 100;
-		y = 80;
-
-		counter = 0;
-		for(int i=0;i<Math.max(6,Math.round(tableData.length/6));i++){
-			x = 100;
-			for(int j=0;j<6;j++){
-				if(counter>tableData.length-1){
-					break;
-				}
-				String[] row = tableData[counter];
-				semanticNet.addNode(row,x,y);
-				counter++;
-				x+=120;
-			}
-			y+=200;
-		}
+	     
 		
 		ScrollPane_1.setViewportView(semanticNet);
 		contentPane.add(ScrollPane_1, BorderLayout.CENTER);
 		ScrollPane_1.setVisible(true);
 	}
 	
-	ArrayList<String[]> readcsv(String filename) {
-		ArrayList<String[]> temp = new ArrayList<String[]>();
-		try {
-		      File f = new File(filename);
-		      BufferedReader br = new BufferedReader(new FileReader(f));
-		      String line;
-		      // 1行ずつCSVファイルを読み込む
-		      while ((line = br.readLine()) != null) {
-		        String[] data1 = line.split(",", 0); // 行をカンマ区切りで配列に変換
-		        temp.add(data1);
-		      }
-		      br.close();
-		    } catch (IOException e) {
-		      System.out.println(e);
-		    }
-		return temp;
-	}
+
 
 }
