@@ -12,9 +12,9 @@ public class RuleBaseSystem {
 	    System.out.println("  %java RuleBaseSystem \"?x is b,?x is c\"");
 	} else {
 	    fm = new FileManager();
-	    ArrayList<Rule> rules = fm.loadRules("CarShop.data");
+	    ArrayList<Rule> rules = fm.loadRules("../Original.data");
 	    //ArrayList rules = fm.loadRules("AnimalWorld.data");
-	    ArrayList<String> wm    = fm.loadWm("CarShopWm.data");
+	    ArrayList<String> wm    = fm.loadWm("../OriginalWm.data");
 	    //ArrayList wm    = fm.loadWm("AnimalWorldWm.data");
 	    rb = new RuleBase(rules,wm);
 	    StringTokenizer st = new StringTokenizer(args[0],",");
