@@ -188,7 +188,6 @@ public class ForwardGraphDraw extends JPanel {
                         //ワーキングメモリーになければ成功
                         if(!wm.contains(newAssertion)){
                             System.out.println("Success: " + newAssertion);
-			                g.drawString(newAssertion, left_margin, count);
                             drawStringLine(g,newAssertion,left_margin,count);
                             count+=30;
                             wm.addAssertion(newAssertion);
@@ -202,9 +201,18 @@ public class ForwardGraphDraw extends JPanel {
         System.out.println("No rule produces a new assertion");
     }
 
-    private void drawStringLine(Graphics g,String s,int left,int top){
+    private void drawRoundFrameBorder(Graphics g,String s,int left,int top){
         FontMetrics f = g.getFontMetrics();
+        g.drawString(newAssertion, left, top);
         g.drawRoundRect(left-2,top-f.getHeight()+1,f.stringWidth(s)+5,f.getHeight()+5,5,10);
+    }
+    private void drawFrameBorder(Graphics g,String s,int left,int top){
+        FontMetrics f = g.getFontMetrics();
+        g.drawString(newAssertion, left, top);
+        g.drawRoundRect(left-2,top-f.getHeight()+1,f.stringWidth(s)+5,f.getHeight()+5);
+    }
+    private void drawRoundFrameBorder(Graphics g,ArrayList<String> s,int left,int top){
+        
     }
 
     private String instantiate(String thePattern, HashMap theBindings){
