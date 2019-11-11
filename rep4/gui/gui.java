@@ -1,5 +1,4 @@
 
-
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
@@ -22,8 +21,18 @@ import javax.swing.JButton;
 import java.awt.Dimension;
 import java.awt.ComponentOrientation;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.awt.event.ActionEvent;
 import javax.swing.JScrollBar;
+import javax.swing.JTextPane;
+
+import java.nio.charset.StandardCharsets;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 
 public class gui extends JFrame {
 
@@ -50,6 +59,15 @@ public class gui extends JFrame {
 	 * Create the frame.
 	 */
 	public gui() {
+		//read data
+		List<String> data = read_data();
+		String[] strData = new String[data.size()];
+		String str = "";
+		for(int i = 0; i<data.size();i++) {
+			strData[i] = data.get(i);
+			str += "\n"+data.get(i);
+		}
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 800, 600);
 		contentPane = new JPanel();
@@ -103,10 +121,12 @@ public class gui extends JFrame {
 		JButton addNewRuleButton = new JButton("Add new rule");
 		addNewRuleButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				System.out.println("button clicked");
 			}
 		});
-		
-		JScrollPane scrollPane = new JScrollPane();
+		JTextPane txt = new JTextPane();
+		txt.setText(str);
+		JScrollPane scrollPane = new JScrollPane(txt);
 		GroupLayout gl_databasePanel = new GroupLayout(databasePanel);
 		gl_databasePanel.setHorizontalGroup(
 			gl_databasePanel.createParallelGroup(Alignment.LEADING)
@@ -127,5 +147,29 @@ public class gui extends JFrame {
 					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 487, Short.MAX_VALUE))
 		);
 		databasePanel.setLayout(gl_databasePanel);
+	}
+	
+	public List<String> read_data() {
+		List<String> data = new ArrayList<String>();
+		// Java 8以降
+		System.out.println("Working Directory = " +
+	              System.getProperty("user.dir"));
+		Path path = FileSystems.getDefault().getPath("Original.data");
+		try (BufferedReader br = Files.newBufferedReader(path,StandardCharsets.UTF_8)) {
+		 String text;
+		 String rule = "";
+		 while ((text = br.readLine()) != null) {
+			 if(text.trim().isEmpty()) {
+				 data.add(rule);
+				 rule = "";
+			 }
+			 else {
+				 rule += text + "\n";
+			 }
+		 }
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return data;
 	}
 }
