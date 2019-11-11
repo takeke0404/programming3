@@ -1,0 +1,7 @@
+rule 	"RestaurantRule1"
+if 	"?x is inexpensive"
+then 	"?x is Italian"
+
+rule	"RestaurantRule2"
+if 	"?x is Italian"
+then 	"?x is delicious"
