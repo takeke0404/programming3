@@ -165,7 +165,8 @@ public class ForwardGraphDraw extends JPanel {
         FontMetrics f = g.getFontMetrics();
         boolean newAssertionCreated;
         int count=20;
-        int left_margin=5;
+        int left_margin = 5;
+        String s;
         // 新しいアサーションが生成されなくなるまで続ける．
         do {
             newAssertionCreated = false;
@@ -187,15 +188,22 @@ public class ForwardGraphDraw extends JPanel {
                         //ワーキングメモリーになければ成功
                         if(!wm.contains(newAssertion)){
                             System.out.println("Success: " + newAssertion);
-			                g.drawString(antecedents.toString().replace("?x","my-laptop").replace("[","").replace("]",""), 5, count);
+                            s = antecedents.toString().replace("?x", "my-laptop").replace("[", "").replace("]", "");
+                            drawRoundFrameBorder(g, s, 5, count);
+			                //g.drawString(s, 5, count);
                             count += 15;
                             g.drawString("------------------", 5, count);
                             count += 15;
-                            g.drawString("rule   "+"\""+aRule.getName()+"\"", 5, count);
+                            s = "rule   " + "\"" + aRule.getName() + "\"";
+                            //drawRoundFrameBorder(g, s, 5, count);
+                            g.drawString(s, 5, count);
                             count += 15;
-                            g.drawString("if       "+antecedents.toString().replace("[","\"").replace("]","\""), 5, count);
+            
+                            s = "if       " + antecedents.toString().replace("[", "\"").replace("]", "\"");
+                            g.drawString(s, 5, count);
                             count += 15;
-                            g.drawString("then  "+"\""+consequent+"\"", 5, count);
+                            s="then  "+"\""+consequent+"\"";
+                            g.drawString(s, 5, count);
                             count += 15;
                             g.drawString("------------------", 5, count);
                             count += 15;
@@ -211,21 +219,21 @@ public class ForwardGraphDraw extends JPanel {
         } while(newAssertionCreated);
         System.out.println("No rule produces a new assertion");
     }
-    /*
+    
     private void drawRoundFrameBorder(Graphics g,String s,int left,int top){
         FontMetrics f = g.getFontMetrics();
-        g.drawString(newAssertion, left, top);
+        g.drawString(s, left, top);
         g.drawRoundRect(left-2,top-f.getHeight()+1,f.stringWidth(s)+5,f.getHeight()+5,5,10);
     }
     private void drawFrameBorder(Graphics g,String s,int left,int top){
         FontMetrics f = g.getFontMetrics();
-        g.drawString(newAssertion, left, top);
-        g.drawRoundRect(left-2,top-f.getHeight()+1,f.stringWidth(s)+5,f.getHeight()+5);
+        g.drawString(s, left, top);
+       // g.drawRoundRect(left-2,top-f.getHeight()+1,f.stringWidth(s)+5,f.getHeight()+5);
     }
     private void drawRoundFrameBorder(Graphics g,ArrayList<String> s,int left,int top){
 
     }
-*/
+
     private String instantiate(String thePattern, HashMap theBindings){
         String result = new String();
         StringTokenizer st = new StringTokenizer(thePattern);
