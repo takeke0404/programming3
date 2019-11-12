@@ -190,25 +190,25 @@ public class ForwardGraphDraw extends JPanel {
                             System.out.println("Success: " + newAssertion);
                             s = antecedents.toString().replace("?x", "my-laptop").replace("[", "").replace("]", "");
                             drawRoundFrameBorder(g, s, 5, count);
-			                //g.drawString(s, 5, count);
                             count += 15;
+
                             g.drawString("------------------", 5, count);
                             count += 15;
-                            s = "rule   " + "\"" + aRule.getName() + "\"";
-                            //drawRoundFrameBorder(g, s, 5, count);
-                            g.drawString(s, 5, count);
+                            //s = "rule   " + "\"" + aRule.getName() + "\"";
+                            s = "rule   " + "\"" + aRule.getName() + "\""+"\n"+"if       " + antecedents.toString().replace("[", "\"").replace("]", "\"").replace(", ", "\"\n         \"")+"\n"+"then  "+"\""+consequent+"\"";
+                            drawRoundFrameBorder(g, s, 5, count);
+                            //g.drawString(s, 5, count);
                             count += 15;
-            
                             s = "if       " + antecedents.toString().replace("[", "\"").replace("]", "\"");
-                            g.drawString(s, 5, count);
+                            //g.drawString(s, 5, count);
                             count += 15;
                             s="then  "+"\""+consequent+"\"";
-                            g.drawString(s, 5, count);
+                            //g.drawString(s, 5, count);
                             count += 15;
                             g.drawString("------------------", 5, count);
                             count += 15;
+
                             drawRoundFrameBorder(g, newAssertion, 5, count);
-                            //g.drawString(newAssertion, 5, count);
                             count += 50;
                             wm.addAssertion(newAssertion);
                             newAssertionCreated = true;
@@ -223,8 +223,11 @@ public class ForwardGraphDraw extends JPanel {
     
     private void drawRoundFrameBorder(Graphics g,String s,int left,int top){
         FontMetrics f = g.getFontMetrics();
-        g.drawString(s, left, top);
-        g.drawRoundRect(left-2,top-f.getHeight()+1,f.stringWidth(s)+5,f.getHeight()+5,5,10);
+        for (String line : s.split("\n")) {
+            g.drawString(line, left, top);
+            top += 15;
+        }
+        //g.drawRoundRect(left-2,top-f.getHeight()+1,f.stringWidth(s)+5,f.getHeight()+5,5,10);
     }
     private void drawFrameBorder(Graphics g,String s,int left,int top){
         FontMetrics f = g.getFontMetrics();
