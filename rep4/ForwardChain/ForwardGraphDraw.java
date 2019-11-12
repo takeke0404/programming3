@@ -187,15 +187,15 @@ public class ForwardGraphDraw extends JPanel {
                         //ワーキングメモリーになければ成功
                         if(!wm.contains(newAssertion)){
                             System.out.println("Success: " + newAssertion);
-			                g.drawString(antecedents.toString(), 5, count);
+			                g.drawString(antecedents.toString().replace("?x","my-laptop").replace("[","").replace("]",""), 5, count);
                             count += 15;
                             g.drawString("------------------", 5, count);
                             count += 15;
-                            g.drawString(aRule.getName(), 5, count);
+                            g.drawString("rule   "+"\""+aRule.getName()+"\"", 5, count);
                             count += 15;
-                            g.drawString(antecedents.toString(), 5, count);
+                            g.drawString("if       "+antecedents.toString().replace("[","\"").replace("]","\""), 5, count);
                             count += 15;
-                            g.drawString(newAssertion, 5, count);
+                            g.drawString("then  "+"\""+consequent+"\"", 5, count);
                             count += 15;
                             g.drawString("------------------", 5, count);
                             count += 15;
@@ -211,7 +211,7 @@ public class ForwardGraphDraw extends JPanel {
         } while(newAssertionCreated);
         System.out.println("No rule produces a new assertion");
     }
-
+    /*
     private void drawRoundFrameBorder(Graphics g,String s,int left,int top){
         FontMetrics f = g.getFontMetrics();
         g.drawString(newAssertion, left, top);
@@ -225,7 +225,7 @@ public class ForwardGraphDraw extends JPanel {
     private void drawRoundFrameBorder(Graphics g,ArrayList<String> s,int left,int top){
 
     }
-
+*/
     private String instantiate(String thePattern, HashMap theBindings){
         String result = new String();
         StringTokenizer st = new StringTokenizer(thePattern);
