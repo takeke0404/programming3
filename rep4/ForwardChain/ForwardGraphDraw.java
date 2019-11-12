@@ -120,11 +120,11 @@ public class ForwardGraphDraw extends JPanel {
     ArrayList<Rule> rules;
 
     int width;
-	int height;
+    int height;
 
     ArrayList<Node> nodes;
 
-    ForwardGraphDraw(){
+    ForwardGraphDraw() {
         fileName = "../Original.data";
         wm = new WorkingMemory();
         wm.addAssertion("my-laptop is Panasonic");
@@ -134,21 +134,20 @@ public class ForwardGraphDraw extends JPanel {
         rules = new ArrayList<Rule>();
         loadRules(fileName);
         nodes = new ArrayList<Node>();
-		width = 30;
-		height = 30;
+        width = 30;
+        height = 30;
     }
 
-	class Node {
-		int x, y;
-		String[] info;
+    class Node {
+        int x, y;
+        String[] info;
 
-		public Node(String[] myInfo, int myX, int myY) {
-			x = myX;
-			y = myY;
-			info = myInfo;
-		}
-	}
-
+        public Node(String[] myInfo, int myX, int myY) {
+            x = myX;
+            y = myY;
+            info = myInfo;
+        }
+    }
 
     public void addNode(String[] info, int x, int y) {
         // add a node at pixel (x,y)
@@ -156,12 +155,11 @@ public class ForwardGraphDraw extends JPanel {
         this.repaint();
     }
 
-
     /**
      * 前向き推論を行うためのメソッド
      *
      */
-    public void paint(Graphics g){
+    public void paint(Graphics g) {
         FontMetrics f = g.getFontMetrics();
         boolean newAssertionCreated;
         int previous_margin=0;
@@ -170,59 +168,52 @@ public class ForwardGraphDraw extends JPanel {
         // 新しいアサーションが生成されなくなるまで続ける．
         do {
             newAssertionCreated = false;
-            for(int i = 0 ; i < rules.size(); i++){
-                Rule aRule = (Rule)rules.get(i);
+            for (int i = 0; i < rules.size(); i++) {
+                Rule aRule = (Rule) rules.get(i);
                 System.out.println("apply rule:" + aRule.getName());
-                //g.drawString(aRule.toString(), 0, i*10);
+
                 ArrayList<String> antecedents = aRule.getAntecedents();
-                String consequent  = aRule.getConsequent();
-                //HashMap bindings = wm.matchingAssertions(antecedents);
+                String consequent = aRule.getConsequent();
+
                 ArrayList bindings = wm.matchingAssertions(antecedents);
 
-                if(bindings != null){
-                    for(int j = 0 ; j < bindings.size() ; j++){
+                if (bindings != null) {
+                    for (int j = 0; j < bindings.size(); j++) {
                         //後件をインスタンシエーション
-                        String newAssertion =
-                            instantiate((String)consequent,
-                                        (HashMap)bindings.get(j));
+                        String newAssertion = instantiate((String) consequent, (HashMap) bindings.get(j));
                         //ワーキングメモリーになければ成功
+
                         if(!wm.contains(newAssertion)){
-                            ArrayList<String> strings = new ArrayList<>();
-                            strings.add(aRule.getName());
-                            strings.addAll(Arrays.asList(antecedents.toString().split(",")));
-                            strings.add(newAssertion.toString());
-                            strings.add(newAssertion);
-                            int max_width = calcWidth(g,strings);
+                            String s1 = antecedents.toString().replace("?x", "my-laptop").replace("[", "").replace("]", "");
+                            String s2 = "rule   " + "\"" + aRule.getName() + "\"" + "," + "if       " + antecedents.toString().replace("[", "\"").replace("]", "\"").replace(", ", "\",         \"")+ "," + "then  " + "\"" + consequent + "\"";
+                            int max_width = calcWidth(g,s1 +","+ s2 +","+ newAssertion);
                             int top_margin = 20;
                             System.out.println("Success: " + newAssertion);
-                            strings.clear();
-                            strings.addAll(Arrays.asList(antecedents.toString().split(",")));
-                            int w = calcWidth(g,strings);
-			                drawRoundFrameBorder(g2,antecedents.toString(), left_margin+(max_width-w)/2, top_margin);
+                            int w = calcWidth(g,s1);
+			                drawRoundFrameBorder(g2,s1, left_margin+(max_width-w)/2, top_margin);
                             top_margin += antecedents.toString().split(",").length*f.getHeight()+50;
                             top_margin = Math.max(top_margin,previous_margin);
-                            ArrayList<String> rule = new ArrayList<>();
-                            rule.add(aRule.getName());
-                            rule.addAll(Arrays.asList(antecedents.toString().split(",")));
-                            rule.add(newAssertion.toString());
+                            w = calcWidth(g,s2);
                             BasicStroke stroke = new BasicStroke(2.0f);
                             g2.setStroke(stroke);
-                            drawRoundFrameBorder(g2,rule, left_margin, top_margin);
+                            drawRoundFrameBorder(g2,s2, left_margin+(max_width-w)/2, top_margin);
                             stroke = new BasicStroke(1.0f);
                             g2.setStroke(stroke);
-                            top_margin += rule.size()*f.getHeight();
+                            top_margin += s2.split(",").length*f.getHeight();
                             top_margin += 50;
-                            drawFrameBorder(g2,newAssertion, left_margin, top_margin);
+                            w = calcWidth(g,newAssertion);
+                            drawFrameBorder(g2,newAssertion, left_margin+(max_width-w)/2, top_margin);
                             left_margin += max_width + 20;
-                            previous_margin = left_margin;
+                            previous_margin = top_margin + f.getHeight() +5;
                             wm.addAssertion(newAssertion);
                             newAssertionCreated = true;
                         }
                     }
                 }
+
             }
-            System.out.println("Working Memory"+wm);
-        } while(newAssertionCreated);
+            System.out.println("Working Memory" + wm);
+        } while (newAssertionCreated);
         System.out.println("No rule produces a new assertion");
     }
 
@@ -243,22 +234,18 @@ public class ForwardGraphDraw extends JPanel {
         g.drawString(s, left, top);
         g.drawRect(left-2,top-f.getHeight()+1,f.stringWidth(s)+5,f.getHeight()+5);
     }
-    private void drawRoundFrameBorder(Graphics g,ArrayList<String> s,int left,int top){
-        FontMetrics f = g.getFontMetrics();
-        int top_margin=0;
-        int max_width=0;
-        for(int i=0;i<s.size();i++){
-            g.drawString(s.get(i),left,top+top_margin);
-            top_margin+=15;
-            max_width=Math.max(max_width,f.stringWidth(s.get(i)));
-        }
-        g.drawRoundRect(left-2,top-f.getHeight()+1,max_width+5,f.getHeight()*s.size()+5,5,10);
-    }
 
-    private int calcWidth(Graphics g,ArrayList<String> s){
+    private void drawPolygon(Graphics g,int left,int count){    //「▼」の描画
+        Polygon arrowHead = new Polygon();
+		arrowHead.addPoint(10+10, count+20);
+		arrowHead.addPoint(2+10, count + 5);
+		arrowHead.addPoint(18+10 , count + 5);
+		g.fillPolygon(arrowHead);
+    }
+    private int calcWidth(Graphics g,String s){
         FontMetrics f = g.getFontMetrics();
         int max_width = 0;
-        for(String st:s){
+        for(String st:s.split(",")){
             max_width = Math.max(max_width,f.stringWidth(st));
         }
         return max_width;
@@ -296,8 +283,8 @@ public class ForwardGraphDraw extends JPanel {
                         ArrayList<String> antecedents = null;
                         String consequent = null;
                         if("rule".equals(st.sval)){
-			    st.nextToken();
-//                            if(st.nextToken() == '"'){
+    		    st.nextToken();
+    //                            if(st.nextToken() == '"'){
                                 name = st.sval;
                                 st.nextToken();
                                 if("if".equals(st.sval)){
@@ -312,9 +299,9 @@ public class ForwardGraphDraw extends JPanel {
                                         consequent = st.sval;
                                     }
                                 }
-//                            }
+    //                            }
                         }
-			// ルールの生成
+    		// ルールの生成
                         rules.add(new Rule(name,antecedents,consequent));
                         break;
                     default:
@@ -329,61 +316,61 @@ public class ForwardGraphDraw extends JPanel {
             System.out.println(((Rule)rules.get(i)).toString());
         }
     }
-}
-
-/**
- * ルールを表すクラス．
- *
- *
- */
-class Rule {
-    String name;
-    ArrayList<String> antecedents;
-    String consequent;
-
-    Rule(String theName,ArrayList<String> theAntecedents,String theConsequent){
-        this.name = theName;
-        this.antecedents = theAntecedents;
-        this.consequent = theConsequent;
     }
 
     /**
-     * ルールの名前を返す．
-     *
-     * @return    名前を表す String
-     */
-    public String getName(){
-        return name;
-    }
+    * ルールを表すクラス．
+    *
+    *
+    */
+    class Rule {
+        String name;
+        ArrayList<String> antecedents;
+        String consequent;
 
-    /**
-     * ルールをString形式で返す
-     *
-     * @return    ルールを整形したString
-     */
-    public String toString(){
-        return name+" "+antecedents.toString()+"->"+consequent;
-    }
+        Rule(String theName, ArrayList<String> theAntecedents, String theConsequent) {
+            this.name = theName;
+            this.antecedents = theAntecedents;
+            this.consequent = theConsequent;
+        }
 
-    /**
-     * ルールの前件を返す．
-     *
-     * @return    前件を表す ArrayList
-     */
-    public ArrayList<String> getAntecedents(){
-        return antecedents;
-    }
+        /**
+         * ルールの名前を返す．
+         *
+         * @return    名前を表す String
+         */
+        public String getName() {
+            return name;
+        }
 
-    /**
-     * ルールの後件を返す．
-     *
-     * @return    後件を表す String
-     */
-    public String getConsequent(){
-        return consequent;
-    }
+        /**
+         * ルールをString形式で返す
+         *
+         * @return    ルールを整形したString
+         */
+        public String toString() {
+            return name + " " + antecedents.toString() + "->" + consequent;
+        }
 
-}
+        /**
+         * ルールの前件を返す．
+         *
+         * @return    前件を表す ArrayList
+         */
+        public ArrayList<String> getAntecedents() {
+            return antecedents;
+        }
+
+        /**
+         * ルールの後件を返す．
+         *
+         * @return    後件を表す String
+         */
+        public String getConsequent() {
+            return consequent;
+        }
+
+    }
 
 class Matcher {
     StringTokenizer st1;
