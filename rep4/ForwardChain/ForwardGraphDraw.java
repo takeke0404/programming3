@@ -207,7 +207,8 @@ public class ForwardGraphDraw extends JPanel {
                             count += 15;
                             g.drawString("------------------", 5, count);
                             count += 15;
-                            g.drawString(newAssertion, 5, count);
+                            drawRoundFrameBorder(g, newAssertion, 5, count);
+                            //g.drawString(newAssertion, 5, count);
                             count += 50;
                             wm.addAssertion(newAssertion);
                             newAssertionCreated = true;
