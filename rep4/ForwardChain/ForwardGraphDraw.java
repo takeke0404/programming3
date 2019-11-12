@@ -165,6 +165,9 @@ public class ForwardGraphDraw extends JPanel {
         int previous_top_margin=0;
         int previous_max_width=0;
         int left_margin=5;
+        int height_between_blocks = 50;
+        int width_between_blockes = 20;
+        int default_top_margin = 20;
         Graphics2D g2 = (Graphics2D)g;
         // 新しいアサーションが生成されなくなるまで続ける．
         do {
@@ -188,12 +191,12 @@ public class ForwardGraphDraw extends JPanel {
                             String s1 = antecedents.toString().replace("?x", "my-laptop").replace("[", "").replace("]", "");
                             String s2 = "rule   " + "\"" + aRule.getName() + "\"" + "," + "if       " + antecedents.toString().replace("[", "\"").replace("]", "\"").replace(", ", "\",         \"")+ "," + "then  " + "\"" + consequent + "\"";
                             int max_width = calcWidth(g,s1 +","+ s2 +","+ newAssertion);
-                            int top_margin = 20;
+                            int top_margin = default_top_margin;
                             System.out.println("Success: " + newAssertion);
                             int w = calcWidth(g,s1);
 			                drawRoundFrameBorder(g2,s1, left_margin+(max_width-w)/2, top_margin);
-                            top_margin += antecedents.toString().split(",").length*f.getHeight()+50;
-                            int arrow_top = top_margin - 50;
+                            top_margin += antecedents.toString().split(",").length*f.getHeight()+height_between_blocks;
+                            int arrow_top = top_margin - height_between_blocks;
                             top_margin = Math.max(top_margin,previous_top_margin+5);
                             int arrow_bottom = top_margin;
                             drawDownArrow(g,left_margin+max_width/2,arrow_top,arrow_bottom);
@@ -201,18 +204,18 @@ public class ForwardGraphDraw extends JPanel {
                             BasicStroke stroke = new BasicStroke(2.0f);
                             g2.setStroke(stroke);
                             drawRoundFrameBorder(g2,s2, left_margin+(max_width-w)/2, top_margin);
-                            top_margin += s2.split(",").length*f.getHeight()+50;
-                            arrow_top = top_margin - 50;
+                            top_margin += s2.split(",").length*f.getHeight()+height_between_blocks;
+                            arrow_top = top_margin - height_between_blocks;
                             arrow_bottom = top_margin;
                             drawDownArrow(g,left_margin+max_width/2,arrow_top,arrow_bottom);
                             stroke = new BasicStroke(1.0f);
                             g2.setStroke(stroke);
                             if(previous_top_margin!=0){
-                                drawRightAngleArrow(g,left_margin-20-previous_max_width/2,previous_top_margin,left_margin+(max_width-w)/2,top_margin-50-(s2.split(",").length+2)*f.getHeight()/2+2);
+                                drawRightAngleArrow(g,left_margin-width_between_blockes-previous_max_width/2,previous_top_margin,left_margin+(max_width-w)/2,top_margin-height_between_blocks-(s2.split(",").length+2)*f.getHeight()/2+2);
                             }
                             w = calcWidth(g,newAssertion);
                             drawFrameBorder(g2,newAssertion, left_margin+(max_width-w)/2, top_margin);
-                            left_margin += max_width + 20;
+                            left_margin += max_width + width_between_blockes;
                             previous_max_width=max_width;
                             previous_top_margin = top_margin + f.getHeight();
                             wm.addAssertion(newAssertion);
@@ -271,7 +274,7 @@ public class ForwardGraphDraw extends JPanel {
         FontMetrics f = g.getFontMetrics();
         g.drawLine(x1,y1-10,x1,y2);
         g.drawLine(x1,y2,x2-10,y2);
-        drawPolygon2(g,x2-12,y2);
+        drawPolygon2(g,x2-13,y2);
     }
 
     private int calcWidth(Graphics g,String s){
