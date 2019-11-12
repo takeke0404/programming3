@@ -162,7 +162,8 @@ public class ForwardGraphDraw extends JPanel {
     public void paint(Graphics g) {
         FontMetrics f = g.getFontMetrics();
         boolean newAssertionCreated;
-        int previous_margin=0;
+        int previous_top_margin=0;
+        int previous_max_width=0;
         int left_margin=5;
         Graphics2D g2 = (Graphics2D)g;
         // 新しいアサーションが生成されなくなるまで続ける．
@@ -192,19 +193,28 @@ public class ForwardGraphDraw extends JPanel {
                             int w = calcWidth(g,s1);
 			                drawRoundFrameBorder(g2,s1, left_margin+(max_width-w)/2, top_margin);
                             top_margin += antecedents.toString().split(",").length*f.getHeight()+50;
-                            top_margin = Math.max(top_margin,previous_margin);
+                            int arrow_top = top_margin - 50;
+                            top_margin = Math.max(top_margin,previous_top_margin+5);
+                            int arrow_bottom = top_margin;
+                            drawDownArrow(g,left_margin+max_width/2,arrow_top,arrow_bottom);
                             w = calcWidth(g,s2);
                             BasicStroke stroke = new BasicStroke(2.0f);
                             g2.setStroke(stroke);
                             drawRoundFrameBorder(g2,s2, left_margin+(max_width-w)/2, top_margin);
+                            top_margin += s2.split(",").length*f.getHeight()+50;
+                            arrow_top = top_margin - 50;
+                            arrow_bottom = top_margin;
+                            drawDownArrow(g,left_margin+max_width/2,arrow_top,arrow_bottom);
                             stroke = new BasicStroke(1.0f);
                             g2.setStroke(stroke);
-                            top_margin += s2.split(",").length*f.getHeight();
-                            top_margin += 50;
+                            if(previous_top_margin!=0){
+                                drawRightAngleArrow(g,left_margin-20-previous_max_width/2,previous_top_margin,left_margin+(max_width-w)/2,top_margin-50-(s2.split(",").length+2)*f.getHeight()/2+2);
+                            }
                             w = calcWidth(g,newAssertion);
                             drawFrameBorder(g2,newAssertion, left_margin+(max_width-w)/2, top_margin);
                             left_margin += max_width + 20;
-                            previous_margin = top_margin + f.getHeight() +5;
+                            previous_max_width=max_width;
+                            previous_top_margin = top_margin + f.getHeight();
                             wm.addAssertion(newAssertion);
                             newAssertionCreated = true;
                         }
@@ -235,13 +245,35 @@ public class ForwardGraphDraw extends JPanel {
         g.drawRect(left-2,top-f.getHeight()+1,f.stringWidth(s)+5,f.getHeight()+5);
     }
 
-    private void drawPolygon(Graphics g,int left,int count){    //「▼」の描画
+    private void drawPolygon(Graphics g,int x,int y){    //「▼」の描画
         Polygon arrowHead = new Polygon();
-		arrowHead.addPoint(10+10, count+20);
-		arrowHead.addPoint(2+10, count + 5);
-		arrowHead.addPoint(18+10 , count + 5);
+		arrowHead.addPoint(x, y+10);
+		arrowHead.addPoint(x-5, y);
+		arrowHead.addPoint(x+5 , y);
 		g.fillPolygon(arrowHead);
     }
+
+    private void drawDownArrow(Graphics g,int x,int top,int bottom){//「↓」の描画
+        FontMetrics f = g.getFontMetrics();
+        g.drawLine(x,top-10,x,bottom-f.getHeight()-10);
+        drawPolygon(g,x,bottom-f.getHeight()-10);
+    }
+
+    private void drawPolygon2(Graphics g,int x,int y){    //「▶︎」の描画
+        Polygon arrowHead = new Polygon();
+		arrowHead.addPoint(x, y-5);
+		arrowHead.addPoint(x, y+5);
+		arrowHead.addPoint(x+10, y);
+		g.fillPolygon(arrowHead);
+    }
+
+    private void drawRightAngleArrow(Graphics g,int x1,int y1,int x2,int y2){//「→」の描画
+        FontMetrics f = g.getFontMetrics();
+        g.drawLine(x1,y1-10,x1,y2);
+        g.drawLine(x1,y2,x2-10,y2);
+        drawPolygon2(g,x2-12,y2);
+    }
+
     private int calcWidth(Graphics g,String s){
         FontMetrics f = g.getFontMetrics();
         int max_width = 0;
