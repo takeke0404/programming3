@@ -164,8 +164,9 @@ public class ForwardGraphDraw extends JPanel {
     public void paint(Graphics g){
         FontMetrics f = g.getFontMetrics();
         boolean newAssertionCreated;
-        int count=20;
+        int previous_margin=0;
         int left_margin=5;
+        Graphics2D g2 = (Graphics2D)g;
         // 新しいアサーションが生成されなくなるまで続ける．
         do {
             newAssertionCreated = false;
@@ -186,21 +187,34 @@ public class ForwardGraphDraw extends JPanel {
                                         (HashMap)bindings.get(j));
                         //ワーキングメモリーになければ成功
                         if(!wm.contains(newAssertion)){
+                            ArrayList<String> strings = new ArrayList<>();
+                            strings.add(aRule.getName());
+                            strings.addAll(Arrays.asList(antecedents.toString().split(",")));
+                            strings.add(newAssertion.toString());
+                            strings.add(newAssertion);
+                            int max_width = calcWidth(g,strings);
+                            int top_margin = 20;
                             System.out.println("Success: " + newAssertion);
-			                g.drawString(antecedents.toString(), 5, count);
-                            count += 15;
-                            g.drawString("------------------", 5, count);
-                            count += 15;
-                            g.drawString(aRule.getName(), 5, count);
-                            count += 15;
-                            g.drawString(antecedents.toString(), 5, count);
-                            count += 15;
-                            g.drawString(newAssertion, 5, count);
-                            count += 15;
-                            g.drawString("------------------", 5, count);
-                            count += 15;
-                            g.drawString(newAssertion, 5, count);
-                            count += 50;
+                            strings.clear();
+                            strings.addAll(Arrays.asList(antecedents.toString().split(",")));
+                            int w = calcWidth(g,strings);
+			                drawRoundFrameBorder(g2,antecedents.toString(), left_margin+(max_width-w)/2, top_margin);
+                            top_margin += antecedents.toString().split(",").length*f.getHeight()+50;
+                            top_margin = Math.max(top_margin,previous_margin);
+                            ArrayList<String> rule = new ArrayList<>();
+                            rule.add(aRule.getName());
+                            rule.addAll(Arrays.asList(antecedents.toString().split(",")));
+                            rule.add(newAssertion.toString());
+                            BasicStroke stroke = new BasicStroke(2.0f);
+                            g2.setStroke(stroke);
+                            drawRoundFrameBorder(g2,rule, left_margin, top_margin);
+                            stroke = new BasicStroke(1.0f);
+                            g2.setStroke(stroke);
+                            top_margin += rule.size()*f.getHeight();
+                            top_margin += 50;
+                            drawFrameBorder(g2,newAssertion, left_margin, top_margin);
+                            left_margin += max_width + 20;
+                            previous_margin = left_margin;
                             wm.addAssertion(newAssertion);
                             newAssertionCreated = true;
                         }
@@ -212,18 +226,42 @@ public class ForwardGraphDraw extends JPanel {
         System.out.println("No rule produces a new assertion");
     }
 
+//以下は枠線の描画
+
     private void drawRoundFrameBorder(Graphics g,String s,int left,int top){
         FontMetrics f = g.getFontMetrics();
-        g.drawString(newAssertion, left, top);
-        g.drawRoundRect(left-2,top-f.getHeight()+1,f.stringWidth(s)+5,f.getHeight()+5,5,10);
+        String[] st = s.split(",");
+        int max_width=0;
+        for(int i = 0;i<st.length;i++){
+            g.drawString(st[i], left, top+i*f.getHeight());
+            max_width=Math.max(max_width,f.stringWidth(st[i]));
+        }
+        g.drawRoundRect(left-2,top-f.getHeight()+1,max_width+5,f.getHeight()*st.length+5,5,10);
     }
     private void drawFrameBorder(Graphics g,String s,int left,int top){
         FontMetrics f = g.getFontMetrics();
-        g.drawString(newAssertion, left, top);
-        g.drawRoundRect(left-2,top-f.getHeight()+1,f.stringWidth(s)+5,f.getHeight()+5);
+        g.drawString(s, left, top);
+        g.drawRect(left-2,top-f.getHeight()+1,f.stringWidth(s)+5,f.getHeight()+5);
     }
     private void drawRoundFrameBorder(Graphics g,ArrayList<String> s,int left,int top){
+        FontMetrics f = g.getFontMetrics();
+        int top_margin=0;
+        int max_width=0;
+        for(int i=0;i<s.size();i++){
+            g.drawString(s.get(i),left,top+top_margin);
+            top_margin+=15;
+            max_width=Math.max(max_width,f.stringWidth(s.get(i)));
+        }
+        g.drawRoundRect(left-2,top-f.getHeight()+1,max_width+5,f.getHeight()*s.size()+5,5,10);
+    }
 
+    private int calcWidth(Graphics g,ArrayList<String> s){
+        FontMetrics f = g.getFontMetrics();
+        int max_width = 0;
+        for(String st:s){
+            max_width = Math.max(max_width,f.stringWidth(st));
+        }
+        return max_width;
     }
 
     private String instantiate(String thePattern, HashMap theBindings){
