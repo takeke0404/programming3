@@ -1,4 +1,3 @@
-
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
@@ -22,6 +21,9 @@ import java.awt.Dimension;
 import java.awt.ComponentOrientation;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.awt.event.ActionEvent;
 import javax.swing.JScrollBar;
@@ -60,13 +62,16 @@ public class gui extends JFrame {
 	 */
 	public gui() {
 		//read data
-		List<String> data = read_data();
-		String[] strData = new String[data.size()];
 		String str = "";
-		for(int i = 0; i<data.size();i++) {
-			strData[i] = data.get(i);
-			str += "\n"+data.get(i);
-		}
+		
+//		List<String> data = read_data();
+//		String[] strData = new String[data.size()];
+//		for(int i = 0; i<data.size();i++) {
+//			strData[i] = data.get(i);
+//			str += "\n"+data.get(i);
+//		}
+		
+		str = read_str();
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 800, 600);
@@ -76,16 +81,19 @@ public class gui extends JFrame {
 		contentPane.setLayout(new BorderLayout(0, 0));
 		
 		JPanel queryPanel = new JPanel();
+		JPanel databasePanel = new JPanel();
 		contentPane.add(queryPanel, BorderLayout.NORTH);
 		
 		JLabel queryLabel = new JLabel("Query");
+		JLabel SaveStatusLabel = new JLabel("Saved!");
+		JButton searchButton = new JButton("Search");
+		JButton saveButton = new JButton("Save");
+		JTextPane txt = new JTextPane();
 		
 		queryInputField = new JTextField();
 		queryInputField.setMinimumSize(new Dimension(500, 30));
 		queryInputField.setText("Input field");
 		queryInputField.setColumns(10);
-		
-		JButton searchButton = new JButton("Search");
 		GroupLayout gl_queryPanel = new GroupLayout(queryPanel);
 		gl_queryPanel.setHorizontalGroup(
 			gl_queryPanel.createParallelGroup(Alignment.LEADING)
@@ -115,36 +123,66 @@ public class gui extends JFrame {
 		);
 		queryPanel.setLayout(gl_queryPanel);
 		
-		JPanel databasePanel = new JPanel();
 		contentPane.add(databasePanel, BorderLayout.CENTER);
-		
-		JButton addNewRuleButton = new JButton("Add new rule");
-		addNewRuleButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("button clicked");
-			}
-		});
-		JTextPane txt = new JTextPane();
 		txt.setText(str);
 		JScrollPane scrollPane = new JScrollPane(txt);
+		SaveStatusLabel.setVisible(false);
+		
+		
+		ActionListener taskPerformer = new ActionListener() {
+		       public void actionPerformed(ActionEvent evt) {
+		   		SaveStatusLabel.setVisible(false);
+		       }
+		   };
+		   
+		saveButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try{
+					  File file = new File("Original.data");
+					  if (checkBeforeWritefile(file)){
+					      FileWriter filewriter = new FileWriter(file, false);
+						  filewriter.write(txt.getText());
+						  filewriter.close();
+						  SaveStatusLabel.setVisible(true);
+						  int delay = 2000; //milliseconds
+						  new javax.swing.Timer(delay, taskPerformer).start();
+					  }
+					}catch(IOException e1){
+					  System.out.println(e1);
+					}
+			}
+		});
+		
+		JLabel databasePanelLabel = new JLabel("Edit (add, delete, change) rules. Click the Save button to save your changes.");
 		GroupLayout gl_databasePanel = new GroupLayout(databasePanel);
 		gl_databasePanel.setHorizontalGroup(
 			gl_databasePanel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_databasePanel.createSequentialGroup()
-					.addComponent(addNewRuleButton)
-					.addGap(173))
-				.addGroup(gl_databasePanel.createSequentialGroup()
-					.addGap(6)
-					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 778, Short.MAX_VALUE)
+					.addGroup(gl_databasePanel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_databasePanel.createSequentialGroup()
+							.addGap(6)
+							.addGroup(gl_databasePanel.createParallelGroup(Alignment.LEADING)
+								.addComponent(databasePanelLabel, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 778, Short.MAX_VALUE)
+								.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 778, Short.MAX_VALUE)))
+						.addGroup(gl_databasePanel.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(saveButton)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(SaveStatusLabel)))
 					.addContainerGap())
 		);
 		gl_databasePanel.setVerticalGroup(
 			gl_databasePanel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_databasePanel.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(addNewRuleButton)
+					.addComponent(databasePanelLabel, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 487, Short.MAX_VALUE))
+					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 443, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_databasePanel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(saveButton)
+						.addComponent(SaveStatusLabel))
+					.addContainerGap(9, Short.MAX_VALUE))
 		);
 		databasePanel.setLayout(gl_databasePanel);
 	}
@@ -172,4 +210,37 @@ public class gui extends JFrame {
 		}
 		return data;
 	}
+	
+	public String read_str() {
+		String str = "";
+		try {
+            File file = new File("Original.data");
+         
+            // ファイルが存在しない場合に例外が発生するので確認する
+            if (!file.exists()) {
+                System.out.print("ファイルが存在しません");
+            }
+            FileReader fileReader = new FileReader(file);
+            int data;
+            while ((data = fileReader.read()) != -1) {
+                str += (char)data;
+            }
+            fileReader.close();
+         
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+		return str;
+	}
+	
+	
+	private static boolean checkBeforeWritefile(File file){
+	    if (file.exists()){
+	      if (file.isFile() && file.canWrite()){
+	        return true;
+	      }
+	    }
+
+	    return false;
+	  }
 }
