@@ -163,7 +163,7 @@ public class ForwardGraphDraw extends JPanel {
         FontMetrics f = g.getFontMetrics();
         boolean newAssertionCreated;
         int previous_top_margin=0;
-        int previous_max_width=0;
+        int previous_max_string_width=0;
         int left_margin=5;
         int height_between_blocks = 50;
         int width_between_blockes = 20;
@@ -190,33 +190,33 @@ public class ForwardGraphDraw extends JPanel {
                         if(!wm.contains(newAssertion)){
                             String s1 = antecedents.toString().replace("?x", "my-laptop").replace("[", "").replace("]", "");
                             String s2 = "rule   " + "\"" + aRule.getName() + "\"" + "," + "if       " + antecedents.toString().replace("[", "\"").replace("]", "\"").replace(", ", "\",         \"")+ "," + "then  " + "\"" + consequent + "\"";
-                            int max_width = calcWidth(g,s1 +","+ s2 +","+ newAssertion);
+                            int max_string_width = calcWidth(g,s1 +","+ s2 +","+ newAssertion);
                             int top_margin = default_top_margin;
                             System.out.println("Success: " + newAssertion);
                             int w = calcWidth(g,s1);
-			                drawRoundFrameBorder(g2,s1, left_margin+(max_width-w)/2, top_margin);
+			                drawRoundFrameBorder(g2,s1, left_margin+(max_string_width-w)/2, top_margin);
                             top_margin += antecedents.toString().split(",").length*f.getHeight()+height_between_blocks;
                             int arrow_top = top_margin - height_between_blocks;
                             top_margin = Math.max(top_margin,previous_top_margin+5);
                             int arrow_bottom = top_margin;
-                            drawDownArrow(g,left_margin+max_width/2,arrow_top,arrow_bottom);
+                            drawDownArrow(g,left_margin+max_string_width/2,arrow_top,arrow_bottom);
                             w = calcWidth(g,s2);
                             BasicStroke stroke = new BasicStroke(2.0f);
                             g2.setStroke(stroke);
-                            drawRoundFrameBorder(g2,s2, left_margin+(max_width-w)/2, top_margin);
+                            drawRoundFrameBorder(g2,s2, left_margin+(max_string_width-w)/2, top_margin);
                             top_margin += s2.split(",").length*f.getHeight()+height_between_blocks;
                             arrow_top = top_margin - height_between_blocks;
                             arrow_bottom = top_margin;
-                            drawDownArrow(g,left_margin+max_width/2,arrow_top,arrow_bottom);
+                            drawDownArrow(g,left_margin+max_string_width/2,arrow_top,arrow_bottom);
                             stroke = new BasicStroke(1.0f);
                             g2.setStroke(stroke);
                             if(previous_top_margin!=0){
-                                drawRightAngleArrow(g,left_margin-width_between_blockes-previous_max_width/2,previous_top_margin,left_margin+(max_width-w)/2,top_margin-height_between_blocks-(s2.split(",").length+2)*f.getHeight()/2+2);
+                                drawRightAngleArrow(g,left_margin-width_between_blockes-previous_max_string_width/2,previous_top_margin,left_margin+(max_string_width-w)/2,top_margin-height_between_blocks-(s2.split(",").length+2)*f.getHeight()/2+2);
                             }
                             w = calcWidth(g,newAssertion);
-                            drawFrameBorder(g2,newAssertion, left_margin+(max_width-w)/2, top_margin);
-                            left_margin += max_width + width_between_blockes;
-                            previous_max_width=max_width;
+                            drawFrameBorder(g2,newAssertion, left_margin+(max_string_width-w)/2, top_margin);
+                            left_margin += max_string_width + width_between_blockes;
+                            previous_max_string_width=max_string_width;
                             previous_top_margin = top_margin + f.getHeight();
                             wm.addAssertion(newAssertion);
                             newAssertionCreated = true;
