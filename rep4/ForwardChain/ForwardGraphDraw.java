@@ -118,6 +118,7 @@ public class ForwardGraphDraw extends JPanel {
     StreamTokenizer st;
     WorkingMemory wm;
     ArrayList<Rule> rules;
+    String pastAssertion="";
 
     int width;
     int height;
@@ -188,14 +189,14 @@ public class ForwardGraphDraw extends JPanel {
                         //ワーキングメモリーになければ成功
 
                         if(!wm.contains(newAssertion)){
-                            String s1 = antecedents.toString().replace("?x", "my-laptop").replace("[", "").replace("]", "");
+                            String s1 = antecedents.toString().replace("?x", "my-laptop").replace("[", "").replace("]", "").replace(pastAssertion,"");  //pastAssertionがあれば削除。
                             String s2 = "rule   " + "\"" + aRule.getName() + "\"" + "," + "if       " + antecedents.toString().replace("[", "\"").replace("]", "\"").replace(", ", "\",         \"")+ "," + "then  " + "\"" + consequent + "\"";
                             int max_string_width = calcWidth(g,s1 +","+ s2 +","+ newAssertion);
                             int top_margin = default_top_margin;
                             System.out.println("Success: " + newAssertion);
                             int w = calcWidth(g,s1);
 			                drawRoundFrameBorder(g2,s1, left_margin+(max_string_width-w)/2, top_margin);
-                            top_margin += antecedents.toString().split(",").length*f.getHeight()+height_between_blocks;
+                            top_margin += s1.split(",").length*f.getHeight()+height_between_blocks;
                             int arrow_top = top_margin - height_between_blocks;
                             top_margin = Math.max(top_margin,previous_top_margin+5);
                             int arrow_bottom = top_margin;
@@ -220,6 +221,8 @@ public class ForwardGraphDraw extends JPanel {
                             previous_top_margin = top_margin + f.getHeight();
                             wm.addAssertion(newAssertion);
                             newAssertionCreated = true;
+                            pastAssertion = newAssertion;      //pastAssertionはnewAssertionを保持。
+                            pastAssertion += ", ";
                         }
                     }
                 }
