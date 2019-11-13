@@ -40,6 +40,9 @@ public class gui extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField queryInputField;
+	private String databaseFilePath = "./../Original.data";
+	private boolean searchFlag = false;
+	private boolean backwardChainMode = false;
 
 	/**
 	 * Launch the application.
@@ -64,14 +67,7 @@ public class gui extends JFrame {
 		//read data
 		String str = "";
 		
-//		List<String> data = read_data();
-//		String[] strData = new String[data.size()];
-//		for(int i = 0; i<data.size();i++) {
-//			strData[i] = data.get(i);
-//			str += "\n"+data.get(i);
-//		}
-		
-		str = read_str();
+		str = read_str(databaseFilePath);
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 800, 600);
@@ -88,7 +84,9 @@ public class gui extends JFrame {
 		JLabel SaveStatusLabel = new JLabel("Saved!");
 		JButton searchButton = new JButton("Search");
 		JButton saveButton = new JButton("Save");
+		JButton changeTypeButton = new JButton("Backward Chain");
 		JTextPane txt = new JTextPane();
+		JLabel scrollPaneLabel = new JLabel("Edit (add, delete, change) rules. Click the Save button to save your changes.");
 		
 		queryInputField = new JTextField();
 		queryInputField.setMinimumSize(new Dimension(500, 30));
@@ -127,6 +125,7 @@ public class gui extends JFrame {
 		txt.setText(str);
 		JScrollPane scrollPane = new JScrollPane(txt);
 		SaveStatusLabel.setVisible(false);
+		changeTypeButton.setVisible(false);
 		
 		
 		ActionListener taskPerformer = new ActionListener() {
@@ -137,45 +136,89 @@ public class gui extends JFrame {
 		   
 		saveButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				try{
-					  File file = new File("Original.data");
-					  if (checkBeforeWritefile(file)){
-					      FileWriter filewriter = new FileWriter(file, false);
-						  filewriter.write(txt.getText());
-						  filewriter.close();
-						  SaveStatusLabel.setVisible(true);
-						  int delay = 2000; //milliseconds
-						  new javax.swing.Timer(delay, taskPerformer).start();
-					  }
-					}catch(IOException e1){
-					  System.out.println(e1);
-					}
+				if(searchFlag) {
+					scrollPane.setViewportView(txt);
+					scrollPane.repaint();
+					saveButton.setText("Save");
+					scrollPaneLabel.setText("Edit (add, delete, change) rules. Click the Save button to save your changes.");
+					changeTypeButton.setVisible(false);
+				}
+				else {
+					try{
+						  File file = new File(databaseFilePath);
+						  if (checkBeforeWritefile(file)){
+						      FileWriter filewriter = new FileWriter(file, false);
+							  filewriter.write(txt.getText());
+							  filewriter.close();
+							  SaveStatusLabel.setVisible(true);
+							  int delay = 2000; //milliseconds
+							  new javax.swing.Timer(delay, taskPerformer).start();
+						  }
+						}catch(IOException e1){
+						  System.out.println(e1);
+						}
+				}
+			}
+		});
+
+		searchButton.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				// 初期値：前向き処理を表示させる
+				ForwardGraphDraw forwardGraph = new ForwardGraphDraw();
+				scrollPane.setViewportView(forwardGraph);
+				scrollPane.repaint();
+				saveButton.setText("Back");
+				scrollPaneLabel.setText("Switch to Backward Chain by click to Backward Chain button");
+				searchFlag = true;
+				changeTypeButton.setVisible(true);
 			}
 		});
 		
-		JLabel databasePanelLabel = new JLabel("Edit (add, delete, change) rules. Click the Save button to save your changes.");
+		changeTypeButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(!backwardChainMode){
+					// 前向き処理の表示
+					ForwardGraphDraw forwardGraph = new ForwardGraphDraw();
+					scrollPaneLabel.setText("Switch to Backward Chain by click to Backward Chain button");
+					scrollPane.setViewportView(forwardGraph);
+					scrollPane.repaint();
+				}
+				else{
+					// 後ろ向き処理の表示
+					scrollPaneLabel.setText("Switch to Forward Chain by click to Forward Chain button");
+					changeTypeButton.setText("Forward Chain");
+				}
+				backwardChainMode = ! backwardChainMode;
+			}
+		});
+		
 		GroupLayout gl_databasePanel = new GroupLayout(databasePanel);
 		gl_databasePanel.setHorizontalGroup(
 			gl_databasePanel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_databasePanel.createSequentialGroup()
 					.addGroup(gl_databasePanel.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_databasePanel.createSequentialGroup()
-							.addGap(6)
-							.addGroup(gl_databasePanel.createParallelGroup(Alignment.LEADING)
-								.addComponent(databasePanelLabel, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 778, Short.MAX_VALUE)
-								.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 778, Short.MAX_VALUE)))
-						.addGroup(gl_databasePanel.createSequentialGroup()
 							.addContainerGap()
 							.addComponent(saveButton)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(SaveStatusLabel)))
+							.addComponent(SaveStatusLabel))
+						.addGroup(gl_databasePanel.createSequentialGroup()
+							.addGap(6)
+							.addGroup(gl_databasePanel.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_databasePanel.createSequentialGroup()
+									.addComponent(scrollPaneLabel)
+									.addPreferredGap(ComponentPlacement.RELATED, 159, Short.MAX_VALUE)
+									.addComponent(changeTypeButton))
+								.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 778, Short.MAX_VALUE))))
 					.addContainerGap())
 		);
 		gl_databasePanel.setVerticalGroup(
 			gl_databasePanel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_databasePanel.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(databasePanelLabel, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
+					.addGroup(gl_databasePanel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(scrollPaneLabel, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
+						.addComponent(changeTypeButton))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 443, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
@@ -187,12 +230,12 @@ public class gui extends JFrame {
 		databasePanel.setLayout(gl_databasePanel);
 	}
 	
-	public List<String> read_data() {
+	public List<String> read_data(String filePath) {
 		List<String> data = new ArrayList<String>();
 		// Java 8以降
 		System.out.println("Working Directory = " +
 	              System.getProperty("user.dir"));
-		Path path = FileSystems.getDefault().getPath("Original.data");
+		Path path = FileSystems.getDefault().getPath(filePath);
 		try (BufferedReader br = Files.newBufferedReader(path,StandardCharsets.UTF_8)) {
 		 String text;
 		 String rule = "";
@@ -211,10 +254,10 @@ public class gui extends JFrame {
 		return data;
 	}
 	
-	public String read_str() {
+	public String read_str(String filePath) {
 		String str = "";
 		try {
-            File file = new File("Original.data");
+            File file = new File(filePath);
          
             // ファイルが存在しない場合に例外が発生するので確認する
             if (!file.exists()) {
