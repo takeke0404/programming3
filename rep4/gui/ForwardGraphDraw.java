@@ -117,7 +117,7 @@ public class ForwardGraphDraw extends JPanel {
     FileReader f;
     StreamTokenizer st;
     WorkingMemory wm;
-    ArrayList<Rule> rules;
+    ArrayList<Rule_forward> rules;
     String pastAssertion="";
 
     int width;
@@ -132,7 +132,7 @@ public class ForwardGraphDraw extends JPanel {
         wm.addAssertion("my-laptop is light");
         wm.addAssertion("my-laptop has Intel's CPU");
         wm.addAssertion("my-laptop is taugh");
-        rules = new ArrayList<Rule>();
+        rules = new ArrayList<Rule_forward>();
         loadRules(fileName);
         nodes = new ArrayList<Node>();
         width = 30;
@@ -174,7 +174,7 @@ public class ForwardGraphDraw extends JPanel {
         do {
             newAssertionCreated = false;
             for (int i = 0; i < rules.size(); i++) {
-                Rule aRule = (Rule) rules.get(i);
+                Rule_forward aRule = (Rule_forward) rules.get(i);
                 System.out.println("apply rule:" + aRule.getName());
 
                 ArrayList<String> antecedents = aRule.getAntecedents();
@@ -340,7 +340,7 @@ public class ForwardGraphDraw extends JPanel {
     //                            }
                         }
     		// ルールの生成
-                        rules.add(new Rule(name,antecedents,consequent));
+                        rules.add(new Rule_forward(name,antecedents,consequent));
                         break;
                     default:
                         System.out.println(token);
@@ -351,7 +351,7 @@ public class ForwardGraphDraw extends JPanel {
             System.out.println(e);
         }
         for(int i = 0 ; i < rules.size() ; i++){
-            System.out.println(((Rule)rules.get(i)).toString());
+            System.out.println(((Rule_forward)rules.get(i)).toString());
         }
     }
     }
@@ -361,12 +361,12 @@ public class ForwardGraphDraw extends JPanel {
     *
     *
     */
-    class Rule {
+    class Rule_forward {
         String name;
         ArrayList<String> antecedents;
         String consequent;
 
-        Rule(String theName, ArrayList<String> theAntecedents, String theConsequent) {
+        Rule_forward(String theName, ArrayList<String> theAntecedents, String theConsequent) {
             this.name = theName;
             this.antecedents = theAntecedents;
             this.consequent = theConsequent;
