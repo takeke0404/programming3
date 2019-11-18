@@ -65,10 +65,9 @@ public class gui extends JFrame {
 	 * Create the frame.
 	 */
 	public gui() {
-		// read data
-		String str = "";
-
-		str = read_str(databaseFilePath);
+		// データファイルからデータを読み込む。
+		String dataInString = "";
+		dataInString = readData(databaseFilePath);
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 800, 600);
@@ -113,7 +112,7 @@ public class gui extends JFrame {
 		queryPanel.setLayout(gl_queryPanel);
 
 		contentPane.add(databasePanel, BorderLayout.CENTER);
-		databaseText.setText(str);
+		databaseText.setText(dataInString);
 		JScrollPane scrollPane = new JScrollPane(databaseText);
 		SaveStatusLabel.setVisible(false);
 		BackwardChainButton.setVisible(false);
@@ -134,6 +133,7 @@ public class gui extends JFrame {
 					scrollPaneLabel
 							.setText("Edit (add, delete, change) rules. Click the Save button to save your changes.");
 					BackwardChainButton.setVisible(false);
+					ForwardChainButton.setVisible(false);
 				} else {
 					try {
 						File file = new File(databaseFilePath);
@@ -221,9 +221,9 @@ public class gui extends JFrame {
 		databasePanel.setLayout(gl_databasePanel);
 	}
 
-	public List<String> read_data(String filePath) {
+	public List<String> readRule(String filePath) {
 		List<String> data = new ArrayList<String>();
-		// Java 8以降
+		// Java 8以降が必要
 		System.out.println("Working Directory = " + System.getProperty("user.dir"));
 		Path path = FileSystems.getDefault().getPath(filePath);
 		try (BufferedReader br = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
@@ -243,7 +243,8 @@ public class gui extends JFrame {
 		return data;
 	}
 
-	public String read_str(String filePath) {
+	// データファイルからすべてのデータを文字列として読み込む
+	public String readData(String filePath) {
 		String str = "";
 		try {
 			File file = new File(filePath);
