@@ -6,10 +6,16 @@ public class RuleBaseSystem {
     static FileManager fm;
     public static void main(String args[]){
 	if(args.length != 1){
-	    System.out.println("Usage: %java RuleBaseSystem [query strings]");
-	    System.out.println("Example:");
+		System.out.println("Usage: %java RuleBaseSystem [query strings]");
+	    System.out.println("Example1:");
+	    System.out.println(" \"?x is a\" is query");
+		System.out.println("  %java RuleBaseSystem \"What is a\"");
+	    System.out.println("Example2:");
 	    System.out.println(" \"?x is b\" and \"?x is c\" are queries");
-	    System.out.println("  %java RuleBaseSystem \"?x is b,?x is c\"");
+		System.out.println("  %java RuleBaseSystem \"What is b and c\"");
+	    System.out.println("Example3:");
+	    System.out.println(" \"?x is b\" and \"?y is c\" are queries");
+	    System.out.println("  %java RuleBaseSystem \"What is b ,What is c\"");
 	} else {
 	    fm = new FileManager();
 	    ArrayList<Rule> rules = fm.loadRules("../Original.data");
@@ -47,8 +53,24 @@ class RuleBase implements Serializable{
 
     public void backwardChain(ArrayList<String> ask){
 	ArrayList<String> hypothesis = new ArrayList<String>();
+	int j = 0;
+	ArrayList<Integer> index = new ArrayList<>();
 	for(String s:ask){
-		hypothesis.add(s.replace("?","").replace("What", "?x"));
+		index.add(j);
+
+		s = s.replace("and", ",");
+		StringTokenizer st = new StringTokenizer(s,",");
+
+		for(int i = 0 ; i < st.countTokens();){
+			String str = st.nextToken();
+			System.out.println(str);
+			if(str.indexOf("What is")!=-1){
+				hypothesis.add(str.replace("What", "?"+j));
+			}else{
+				hypothesis.add("?"+j+" is"+str);
+			}
+			j++;
+		}
 	}
 	System.out.println("Hypothesis:"+ask);
 	ArrayList<String> orgQueries = (ArrayList)hypothesis.clone();
@@ -58,8 +80,8 @@ class RuleBase implements Serializable{
 	    System.out.println("Yes");
 	    System.out.println(binding);
 	    // 最終的な結果を基のクェリーに代入して表示する
-	    for(int i = 0 ; i < orgQueries.size() ; i++){
-		String aQuery = (String)orgQueries.get(i);
+	    for(int i = 0 ; i < ask.size() ; i++){
+		String aQuery = (String)ask.get(i).replace("What", "?"+index.get(i));
 		String query = (String)ask.get(i);
 		System.out.println("binding: "+binding);
 		String anAnswer = instantiate(aQuery,binding);
