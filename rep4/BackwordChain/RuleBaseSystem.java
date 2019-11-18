@@ -63,7 +63,6 @@ class RuleBase implements Serializable{
 
 		for(int i = 0 ; i < st.countTokens();){
 			String str = st.nextToken();
-			System.out.println(str);
 			if(str.indexOf("What is")!=-1){
 				hypothesis.add(str.replace("What", "?"+j));
 			}else{
@@ -78,7 +77,6 @@ class RuleBase implements Serializable{
 	HashMap<String,String> binding = new HashMap<String,String>();
 	if(matchingPatterns(hypothesis,binding)){
 	    System.out.println("Yes");
-	    System.out.println(binding);
 	    // 最終的な結果を基のクェリーに代入して表示する
 	    for(int i = 0 ; i < ask.size() ; i++){
 		String aQuery = (String)ask.get(i).replace("What", "?"+index.get(i));
