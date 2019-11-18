@@ -18,31 +18,48 @@ public class BackwardGraphDraw extends JPanel{
         for(int i = 0 ; i < st.countTokens();){
             queries.add(st.nextToken());
         }
+
     }
     public void paint(Graphics g){
         ArrayList<String> hypothesis = new ArrayList<String>();
+        int j = 0;
+        ArrayList<Integer> index = new ArrayList<>();
         for(String s:queries){
-            hypothesis.add(s.replace("?","").replace("What", "?x"));
+            index.add(j);
+    
+            s = s.replace("and", ",");
+            StringTokenizer st = new StringTokenizer(s,",");
+    
+            for(int i = 0 ; i < st.countTokens();){
+                String str = st.nextToken();
+                if(str.indexOf("What is")!=-1){
+                    hypothesis.add(str.replace("What", "?"+j));
+                }else{
+                    hypothesis.add("?"+j+" is"+str);
+                }
+                j++;
+            }
         }
         System.out.println("Hypothesis:"+queries);
         g.drawString("Hypothesis:"+queries,0,10);
-        ArrayList<String> orgQueries = (ArrayList)hypothesis.clone();
+        //ArrayList<String> orgQueries = (ArrayList)hypothesis.clone();
+        //HashMap<String,String> binding = new HashMap<String,String>();
         HashMap<String,String> binding = new HashMap<String,String>();
         if(matchingPatterns(g,hypothesis,binding)){
             System.out.println("Yes");
-            System.out.println(binding);
             // 最終的な結果を基のクェリーに代入して表示する
-            for(int i = 0 ; i < orgQueries.size() ; i++){
-                String aQuery = (String)orgQueries.get(i);
-                String query = (String)queries.get(i);
-                System.out.println("binding: "+binding);
-                String anAnswer = instantiate(aQuery,binding);
-                System.out.println("Query: "+query);
-                System.out.println("Answer:"+anAnswer);
+            for(int i = 0 ; i < queries.size() ; i++){
+            String aQuery = (String)queries.get(i).replace("What", "?"+index.get(i));
+            String query = (String)queries.get(i);
+            System.out.println("binding: "+binding);
+            String anAnswer = instantiate(aQuery,binding);
+            System.out.println("Query: "+query);
+            System.out.println("Answer:"+anAnswer);
             }
         } else {
             System.out.println("No");
         }
+
     }
 
     /**
