@@ -43,7 +43,6 @@ public class gui extends JFrame {
 	private JTextField queryInputField;
 	private String databaseFilePath = "./../Original.data";
 	private boolean searchFlag = false;
-	private boolean backwardChainMode = false;
 
 	/**
 	 * Launch the application.
@@ -128,7 +127,6 @@ public class gui extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (searchFlag) {
 					scrollPane.setViewportView(databaseText);
-					scrollPane.repaint();
 					saveButton.setText("Save");
 					scrollPaneLabel
 							.setText("Edit (add, delete, change) rules. Click the Save button to save your changes.");
@@ -164,7 +162,6 @@ public class gui extends JFrame {
 				JTextPane answerPane = new JTextPane();
 				answerPane.setText(answer);
 				scrollPane.setViewportView(answerPane);
-				scrollPane.repaint();
 				saveButton.setText("Back");
 				scrollPaneLabel.setText("Click the Forward/Backward Chain button to view the inference process");
 				searchFlag = true;
@@ -187,7 +184,6 @@ public class gui extends JFrame {
 				ForwardGraphDraw forwardGraph = new ForwardGraphDraw();
 				scrollPaneLabel.setText("Switch to Backward Chain by click to Backward Chain button");
 				scrollPane.setViewportView(forwardGraph);
-				scrollPane.repaint();
 			}
 		});
 
