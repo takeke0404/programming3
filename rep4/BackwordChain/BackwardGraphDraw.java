@@ -9,6 +9,13 @@ public class BackwardGraphDraw extends JPanel{
     ArrayList<String> wm;
     ArrayList<Rule> rules;
     ArrayList<String> queries;
+    int query_string_width = 0;
+    int left = 5;
+
+    ArrayList<Integer> left_margin = new ArrayList<>();
+    ArrayList<Integer> top_margin = new ArrayList<>();
+    ArrayList<String> wm_match_rules = new ArrayList<>();
+
     BackwardGraphDraw(String s){
         FileManager fm = new FileManager();
         rules = fm.loadRules("../Original.data");
@@ -21,15 +28,15 @@ public class BackwardGraphDraw extends JPanel{
 
     }
     public void paint(Graphics g){
+        FontMetrics f = g.getFontMetrics();
         ArrayList<String> hypothesis = new ArrayList<String>();
         int j = 0;
         ArrayList<Integer> index = new ArrayList<>();
         for(String s:queries){
             index.add(j);
-    
             s = s.replace("and", ",");
             StringTokenizer st = new StringTokenizer(s,",");
-    
+
             for(int i = 0 ; i < st.countTokens();){
                 String str = st.nextToken();
                 if(str.indexOf("What is")!=-1){
@@ -41,7 +48,7 @@ public class BackwardGraphDraw extends JPanel{
             }
         }
         System.out.println("Hypothesis:"+queries);
-        g.drawString("Hypothesis:"+queries,0,10);
+        drawFrameBorder(g,(""+hypothesis).replace("[","").replace("]",""),left,f.getHeight());
         //ArrayList<String> orgQueries = (ArrayList)hypothesis.clone();
         //HashMap<String,String> binding = new HashMap<String,String>();
         HashMap<String,String> binding = new HashMap<String,String>();
@@ -60,6 +67,16 @@ public class BackwardGraphDraw extends JPanel{
             System.out.println("No");
         }
 
+        for(int i=0;i<top_margin.size();i++){
+            String s = "";
+            for(int k=0;k<wm_match_rules.size();k++){
+                if(wm_match_rules.get(k).contains("?x"+i+1)){
+                    if(!s.equals(""))s+=",";
+                    s+=wm_match_rules;
+                }
+            }
+            drawRoundFrameBorder(g,s,left_margin.get(i),top_margin.get(i)+20);
+        }
     }
 
     /**
@@ -121,8 +138,10 @@ public class BackwardGraphDraw extends JPanel{
             return false;
         }
     }
-
+    int top = 0;
     private int matchingPatternOne(Graphics g,String thePattern,HashMap<String,String> theBinding,int cPoint){
+        FontMetrics f = g.getFontMetrics();
+        Graphics2D g2 = (Graphics2D) g;
         if(cPoint < wm.size() ){
             // WME(Working Memory Elements) と Unify してみる．
             for(int i = cPoint ; i < wm.size() ; i++){
@@ -151,6 +170,16 @@ public class BackwardGraphDraw extends JPanel{
                 theBinding)){
                     System.out.println("Success RULE");
                     System.out.println("Rule:"+aRule+" <=> "+thePattern);
+                    String s = "rule   " + "\"" + aRule.getName() + "\"" + "," + "if       " + aRule.getAntecedents().toString().replace("[", "\"").replace("]", "\"").replace(", ", "\",         \"")+ "," + "then  " + "\"" + aRule.getConsequent() + "\"";
+                    drawRoundFrameBorder(g2,s,left,f.getHeight()*4+top);
+                    left_margin.add(left);
+                    top+=f.getHeight()*(s.split(",").length+3);
+                    top_margin.add(f.getHeight()*4+top);
+                    left+=calcWidth(g,s)+15;
+                    for(int j=0;j<wm_match_rules.size();j++){
+                        if(wm_match_rules.get(j).equals(thePattern))wm_match_rules.remove(j);
+                    }
+                    wm_match_rules.addAll(Arrays.asList(aRule.getAntecedents().toString().replace("[","").replace("]","").split(", ")));
                     // さらにbackwardChaining
                     ArrayList<String> newPatterns = aRule.getAntecedents();
                     if(matchingPatterns(g,newPatterns,theBinding)){

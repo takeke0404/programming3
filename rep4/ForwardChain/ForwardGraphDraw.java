@@ -124,6 +124,7 @@ public class ForwardGraphDraw extends JPanel {
     int height;
 
     ArrayList<Node> nodes;
+    String target;
 
     ForwardGraphDraw() {
         fileName = "../Original.data";
@@ -132,6 +133,7 @@ public class ForwardGraphDraw extends JPanel {
         wm.addAssertion("my-laptop is light");
         wm.addAssertion("my-laptop has Intel's CPU");
         wm.addAssertion("my-laptop is taugh");
+        target = "my-laptop";
         rules = new ArrayList<Rule>();
         loadRules(fileName);
         nodes = new ArrayList<Node>();
@@ -189,7 +191,7 @@ public class ForwardGraphDraw extends JPanel {
                         //ワーキングメモリーになければ成功
 
                         if(!wm.contains(newAssertion)){
-                            String s1 = antecedents.toString().replace("?x", "my-laptop").replace("[", "").replace("]", "").replace(pastAssertion,"");  //pastAssertionがあれば削除。
+                            String s1 = antecedents.toString().replace("?x", target).replace("[", "").replace("]", "").replace(pastAssertion,"");  //pastAssertionがあれば削除。
                             String s2 = "rule   " + "\"" + aRule.getName() + "\"" + "," + "if       " + antecedents.toString().replace("[", "\"").replace("]", "\"").replace(", ", "\",         \"")+ "," + "then  " + "\"" + consequent + "\"";
                             int max_string_width = calcWidth(g,s1 +","+ s2 +","+ newAssertion);
                             int top_margin = default_top_margin;
