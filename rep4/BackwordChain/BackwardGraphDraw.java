@@ -70,9 +70,9 @@ public class BackwardGraphDraw extends JPanel{
         for(int i=0;i<top_margin.size();i++){
             String s = "";
             for(int k=0;k<wm_match_rules.size();k++){
-                if(wm_match_rules.get(k).contains("?x"+i+1)){
+                if(wm_match_rules.get(k).contains("?x"+(i+1))){
                     if(!s.equals(""))s+=",";
-                    s+=wm_match_rules;
+                    s+=wm_match_rules.get(k);
                 }
             }
             drawRoundFrameBorder(g,s,left_margin.get(i),top_margin.get(i)+20);
