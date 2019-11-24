@@ -15,6 +15,7 @@ public class BackwardGraphDraw extends JPanel{
     ArrayList<Integer> left_margin = new ArrayList<>();
     ArrayList<Integer> top_margin = new ArrayList<>();
     ArrayList<String> wm_match_rules = new ArrayList<>();
+    ArrayList<String> wm_result = new ArrayList<>();
 
     BackwardGraphDraw(String s){
         FileManager fm = new FileManager();
@@ -49,6 +50,7 @@ public class BackwardGraphDraw extends JPanel{
         }
         System.out.println("Hypothesis:"+queries);
         drawFrameBorder(g,(""+hypothesis).replace("[","").replace("]",""),left,f.getHeight());
+        top+=20;
         //ArrayList<String> orgQueries = (ArrayList)hypothesis.clone();
         //HashMap<String,String> binding = new HashMap<String,String>();
         HashMap<String,String> binding = new HashMap<String,String>();
@@ -68,15 +70,25 @@ public class BackwardGraphDraw extends JPanel{
         }
 
         for(int i=0;i<top_margin.size();i++){
-            String s = "";
+            String s1 = "";
+            String s2 = "";
             for(int k=0;k<wm_match_rules.size();k++){
                 if(wm_match_rules.get(k).contains("?x"+(i+1))){
-                    if(!s.equals(""))s+=",";
-                    s+=wm_match_rules.get(k);
+                    if(!s1.equals(""))s1+=",";
+                    s1+=wm_match_rules.get(k);
+                    for(int l=0;l<wm_result.size();l++){
+                        String[] temp = wm_result.get(l).split(" <=> ");
+                        if(temp[1].equals(wm_match_rules.get(k))){
+                            if(!s2.equals(""))s2+=",";
+                            s2+=temp[0];
+                        }
+                    }
                 }
             }
-            drawRoundFrameBorder(g,s,left_margin.get(i),top_margin.get(i)+20);
+            drawRoundFrameBorder(g,s1,left_margin.get(i),top_margin.get(i));
+            drawRoundFrameBorder(g,s2,left_margin.get(i),top_margin.get(i)+40+s1.split(",").length*f.getHeight());
         }
+
     }
 
     /**
@@ -139,6 +151,7 @@ public class BackwardGraphDraw extends JPanel{
         }
     }
     int top = 0;
+    int count = 0;
     private int matchingPatternOne(Graphics g,String thePattern,HashMap<String,String> theBinding,int cPoint){
         FontMetrics f = g.getFontMetrics();
         Graphics2D g2 = (Graphics2D) g;
@@ -150,6 +163,7 @@ public class BackwardGraphDraw extends JPanel{
                 theBinding)){
                     System.out.println("Success WM");
                     System.out.println((String)wm.get(i)+" <=> "+thePattern);
+                    wm_result.add((String)wm.get(i)+" <=> "+thePattern);
                     return i+1;
                 }
             }
@@ -170,12 +184,16 @@ public class BackwardGraphDraw extends JPanel{
                 theBinding)){
                     System.out.println("Success RULE");
                     System.out.println("Rule:"+aRule+" <=> "+thePattern);
+                    if(count != 0){
+                        drawRoundFrameBorder(g,aRule.getConsequent().replace("[","").replace("]","").replace("?x"+(count+1),"?x"+count),left,top_margin.get(count-1)-f.getHeight()*5);
+                    }
+                    count++;
                     String s = "rule   " + "\"" + aRule.getName() + "\"" + "," + "if       " + aRule.getAntecedents().toString().replace("[", "\"").replace("]", "\"").replace(", ", "\",         \"")+ "," + "then  " + "\"" + aRule.getConsequent() + "\"";
                     drawRoundFrameBorder(g2,s,left,f.getHeight()*4+top);
                     left_margin.add(left);
                     top+=f.getHeight()*(s.split(",").length+3);
                     top_margin.add(f.getHeight()*4+top);
-                    left+=calcWidth(g,s)+15;
+                    left+=calcWidth(g,s)+30;
                     for(int j=0;j<wm_match_rules.size();j++){
                         if(wm_match_rules.get(j).equals(thePattern))wm_match_rules.remove(j);
                     }
