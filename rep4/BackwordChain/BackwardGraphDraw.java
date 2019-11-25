@@ -49,7 +49,9 @@ public class BackwardGraphDraw extends JPanel{
             }
         }
         System.out.println("Hypothesis:"+queries);
-        drawFrameBorder(g,(""+hypothesis).replace("[","").replace("]",""),left,f.getHeight());
+        String s = (""+hypothesis).replace("[","").replace("]","");
+        drawFrameBorder(g,s,left,f.getHeight());
+        drawDownArrow(g,left+calcWidth(g,s)/2,top+f.getHeight()*2,top+f.getHeight()*4+20);
         top+=20;
         //ArrayList<String> orgQueries = (ArrayList)hypothesis.clone();
         //HashMap<String,String> binding = new HashMap<String,String>();
@@ -86,7 +88,9 @@ public class BackwardGraphDraw extends JPanel{
                 }
             }
             drawRoundFrameBorder(g,s1,left_margin.get(i),top_margin.get(i));
+            drawDownArrow(g,left_margin.get(i)+calcWidth(g,s1)/2,top_margin.get(i)-f.getHeight()*3,top_margin.get(i));
             drawRoundFrameBorder(g,s2,left_margin.get(i),top_margin.get(i)+40+s1.split(",").length*f.getHeight());
+            drawDownArrow(g,left_margin.get(i)+calcWidth(g,s1)/2,top_margin.get(i)+s1.split(",").length*f.getHeight(),top_margin.get(i)+40+s1.split(",").length*f.getHeight());
         }
 
     }
@@ -185,7 +189,10 @@ public class BackwardGraphDraw extends JPanel{
                     System.out.println("Success RULE");
                     System.out.println("Rule:"+aRule+" <=> "+thePattern);
                     if(count != 0){
-                        drawRoundFrameBorder(g,aRule.getConsequent().replace("[","").replace("]","").replace("?x"+(count+1),"?x"+count),left,top_margin.get(count-1)-f.getHeight()*5);
+                        drawRightAngleArrow(g,left-25,left,top_margin.get(count-1)-f.getHeight()*5-5);
+                        String s = aRule.getConsequent().replace("[","").replace("]","").replace("?x"+(count+1),"?x"+count);
+                        drawRoundFrameBorder(g,s,left,top_margin.get(count-1)-f.getHeight()*5);
+                        drawDownArrow(g,left+calcWidth(g,s)/2,top_margin.get(count-1)-f.getHeight()*4,f.getHeight()*4+top);
                     }
                     count++;
                     String s = "rule   " + "\"" + aRule.getName() + "\"" + "," + "if       " + aRule.getAntecedents().toString().replace("[", "\"").replace("]", "\"").replace(", ", "\",         \"")+ "," + "then  " + "\"" + aRule.getConsequent() + "\"";
@@ -289,11 +296,17 @@ public class BackwardGraphDraw extends JPanel{
         g.fillPolygon(arrowHead);
     }
 
-    private void drawRightAngleArrow(Graphics g,int x1,int y1,int x2,int y2){//「→」の描画
+    private void drawDownRightAngleArrow(Graphics g,int x1,int y1,int x2,int y2){//「↓→」の描画
         FontMetrics f = g.getFontMetrics();
         g.drawLine(x1,y1-10,x1,y2);
         g.drawLine(x1,y2,x2-10,y2);
         drawPolygon2(g,x2-13,y2);
+    }
+
+    private void drawRightAngleArrow(Graphics g,int x1,int x2,int y1){//「→」の描画
+        FontMetrics f = g.getFontMetrics();
+        g.drawLine(x1,y1,x2-10,y1);
+        drawPolygon2(g,x2-13,y1);
     }
 
     private int calcWidth(Graphics g,String s){
