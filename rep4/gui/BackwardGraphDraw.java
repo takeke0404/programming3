@@ -7,7 +7,7 @@ import javax.swing.*;
 public class BackwardGraphDraw extends JPanel{
     String fileName;
     ArrayList<String> wm;
-    ArrayList<Rule> rules;
+    ArrayList<RuleB> rules;
     ArrayList<String> queries;
     int query_string_width = 0;
     int left = 5;
@@ -18,7 +18,7 @@ public class BackwardGraphDraw extends JPanel{
     ArrayList<String> wm_result = new ArrayList<>();
 
     BackwardGraphDraw(String s){
-        FileManager fm = new FileManager();
+        FileManagerB fm = new FileManagerB();
         rules = fm.loadRules("../Original.data");
         wm    = fm.loadWm("../OriginalWm.data");
         StringTokenizer st = new StringTokenizer(s,",");
@@ -49,7 +49,9 @@ public class BackwardGraphDraw extends JPanel{
             }
         }
         System.out.println("Hypothesis:"+queries);
-        drawFrameBorder(g,(""+hypothesis).replace("[","").replace("]",""),left,f.getHeight());
+        String s = (""+hypothesis).replace("[","").replace("]","");
+        drawFrameBorder(g,s,left,f.getHeight());
+        drawDownArrow(g,left+calcWidth(g,s)/2,top+f.getHeight()*2,top+f.getHeight()*4+20);
         top+=20;
         //ArrayList<String> orgQueries = (ArrayList)hypothesis.clone();
         //HashMap<String,String> binding = new HashMap<String,String>();
@@ -85,8 +87,11 @@ public class BackwardGraphDraw extends JPanel{
                     }
                 }
             }
+            if(s1.equals("")&&s2.equals(""))break;
             drawRoundFrameBorder(g,s1,left_margin.get(i),top_margin.get(i));
+            drawDownArrow(g,left_margin.get(i)+calcWidth(g,s1)/2,top_margin.get(i)-f.getHeight()*3,top_margin.get(i));
             drawRoundFrameBorder(g,s2,left_margin.get(i),top_margin.get(i)+40+s1.split(",").length*f.getHeight());
+            drawDownArrow(g,left_margin.get(i)+calcWidth(g,s1)/2,top_margin.get(i)+s1.split(",").length*f.getHeight(),top_margin.get(i)+40+s1.split(",").length*f.getHeight());
         }
 
     }
@@ -158,7 +163,7 @@ public class BackwardGraphDraw extends JPanel{
         if(cPoint < wm.size() ){
             // WME(Working Memory Elements) と Unify してみる．
             for(int i = cPoint ; i < wm.size() ; i++){
-                if((new Unifier()).unify(thePattern,
+                if((new UnifierB()).unify(thePattern,
                 (String)wm.get(i),
                 theBinding)){
                     System.out.println("Success WM");
@@ -169,9 +174,9 @@ public class BackwardGraphDraw extends JPanel{
             }
         }
         if(cPoint < wm.size() + rules.size()){
-            // Ruleと Unify してみる．
+            // RuleBと Unify してみる．
             for(int i = cPoint ; i < rules.size() ; i++){
-                Rule aRule = rename((Rule)rules.get(i));
+                RuleB aRule = rename((RuleB)rules.get(i));
                 // 元のバインディングを取っておく．
                 HashMap<String,String> orgBinding = new HashMap<String,String>();
                 for(Iterator<String> itr = theBinding.keySet().iterator(); itr.hasNext();){
@@ -179,13 +184,16 @@ public class BackwardGraphDraw extends JPanel{
                     String value = theBinding.get(key);
                     orgBinding.put(key,value);
                 }
-                if((new Unifier()).unify(thePattern,
+                if((new UnifierB()).unify(thePattern,
                 (String)aRule.getConsequent(),
                 theBinding)){
                     System.out.println("Success RULE");
-                    System.out.println("Rule:"+aRule+" <=> "+thePattern);
+                    System.out.println("RuleB:"+aRule+" <=> "+thePattern);
                     if(count != 0){
-                        drawRoundFrameBorder(g,aRule.getConsequent().replace("[","").replace("]","").replace("?x"+(count+1),"?x"+count),left,top_margin.get(count-1)-f.getHeight()*5);
+                        drawRightAngleArrow(g,left-25,left,top_margin.get(count-1)-f.getHeight()*5-5);
+                        String s = aRule.getConsequent().replace("[","").replace("]","").replace("?x"+(count+1),"?x"+count);
+                        drawRoundFrameBorder(g,s,left,top_margin.get(count-1)-f.getHeight()*5);
+                        drawDownArrow(g,left+calcWidth(g,s)/2,top_margin.get(count-1)-f.getHeight()*4,f.getHeight()*4+top);
                     }
                     count++;
                     String s = "rule   " + "\"" + aRule.getName() + "\"" + "," + "if       " + aRule.getAntecedents().toString().replace("[", "\"").replace("]", "\"").replace(", ", "\",         \"")+ "," + "then  " + "\"" + aRule.getConsequent() + "\"";
@@ -223,8 +231,8 @@ public class BackwardGraphDraw extends JPanel{
     * @return  変数がリネームされたルールのコピーを返す．
     */
     int uniqueNum = 0;
-    private Rule rename(Rule theRule){
-        Rule newRule = theRule.getRenamedRule(uniqueNum);
+    private RuleB rename(RuleB theRule){
+        RuleB newRule = theRule.getRenamedRule(uniqueNum);
         uniqueNum = uniqueNum + 1;
         return newRule;
     }
@@ -289,11 +297,17 @@ public class BackwardGraphDraw extends JPanel{
         g.fillPolygon(arrowHead);
     }
 
-    private void drawRightAngleArrow(Graphics g,int x1,int y1,int x2,int y2){//「→」の描画
+    private void drawDownRightAngleArrow(Graphics g,int x1,int y1,int x2,int y2){//「↓→」の描画
         FontMetrics f = g.getFontMetrics();
         g.drawLine(x1,y1-10,x1,y2);
         g.drawLine(x1,y2,x2-10,y2);
         drawPolygon2(g,x2-13,y2);
+    }
+
+    private void drawRightAngleArrow(Graphics g,int x1,int x2,int y1){//「→」の描画
+        FontMetrics f = g.getFontMetrics();
+        g.drawLine(x1,y1,x2-10,y1);
+        drawPolygon2(g,x2-13,y1);
     }
 
     private int calcWidth(Graphics g,String s){
@@ -307,11 +321,11 @@ public class BackwardGraphDraw extends JPanel{
 }
 
 
-class FileManager {
+class FileManagerB {
     FileReader f;
     StreamTokenizer st;
-    public ArrayList<Rule> loadRules(String theFileName){
-        ArrayList<Rule> rules = new ArrayList<Rule>();
+    public ArrayList<RuleB> loadRules(String theFileName){
+        ArrayList<RuleB> rules = new ArrayList<RuleB>();
         String line;
         try{
             int token;
@@ -341,7 +355,7 @@ class FileManager {
                         }
                     }
                     rules.add(
-                    new Rule(name,antecedents,consequent));
+                    new RuleB(name,antecedents,consequent));
                     break;
                     default:
                     System.out.println(token);
@@ -382,18 +396,18 @@ class FileManager {
 /**
 * ルールを表すクラス．
 */
-class Rule implements Serializable{
+class RuleB implements Serializable{
     String name;
     ArrayList<String> antecedents;
     String consequent;
 
-    Rule(String theName,ArrayList<String> theAntecedents,String theConsequent){
+    RuleB(String theName,ArrayList<String> theAntecedents,String theConsequent){
         this.name = theName;
         this.antecedents = theAntecedents;
         this.consequent = theConsequent;
     }
 
-    public Rule getRenamedRule(int uniqueNum){
+    public RuleB getRenamedRule(int uniqueNum){
         ArrayList<String> vars = new ArrayList<String>();
         for(int i = 0 ; i < antecedents.size() ; i++){
             String antecedent = (String)this.antecedents.get(i);
@@ -412,7 +426,7 @@ class Rule implements Serializable{
         String newConsequent = renameVars(consequent,
         renamedVarsTable);
 
-        Rule newRule = new Rule(name,newAntecedents,newConsequent);
+        RuleB newRule = new RuleB(name,newAntecedents,newConsequent);
         return newRule;
     }
 
@@ -475,14 +489,14 @@ class Rule implements Serializable{
 }
 
 
-class Unifier {
+class UnifierB {
     StringTokenizer st1;
     String buffer1[];
     StringTokenizer st2;
     String buffer2[];
     HashMap<String,String> vars;
 
-    Unifier(){
+    UnifierB(){
         //vars = new HashMap();
     }
 

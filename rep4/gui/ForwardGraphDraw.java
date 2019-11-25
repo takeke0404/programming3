@@ -112,7 +112,7 @@ public class ForwardGraphDraw extends JPanel implements Scrollable {
     FileReader f;
     StreamTokenizer st;
     WorkingMemory wm;
-    ArrayList<Rule> rules;
+    ArrayList<RuleF> rules;
     String pastAssertion = "";
 
     int width;
@@ -140,7 +140,7 @@ public class ForwardGraphDraw extends JPanel implements Scrollable {
         // wm.addAssertion("my-laptop has Intel's CPU");
         // wm.addAssertion("my-laptop is taugh");
         target = "his-PC";
-        rules = new ArrayList<Rule>();
+        rules = new ArrayList<RuleF>();
         loadRules(fileName);
         nodes = new ArrayList<Node>();
         width = 30;
@@ -182,7 +182,7 @@ public class ForwardGraphDraw extends JPanel implements Scrollable {
         do {
             newAssertionCreated = false;
             for (int i = 0; i < rules.size(); i++) {
-                Rule aRule = (Rule) rules.get(i);
+                RuleF aRule = (RuleF) rules.get(i);
                 System.out.println("apply rule:" + aRule.getName());
 
                 ArrayList<String> antecedents = aRule.getAntecedents();
@@ -357,7 +357,7 @@ public class ForwardGraphDraw extends JPanel implements Scrollable {
                         // }
                     }
                     // ルールの生成
-                    rules.add(new Rule(name, antecedents, consequent));
+                    rules.add(new RuleF(name, antecedents, consequent));
                     break;
                 default:
                     System.out.println(token);
@@ -368,7 +368,7 @@ public class ForwardGraphDraw extends JPanel implements Scrollable {
             System.out.println(e);
         }
         for (int i = 0; i < rules.size(); i++) {
-            System.out.println(((Rule) rules.get(i)).toString());
+            System.out.println(((RuleF) rules.get(i)).toString());
         }
     }
 
@@ -378,7 +378,7 @@ public class ForwardGraphDraw extends JPanel implements Scrollable {
     public Dimension getPreferredSize() {
         return getPreferredScrollableViewportSize();
       }
-    
+
       public Dimension getPreferredScrollableViewportSize() {
         if (getParent() == null)
           return getSize();
@@ -415,12 +415,12 @@ public class ForwardGraphDraw extends JPanel implements Scrollable {
  *
  *
  */
-class Rule {
+class RuleF {
     String name;
     ArrayList<String> antecedents;
     String consequent;
 
-    Rule(String theName, ArrayList<String> theAntecedents, String theConsequent) {
+    RuleF(String theName, ArrayList<String> theAntecedents, String theConsequent) {
         this.name = theName;
         this.antecedents = theAntecedents;
         this.consequent = theConsequent;

@@ -7,7 +7,7 @@ import javax.swing.*;
 public class BackwardGraphDraw extends JPanel{
     String fileName;
     ArrayList<String> wm;
-    ArrayList<Rule> rules;
+    ArrayList<RuleB> rules;
     ArrayList<String> queries;
     int query_string_width = 0;
     int left = 5;
@@ -173,9 +173,9 @@ public class BackwardGraphDraw extends JPanel{
             }
         }
         if(cPoint < wm.size() + rules.size()){
-            // Ruleと Unify してみる．
+            // RuleBと Unify してみる．
             for(int i = cPoint ; i < rules.size() ; i++){
-                Rule aRule = rename((Rule)rules.get(i));
+                RuleB aRule = rename((RuleB)rules.get(i));
                 // 元のバインディングを取っておく．
                 HashMap<String,String> orgBinding = new HashMap<String,String>();
                 for(Iterator<String> itr = theBinding.keySet().iterator(); itr.hasNext();){
@@ -187,7 +187,7 @@ public class BackwardGraphDraw extends JPanel{
                 (String)aRule.getConsequent(),
                 theBinding)){
                     System.out.println("Success RULE");
-                    System.out.println("Rule:"+aRule+" <=> "+thePattern);
+                    System.out.println("RuleB:"+aRule+" <=> "+thePattern);
                     if(count != 0){
                         drawRightAngleArrow(g,left-25,left,top_margin.get(count-1)-f.getHeight()*5-5);
                         String s = aRule.getConsequent().replace("[","").replace("]","").replace("?x"+(count+1),"?x"+count);
@@ -230,8 +230,8 @@ public class BackwardGraphDraw extends JPanel{
     * @return  変数がリネームされたルールのコピーを返す．
     */
     int uniqueNum = 0;
-    private Rule rename(Rule theRule){
-        Rule newRule = theRule.getRenamedRule(uniqueNum);
+    private RuleB rename(RuleB theRule){
+        RuleB newRule = theRule.getRenamedRule(uniqueNum);
         uniqueNum = uniqueNum + 1;
         return newRule;
     }
@@ -323,8 +323,8 @@ public class BackwardGraphDraw extends JPanel{
 class FileManager {
     FileReader f;
     StreamTokenizer st;
-    public ArrayList<Rule> loadRules(String theFileName){
-        ArrayList<Rule> rules = new ArrayList<Rule>();
+    public ArrayList<RuleB> loadRules(String theFileName){
+        ArrayList<RuleB> rules = new ArrayList<RuleB>();
         String line;
         try{
             int token;
@@ -354,7 +354,7 @@ class FileManager {
                         }
                     }
                     rules.add(
-                    new Rule(name,antecedents,consequent));
+                    new RuleB(name,antecedents,consequent));
                     break;
                     default:
                     System.out.println(token);
@@ -395,18 +395,18 @@ class FileManager {
 /**
 * ルールを表すクラス．
 */
-class Rule implements Serializable{
+class RuleB implements Serializable{
     String name;
     ArrayList<String> antecedents;
     String consequent;
 
-    Rule(String theName,ArrayList<String> theAntecedents,String theConsequent){
+    RuleB(String theName,ArrayList<String> theAntecedents,String theConsequent){
         this.name = theName;
         this.antecedents = theAntecedents;
         this.consequent = theConsequent;
     }
 
-    public Rule getRenamedRule(int uniqueNum){
+    public RuleB getRenamedRule(int uniqueNum){
         ArrayList<String> vars = new ArrayList<String>();
         for(int i = 0 ; i < antecedents.size() ; i++){
             String antecedent = (String)this.antecedents.get(i);
@@ -425,7 +425,7 @@ class Rule implements Serializable{
         String newConsequent = renameVars(consequent,
         renamedVarsTable);
 
-        Rule newRule = new Rule(name,newAntecedents,newConsequent);
+        RuleB newRule = new RuleB(name,newAntecedents,newConsequent);
         return newRule;
     }
 
