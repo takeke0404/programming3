@@ -42,7 +42,9 @@ public class gui extends JFrame {
 	private JPanel contentPane;
 	private JTextField queryInputField;
 	private String databaseFilePath = "./../Original.data";
+	private String workingMemoryFilePath = "../OriginalWm.data";
 	private boolean searchFlag = false;
+	private boolean editWorkingMemoryFlag = false;
 
 	/**
 	 * Launch the application.
@@ -67,6 +69,7 @@ public class gui extends JFrame {
 		// データファイルからデータを読み込む。
 		String dataInString = "";
 		dataInString = readData(databaseFilePath);
+		String workingMemoryString = readData(workingMemoryFilePath);
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		pack();
@@ -86,6 +89,7 @@ public class gui extends JFrame {
 		JButton saveButton = new JButton("Save");
 		JButton BackwardChainButton = new JButton("Backward Chain");
 		JButton ForwardChainButton = new JButton("Forward Chain");
+		JButton EditWorkingMemoryButton = new JButton("Edit Working Memory");
 		JTextPane databaseText = new JTextPane();
 		JLabel scrollPaneLabel = new JLabel(
 				"Edit (add, delete, change) rules. Click the Save button to save your changes.");
@@ -94,21 +98,28 @@ public class gui extends JFrame {
 		queryInputField.setMinimumSize(new Dimension(500, 30));
 		queryInputField.setText("What is made in USA");
 		queryInputField.setColumns(10);
+
 		GroupLayout gl_queryPanel = new GroupLayout(queryPanel);
-		gl_queryPanel.setHorizontalGroup(gl_queryPanel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_queryPanel.createSequentialGroup().addGap(20)
-						.addComponent(queryLabel, GroupLayout.PREFERRED_SIZE, 47, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.UNRELATED)
-						.addComponent(queryInputField, GroupLayout.PREFERRED_SIZE, 615, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.RELATED).addComponent(searchButton).addGap(16)));
-		gl_queryPanel.setVerticalGroup(gl_queryPanel.createParallelGroup(Alignment.LEADING).addGroup(gl_queryPanel
-				.createSequentialGroup()
-				.addGroup(gl_queryPanel.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_queryPanel.createSequentialGroup().addGap(11).addComponent(queryLabel))
-						.addGroup(gl_queryPanel.createSequentialGroup().addGap(5).addComponent(searchButton))
-						.addGroup(gl_queryPanel.createSequentialGroup().addContainerGap().addComponent(queryInputField,
-								GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-				.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
+		gl_queryPanel.setHorizontalGroup(
+			gl_queryPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_queryPanel.createSequentialGroup()
+					.addGap(14)
+					.addComponent(queryLabel, GroupLayout.PREFERRED_SIZE, 47, GroupLayout.PREFERRED_SIZE)
+					.addGap(18)
+					.addComponent(queryInputField, GroupLayout.DEFAULT_SIZE, 698, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(searchButton))
+		);
+		gl_queryPanel.setVerticalGroup(
+			gl_queryPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_queryPanel.createSequentialGroup()
+					.addGap(9)
+					.addGroup(gl_queryPanel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(queryInputField, GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+						.addComponent(queryLabel)
+						.addComponent(searchButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+					.addContainerGap())
+		);
 		queryPanel.setLayout(gl_queryPanel);
 
 		contentPane.add(databasePanel, BorderLayout.CENTER);
@@ -140,6 +151,9 @@ public class gui extends JFrame {
 				} else {
 					try {
 						File file = new File(databaseFilePath);
+						if(editWorkingMemoryFlag){
+							file = new File(workingMemoryFilePath);
+						}
 						if (checkBeforeWritefile(file)) {
 							FileWriter filewriter = new FileWriter(file, false);
 							filewriter.write(databaseText.getText());
@@ -178,9 +192,7 @@ public class gui extends JFrame {
 		BackwardChainButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// 後ろ向き処理の表示
-				BackwardGraphDraw backwardGraph = new BackwardGraphDraw(queryInputField.getText());
 				scrollPaneLabel.setText("Switch to Forward Chain by click to Forward Chain button");
-				scrollPane.setViewportView(backwardGraph);
 
 			}
 		});
@@ -191,6 +203,25 @@ public class gui extends JFrame {
 				ForwardGraphDraw forwardGraph = new ForwardGraphDraw();
 				scrollPaneLabel.setText("Switch to Backward Chain by click to Backward Chain button");
 				scrollPane.setViewportView(forwardGraph);
+			}
+		});
+		
+		
+		EditWorkingMemoryButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				editWorkingMemoryFlag = !editWorkingMemoryFlag;
+				if(editWorkingMemoryFlag){
+					EditWorkingMemoryButton.setText("Edit Rule");
+					String str = readData(workingMemoryFilePath);
+					databaseText.setText(str);
+					scrollPane.setViewportView(databaseText);
+				}
+				else{
+					String str = readData(databaseFilePath);
+					databaseText.setText(str);
+					scrollPane.setViewportView(databaseText);
+					EditWorkingMemoryButton.setText("Edit Working Memory");
+				}
 			}
 		});
 
@@ -209,17 +240,19 @@ public class gui extends JFrame {
 							.addGroup(gl_databasePanel.createParallelGroup(Alignment.LEADING)
 								.addGroup(gl_databasePanel.createSequentialGroup()
 									.addComponent(scrollPaneLabel)
-									.addPreferredGap(ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
+									.addPreferredGap(ComponentPlacement.RELATED, 103, Short.MAX_VALUE)
 									.addComponent(ForwardChainButton)
 									.addPreferredGap(ComponentPlacement.RELATED)
 									.addComponent(BackwardChainButton))
-								.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 795, Short.MAX_VALUE))))
+								.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 862, Short.MAX_VALUE)))
+						.addComponent(EditWorkingMemoryButton))
 					.addContainerGap())
 		);
 		gl_databasePanel.setVerticalGroup(
 			gl_databasePanel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_databasePanel.createSequentialGroup()
-					.addContainerGap()
+					.addComponent(EditWorkingMemoryButton)
+					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_databasePanel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(scrollPaneLabel, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
 						.addComponent(BackwardChainButton)
