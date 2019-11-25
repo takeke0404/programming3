@@ -216,6 +216,8 @@ public class gui extends JFrame {
 		EditWorkingMemoryButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				editWorkingMemoryFlag = !editWorkingMemoryFlag;
+				searchFlag = false;
+				saveButton.setText("Save");
 				if(editWorkingMemoryFlag){
 					EditWorkingMemoryButton.setText("Edit Rule");
 					String str = readData(workingMemoryFilePath);
