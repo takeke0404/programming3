@@ -197,8 +197,14 @@ public class ForwardGraphDraw extends JPanel implements Scrollable {
                         // ワーキングメモリーになければ成功
 
                         if (!wm.contains(newAssertion)) {
-                            String s1 = antecedents.toString().replace("?x", target).replace("[", "").replace("]", "")
-                                    .replace(pastAssertion, ""); // pastAssertionがあれば削除。
+                            //String s1 = antecedents.toString().replace("?x", target).replace("[", "").replace("]", "")
+                            //        .replace(pastAssertion, ""); // pastAssertionがあれば削除。
+                            String s1 = "";
+                            for(String s : aRule.getAntecedents()){
+                                if(!s1.equals(""))
+                                    s1 += ",";
+                                s1 += instantiate(s,(HashMap)bindings.get(j));
+                            }
                             String s2 = "rule   "
                                     + "\"" + aRule.getName() + "\"" + "," + "if       " + antecedents.toString()
                                             .replace("[", "\"").replace("]", "\"").replace(", ", "\",         \"")
