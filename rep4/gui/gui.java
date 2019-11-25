@@ -36,6 +36,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.ScrollPaneConstants;
 
 public class gui extends JFrame {
 
@@ -125,9 +126,11 @@ public class gui extends JFrame {
 		contentPane.add(databasePanel, BorderLayout.CENTER);
 		databaseText.setText(dataInString);
 		JScrollPane scrollPane = new JScrollPane(databaseText);
+		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 
-		scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+		// scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		// scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 
 		SaveStatusLabel.setVisible(false);
 		BackwardChainButton.setVisible(false);
@@ -192,6 +195,9 @@ public class gui extends JFrame {
 		BackwardChainButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// 後ろ向き処理の表示
+				System.out.println("Debug] " + queryInputField.getText());
+				BackwardGraphDraw backwardGraph = new BackwardGraphDraw(queryInputField.getText());
+				scrollPane.setViewportView(backwardGraph);
 				scrollPaneLabel.setText("Switch to Forward Chain by click to Forward Chain button");
 
 			}
@@ -245,12 +251,15 @@ public class gui extends JFrame {
 									.addPreferredGap(ComponentPlacement.RELATED)
 									.addComponent(BackwardChainButton))
 								.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 862, Short.MAX_VALUE)))
-						.addComponent(EditWorkingMemoryButton))
+						.addGroup(gl_databasePanel.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(EditWorkingMemoryButton)))
 					.addContainerGap())
 		);
 		gl_databasePanel.setVerticalGroup(
 			gl_databasePanel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_databasePanel.createSequentialGroup()
+					.addContainerGap()
 					.addComponent(EditWorkingMemoryButton)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_databasePanel.createParallelGroup(Alignment.BASELINE)
@@ -258,10 +267,10 @@ public class gui extends JFrame {
 						.addComponent(BackwardChainButton)
 						.addComponent(ForwardChainButton))
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 441, Short.MAX_VALUE)
+					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 440, Short.MAX_VALUE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_databasePanel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(saveButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addGroup(gl_databasePanel.createParallelGroup(Alignment.BASELINE, false)
+						.addComponent(saveButton)
 						.addComponent(SaveStatusLabel))
 					.addGap(8))
 		);
