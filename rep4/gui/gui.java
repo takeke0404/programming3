@@ -69,7 +69,8 @@ public class gui extends JFrame {
 		dataInString = readData(databaseFilePath);
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
+		pack();
+		setBounds(100, 100, 800, 800);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -113,6 +114,10 @@ public class gui extends JFrame {
 		contentPane.add(databasePanel, BorderLayout.CENTER);
 		databaseText.setText(dataInString);
 		JScrollPane scrollPane = new JScrollPane(databaseText);
+
+		scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+
 		SaveStatusLabel.setVisible(false);
 		BackwardChainButton.setVisible(false);
 		ForwardChainButton.setVisible(false);
@@ -173,7 +178,9 @@ public class gui extends JFrame {
 		BackwardChainButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// 後ろ向き処理の表示
+				BackwardGraphDraw backwardGraph = new BackwardGraphDraw(queryInputField.getText());
 				scrollPaneLabel.setText("Switch to Forward Chain by click to Forward Chain button");
+				scrollPane.setViewportView(backwardGraph);
 
 			}
 		});
@@ -188,32 +195,43 @@ public class gui extends JFrame {
 		});
 
 		GroupLayout gl_databasePanel = new GroupLayout(databasePanel);
-		gl_databasePanel.setHorizontalGroup(gl_databasePanel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_databasePanel.createSequentialGroup().addGroup(gl_databasePanel
-						.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_databasePanel.createSequentialGroup().addContainerGap().addComponent(saveButton)
-								.addPreferredGap(ComponentPlacement.RELATED).addComponent(SaveStatusLabel))
-						.addGroup(gl_databasePanel.createSequentialGroup().addGap(6).addGroup(gl_databasePanel
-								.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_databasePanel.createSequentialGroup().addComponent(scrollPaneLabel)
-										.addPreferredGap(ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
-										.addComponent(ForwardChainButton).addPreferredGap(ComponentPlacement.RELATED)
-										.addComponent(BackwardChainButton))
-								.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 778, Short.MAX_VALUE))))
-						.addContainerGap()));
-		gl_databasePanel
-				.setVerticalGroup(gl_databasePanel.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_databasePanel.createSequentialGroup().addContainerGap()
-								.addGroup(gl_databasePanel.createParallelGroup(Alignment.BASELINE)
-										.addComponent(scrollPaneLabel, GroupLayout.PREFERRED_SIZE, 29,
-												GroupLayout.PREFERRED_SIZE)
-										.addComponent(BackwardChainButton).addComponent(ForwardChainButton))
-								.addPreferredGap(ComponentPlacement.RELATED)
-								.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 443, GroupLayout.PREFERRED_SIZE)
-								.addPreferredGap(ComponentPlacement.RELATED)
-								.addGroup(gl_databasePanel.createParallelGroup(Alignment.BASELINE)
-										.addComponent(saveButton).addComponent(SaveStatusLabel))
-								.addContainerGap(8, Short.MAX_VALUE)));
+		gl_databasePanel.setHorizontalGroup(
+			gl_databasePanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_databasePanel.createSequentialGroup()
+					.addGroup(gl_databasePanel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_databasePanel.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(saveButton)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(SaveStatusLabel))
+						.addGroup(gl_databasePanel.createSequentialGroup()
+							.addGap(6)
+							.addGroup(gl_databasePanel.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_databasePanel.createSequentialGroup()
+									.addComponent(scrollPaneLabel)
+									.addPreferredGap(ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
+									.addComponent(ForwardChainButton)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(BackwardChainButton))
+								.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 795, Short.MAX_VALUE))))
+					.addContainerGap())
+		);
+		gl_databasePanel.setVerticalGroup(
+			gl_databasePanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_databasePanel.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_databasePanel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(scrollPaneLabel, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
+						.addComponent(BackwardChainButton)
+						.addComponent(ForwardChainButton))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 441, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_databasePanel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(saveButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(SaveStatusLabel))
+					.addGap(8))
+		);
 		databasePanel.setLayout(gl_databasePanel);
 	}
 
