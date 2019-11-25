@@ -85,7 +85,6 @@ public class BackwardGraphDraw extends JPanel{
                     if(0<var.compareTo(m.group()) || var.equals(""))var=m.group();
                 }
             }
-            System.out.println(var);
             finish_var.add(var);
             for(int k=0;k<wm_match_rules.size();k++){
                 if(wm_match_rules.get(k).contains(var)){
