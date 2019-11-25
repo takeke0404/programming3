@@ -218,6 +218,10 @@ public class gui extends JFrame {
 				editWorkingMemoryFlag = !editWorkingMemoryFlag;
 				searchFlag = false;
 				saveButton.setText("Save");
+				scrollPaneLabel
+				.setText("Edit (add, delete, change) rules. Click the Save button to save your changes.");
+				BackwardChainButton.setVisible(false);
+				ForwardChainButton.setVisible(false);
 				if(editWorkingMemoryFlag){
 					EditWorkingMemoryButton.setText("Edit Rule");
 					String str = readData(workingMemoryFilePath);
