@@ -178,6 +178,7 @@ public class ForwardGraphDraw extends JPanel{
         int width_between_blockes = 20;
         int default_top_margin = 20;
         Graphics2D g2 = (Graphics2D) g;
+        String previous_consequent = "";
         // 新しいアサーションが生成されなくなるまで続ける．
         do {
             newAssertionCreated = false;
@@ -229,7 +230,7 @@ public class ForwardGraphDraw extends JPanel{
                             drawDownArrow(g, left_margin + max_string_width / 2, arrow_top, arrow_bottom);
                             stroke = new BasicStroke(1.0f);
                             g2.setStroke(stroke);
-                            if (previous_top_margin != 0) {
+                            if (previous_top_margin != 0 && s2.contains(previous_consequent)) {
                                 drawRightAngleArrow(g,
                                         left_margin - width_between_blockes - previous_max_string_width / 2,
                                         previous_top_margin, left_margin + (max_string_width - w) / 2,
@@ -245,6 +246,7 @@ public class ForwardGraphDraw extends JPanel{
                             newAssertionCreated = true;
                             pastAssertion = newAssertion; // pastAssertionはnewAssertionを保持。
                             pastAssertion += ", ";
+                            previous_consequent = consequent;
                         }
                     }
                 }

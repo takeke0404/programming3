@@ -3,6 +3,7 @@ import java.io.*;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import java.util.regex.*;
 
 public class BackwardGraphDraw extends JPanel{
     String fileName;
@@ -71,11 +72,22 @@ public class BackwardGraphDraw extends JPanel{
             System.out.println("No");
         }
 
+        String regex = "¥?x[0-9]+";
+        Pattern p = Pattern.compile(regex);
+        ArrayList<String> finish_var = new ArrayList<>();
         for(int i=0;i<top_margin.size();i++){
             String s1 = "";
             String s2 = "";
+            String var = "";
             for(int k=0;k<wm_match_rules.size();k++){
-                if(wm_match_rules.get(k).contains("?x"+(i+1))){
+                java.util.regex.Matcher m = p.matcher(wm_match_rules.get(k));
+                if(m.find() && !finish_var.contains(m.group())){
+                    var=m.group();
+                }
+            }
+            finish_var.add(var);
+            for(int k=0;k<wm_match_rules.size();k++){
+                if(wm_match_rules.get(k).contains(var)){
                     if(!s1.equals(""))s1+=",";
                     s1+=wm_match_rules.get(k);
                     for(int l=0;l<wm_result.size();l++){
@@ -87,7 +99,6 @@ public class BackwardGraphDraw extends JPanel{
                     }
                 }
             }
-            if(s1.equals("")&&s2.equals(""))break;
             drawRoundFrameBorder(g,s1,left_margin.get(i),top_margin.get(i));
             drawDownArrow(g,left_margin.get(i)+calcWidth(g,s1)/2,top_margin.get(i)-f.getHeight()*3,top_margin.get(i));
             drawRoundFrameBorder(g,s2,left_margin.get(i),top_margin.get(i)+40+s1.split(",").length*f.getHeight());

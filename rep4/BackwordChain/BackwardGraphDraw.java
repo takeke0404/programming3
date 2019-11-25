@@ -3,6 +3,7 @@ import java.io.*;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import java.util.regex.*;
 
 public class BackwardGraphDraw extends JPanel{
     String fileName;
@@ -71,11 +72,22 @@ public class BackwardGraphDraw extends JPanel{
             System.out.println("No");
         }
 
+        String regex = "¥?x[0-9]+";
+        Pattern p = Pattern.compile(regex);
+        ArrayList<String> finish_var = new ArrayList<>();
         for(int i=0;i<top_margin.size();i++){
             String s1 = "";
             String s2 = "";
+            String var = "";
             for(int k=0;k<wm_match_rules.size();k++){
-                if(wm_match_rules.get(k).contains("?x"+(i+1))){
+                Matcher m = p.matcher(wm_match_rules.get(k));
+                if(m.find() && !finish_var.contains(m.group())){
+                    var=m.group();
+                }
+            }
+            finish_var.add(var);
+            for(int k=0;k<wm_match_rules.size();k++){
+                if(wm_match_rules.get(k).contains(var)){
                     if(!s1.equals(""))s1+=",";
                     s1+=wm_match_rules.get(k);
                     for(int l=0;l<wm_result.size();l++){
