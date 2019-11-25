@@ -1,85 +1,67 @@
-import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.EventQueue;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import javax.swing.BorderFactory;
+import java.awt.FlowLayout;
+import java.awt.Rectangle;
+//from w  w w .  jav a  2s  .c  o  m
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.Scrollable;
 
 public class Test {
-
-    public static void main(String[] args) {
-        new Test();
+  public static void main(String args[]) {
+    JPanel container = new ScrollablePanel();
+    container.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
+    for (int i = 0; i < 20; ++i) {
+      JPanel p = new JPanel();
+      p.setPreferredSize(new Dimension(50, 50));
+      p.add(new JLabel("" + i));
+      container.add(p);
     }
 
-    public Test() {
-        EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-                } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
-                    ex.printStackTrace();
-                }
+    JScrollPane scroll = new JScrollPane(container);
+    scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+    scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 
-                JFrame frame = new JFrame("Testing");
-                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                frame.add(new TextPanel());
-                frame.pack();
-                frame.setLocationRelativeTo(null);
-                frame.setVisible(true);
-            }
-        });
-    }
+    JFrame f = new JFrame();
+    f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    f.getContentPane().add(scroll);
+    f.pack();
+    f.setSize(250, 300);
+    f.setVisible(true);
+  }
+}
+class ScrollablePanel extends JPanel implements Scrollable {
+  public Dimension getPreferredSize() {
+    return getPreferredScrollableViewportSize();
+  }
 
-    public class TextPanel extends JPanel {
-
-        private InputPane input;
-        private JScrollPane scrollPane;
-
-        public TextPanel() {
-
-            setLayout(new GridBagLayout());
-
-            input = new InputPane();
-            scrollPane = new JScrollPane(input);
-
-            GridBagConstraints gc = new GridBagConstraints();
-
-            gc.gridx = 0;
-            gc.gridy = 0;
-            gc.weightx = 0.25;
-
-            add(scrollPane, gc);
-
-        }
-    }
-
-    public class InputPane extends JPanel {
-
-        private JTextArea inputText;
-        private JTextArea lineNumber;
-
-        public InputPane() {
-
-            setLayout(new BorderLayout());
-
-            setBorder(BorderFactory.createTitledBorder("Original File"));
-
-            inputText = new JTextArea(10, 20);
-            lineNumber = new JTextArea(10, 4);
-
-            lineNumber.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 2, Color.gray));
-
-            add(inputText);
-            add(lineNumber, BorderLayout.WEST);
-
-        }
-    }
+  public Dimension getPreferredScrollableViewportSize() {
+    if (getParent() == null)
+      return getSize();
+    Dimension d = getParent().getSize();
+    int c = (int) Math
+        .floor((d.width - getInsets().left - getInsets().right) / 50.0);
+    if (c == 0)
+      return d;
+    int r = 20 / c;
+    if (r * c < 20)
+      ++r;
+    return new Dimension(c * 50, r * 50);
+  }
+  public int getScrollableBlockIncrement(Rectangle visibleRect,
+      int orientation, int direction) {
+    return 50;
+  }
+  public int getScrollableUnitIncrement(Rectangle visibleRect, int orientation,
+      int direction) {
+    return 10;
+  }
+  public boolean getScrollableTracksViewportHeight() {
+    return false;
+  }
+  public boolean getScrollableTracksViewportWidth() {
+    return getParent() != null ? getParent().getSize().width > getPreferredSize().width
+        : true;
+  }
 }
