@@ -82,9 +82,10 @@ public class BackwardGraphDraw extends JPanel{
             for(int k=0;k<wm_match_rules.size();k++){
                 java.util.regex.Matcher m = p.matcher(wm_match_rules.get(k));
                 if(m.find() && !finish_var.contains(m.group())){
-                    var=m.group();
+                    if(0<var.compareTo(m.group()) || var.equals(""))var=m.group();
                 }
             }
+            System.out.println(var);
             finish_var.add(var);
             for(int k=0;k<wm_match_rules.size();k++){
                 if(wm_match_rules.get(k).contains(var)){
