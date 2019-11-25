@@ -217,7 +217,9 @@ public class ForwardGraphDraw extends JPanel{
                             drawRoundFrameBorder(g2, s1, left_margin + (max_string_width - w) / 2, top_margin);
                             top_margin += s1.split(",").length * f.getHeight() + height_between_blocks;
                             int arrow_top = top_margin - height_between_blocks;
-                            top_margin = Math.max(top_margin, previous_top_margin + 5);
+                            if(s2.contains(previous_consequent)){
+                                top_margin = Math.max(top_margin, previous_top_margin + 5);
+                            }
                             int arrow_bottom = top_margin;
                             drawDownArrow(g, left_margin + max_string_width / 2, arrow_top, arrow_bottom);
                             w = calcWidth(g, s2);
