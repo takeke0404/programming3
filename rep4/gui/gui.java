@@ -97,7 +97,7 @@ public class gui extends JFrame {
 
 		queryInputField = new JTextField();
 		queryInputField.setMinimumSize(new Dimension(500, 30));
-		queryInputField.setText("What is made in USA");
+		queryInputField.setText("What is Letsnote");
 		queryInputField.setColumns(10);
 
 		GroupLayout gl_queryPanel = new GroupLayout(queryPanel);
