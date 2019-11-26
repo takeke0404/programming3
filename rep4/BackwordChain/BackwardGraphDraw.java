@@ -19,7 +19,7 @@ public class BackwardGraphDraw extends JPanel{
     ArrayList<String> wm_result = new ArrayList<>();
 
     BackwardGraphDraw(String s){
-        FileManager fm = new FileManager();
+        FileManagerB fm = new FileManagerB();
         rules = fm.loadRules("../Original.data");
         wm    = fm.loadWm("../OriginalWm.data");
         StringTokenizer st = new StringTokenizer(s,",");
@@ -80,9 +80,9 @@ public class BackwardGraphDraw extends JPanel{
             String s2 = "";
             String var = "";
             for(int k=0;k<wm_match_rules.size();k++){
-                Matcher m = p.matcher(wm_match_rules.get(k));
+                java.util.regex.Matcher m = p.matcher(wm_match_rules.get(k));
                 if(m.find() && !finish_var.contains(m.group())){
-                    var=m.group();
+                    if(0<var.compareTo(m.group()) || var.equals(""))var=m.group();
                 }
             }
             finish_var.add(var);
@@ -174,7 +174,7 @@ public class BackwardGraphDraw extends JPanel{
         if(cPoint < wm.size() ){
             // WME(Working Memory Elements) と Unify してみる．
             for(int i = cPoint ; i < wm.size() ; i++){
-                if((new Unifier()).unify(thePattern,
+                if((new UnifierB()).unify(thePattern,
                 (String)wm.get(i),
                 theBinding)){
                     System.out.println("Success WM");
@@ -195,7 +195,7 @@ public class BackwardGraphDraw extends JPanel{
                     String value = theBinding.get(key);
                     orgBinding.put(key,value);
                 }
-                if((new Unifier()).unify(thePattern,
+                if((new UnifierB()).unify(thePattern,
                 (String)aRule.getConsequent(),
                 theBinding)){
                     System.out.println("Success RULE");
@@ -332,7 +332,7 @@ public class BackwardGraphDraw extends JPanel{
 }
 
 
-class FileManager {
+class FileManagerB {
     FileReader f;
     StreamTokenizer st;
     public ArrayList<RuleB> loadRules(String theFileName){
@@ -500,14 +500,14 @@ class RuleB implements Serializable{
 }
 
 
-class Unifier {
+class UnifierB {
     StringTokenizer st1;
     String buffer1[];
     StringTokenizer st2;
     String buffer2[];
     HashMap<String,String> vars;
 
-    Unifier(){
+    UnifierB(){
         //vars = new HashMap();
     }
 
