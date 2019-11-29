@@ -162,9 +162,9 @@ public class Planner {
 		}
 		return -1;
 	}
-    
+	
+	int uniqueNum = 0;    
 	private Operator rename(Operator theOperator){
-		int uniqueNum = 0;
 		Operator newOperator = theOperator.getRenamedOperator(uniqueNum);
 		uniqueNum = uniqueNum + 1;
 		return newOperator;
