@@ -7,6 +7,11 @@ public class Planner {
 	//変更点12/1
 	int pre_op_idx = -1; //前回選択したオペレーションのインデックス
 
+	//変更点12/1
+ 	//図形名と属性についての情報を格納(キー:属性[ex:blue,yellow],値:図形名[ex:A,B])
+	HashMap<String, String> attribute = initAttribute();
+	Unifier uf = new Unifier(attribute);
+
 	public static void main(String argv[]){
 		(new Planner()).start();
 	}
@@ -104,7 +109,7 @@ public class Planner {
 		int size = theCurrentState.size();
 		for(int i =  0; i < size ; i++){
 			String aState = (String)theCurrentState.elementAt(i);
-			if((new Unifier()).unify(theGoal,aState,theBinding)){
+			if(uf.unify(theGoal,aState,theBinding)){
 				return 0;
 			}
 		}
@@ -148,7 +153,7 @@ public class Planner {
 
 			Vector addList = (Vector)anOperator.getAddList();
 			for(int j = 0 ; j < addList.size() ; j++){
-				if((new Unifier()).unify(theGoal,(String)addList.elementAt(j),theBinding)){
+				if(uf.unify(theGoal,(String)addList.elementAt(j),theBinding)){
 					Operator newOperator = anOperator.instantiate(theBinding);
 					Vector newGoals = (Vector)newOperator.getIfList();
 					System.out.println(newOperator.name);
@@ -187,22 +192,43 @@ public class Planner {
 		return newOperator;
 	}
 
+	//変更点12/1
+	//ブロック属性の定義
+	private HashMap<String, String> initAttribute(){
+		HashMap<String, String> attribute = new HashMap<String, String>();
+		attribute.put("A","A"); attribute.put("blue","A"); attribute.put("triangle","A");
+		attribute.put("B","B"); attribute.put("yellow","B"); attribute.put("rectangle","B");
+		attribute.put("C","C"); attribute.put("green","C"); attribute.put("trapezoid","C");
+		return attribute;
+	}
+
+	//変更点12/1(新たな定義を追加)
 	private Vector initGoalList(){
 		Vector goalList = new Vector();
 		goalList.addElement("B on C");
 		goalList.addElement("A on B");
+		//goalList.addElement("B on trapezoid");
+  		//goalList.addElement("blue on yellow");
 		return goalList;
 	}
     
+	//変更点12/1(新たな定義を追加)
 	private Vector initInitialState(){
 		Vector initialState = new Vector();
 		initialState.addElement("clear A");
 		initialState.addElement("clear B");
 		initialState.addElement("clear C");
+		//initialState.addElement("clear blue");
+  		//initialState.addElement("clear yellow");
+  		//initialState.addElement("clear C");
 
 		initialState.addElement("ontable A");
 		initialState.addElement("ontable B");
 		initialState.addElement("ontable C");
+		//initialState.addElement("ontable triangle");
+  		//initialState.addElement("ontable B");
+  		//initialState.addElement("ontable green");
+		  
 		initialState.addElement("handEmpty");
 		return initialState;
 	}
@@ -465,8 +491,13 @@ class Unifier {
     StringTokenizer st2;
     String buffer2[];
     Hashtable vars;
-    
-    Unifier(){
+    //変更点12/1
+	//属性情報を追加
+	HashMap<String, String> attribute;
+
+	//変更点12/1(attributeを追加)
+    Unifier(HashMap<String, String> attribute){
+		this.attribute = attribute;
 		//vars = new Hashtable();
     }
 
@@ -478,7 +509,9 @@ class Unifier {
 			orgBindings.put(key,value);
 		}
 		this.vars = theBindings;
-		if(unify(string1,string2)){
+		//変更点12/1
+		//マッチングを行う対象が属性値かどうかを調べたうえでマッチングを行う
+		if(unify(chAt(string1),chAt(string2))){
 			return true;
 		} else {
 			// 失敗したら元に戻す．
@@ -494,7 +527,9 @@ class Unifier {
 
     public boolean unify(String string1,String string2){
 		// 同じなら成功
-		if(string1.equals(string2)) return true;
+		//変更点12/1
+		//マッチングを行う対象が属性値かどうかを調べたうえでマッチングを行う
+		if(chAt(string1).equals(chAt(string2))) return true;
 		
 		// 各々トークンに分ける
 		st1 = new StringTokenizer(string1);
@@ -530,17 +565,20 @@ class Unifier {
 		return true;
     }
 
+	//変更点12/1(chAtを適当な箇所に適用)
     boolean tokenMatching(String token1,String token2){
-		if(token1.equals(token2)) return true;
+		if(chAt(token1).equals(chAt(token2))) return true;
 		if( var(token1) && !var(token2)) return varMatching(token1,token2);
 		if(!var(token1) &&  var(token2)) return varMatching(token2,token1);
 		if( var(token1) &&  var(token2)) return varMatching(token1,token2);
 		return false;
     }
+	//-----ここまで変更12/1
 
+	//変更点12/1(chAtを適当な箇所に適用)
     boolean varMatching(String vartoken,String token){
 		if(vars.containsKey(vartoken)){
-			if(token.equals(vars.get(vartoken))){
+			if(chAt(token).equals(chAt((String)vars.get(vartoken)))){ //----ここを変更12/1
 				return true;
 			} else {
 				return false;
@@ -554,6 +592,17 @@ class Unifier {
 		}
 		return true;
     }
+
+	//変更点12/1
+	//ある文字列が属性を表すか調べ、もし属性ならば図形名に変換して返却し、それ以外であればそのまま返却するメソッドcheckAttributeを追加
+	String chAt(String st){
+		if(attribute.containsKey(st)){
+			return attribute.get(st);
+		}else{
+			return st;
+		}
+	}
+
 
     void replaceBuffer(String preString,String postString){
 		for(int i = 0 ; i < buffer1.length ; i++){
