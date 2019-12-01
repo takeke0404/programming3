@@ -4,6 +4,8 @@ public class Planner {
 	Vector operators;
 	Random rand;
 	Vector plan;
+	//変更点12/1
+	int pre_op_idx = -1; //前回選択したオペレーションのインデックス
 
 	public static void main(String argv[]){
 		(new Planner()).start();
@@ -106,13 +108,28 @@ public class Planner {
 				return 0;
 			}
 		}
-		int randInt = Math.abs(rand.nextInt()) % operators.size();
-		Operator op = (Operator)operators.elementAt(randInt);
-		operators.removeElementAt(randInt);
-		operators.addElement(op);
+		//変更点12/1
+		if(pre_op_idx > -1){
+			int randInt = Math.abs(rand.nextInt()) % (operators.size()-2);
+			Operator op1 = (Operator)operators.elementAt(operators.size()-1); //末尾のオペレータ(前々回選択されたオペレータ)
+			operators.removeElementAt(operators.size()-1);
+			Operator op2 = (Operator)operators.elementAt(pre_op_idx);
+			operators.removeElementAt(pre_op_idx);
+			Operator oprand = (Operator)operators.elementAt(randInt);
+			operators.removeElementAt(randInt);
+			operators.addElement(oprand);
+			operators.addElement(op1); //前々回選択されたオペレータは後ろから2番目に追加
+			operators.addElement(op2); //前回選択されたものは末尾に
+		}
+		//int randInt = Math.abs(rand.nextInt()) % operators.size();
+		//Operator op = (Operator)operators.elementAt(randInt);
+		//operators.removeElementAt(randInt);
+		//operators.addElement(op);
 
 		for(int i = cPoint ; i < operators.size() ; i++){
 			Operator anOperator = rename((Operator)operators.elementAt(i));
+			//変更点12/1
+			pre_op_idx = i; //現在のオペレータのインデックスを保存
 			// 現在のCurrent state, Binding, planをbackup
 			Hashtable orgBinding = new Hashtable();
 			for(Enumeration e = theBinding.keys() ; e.hasMoreElements();){
