@@ -48,14 +48,17 @@ class GraphDraw extends JPanel {
         FontMetrics fontMetric = g.getFontMetrics();
 
         for (State state : states) {
+            int table_line_x1 = state.x - 10;
+            int table_line_x2 = state.x;
             int previous_block_x = 0;
             for (Zone zone : state.zones) {
                 if (previous_block_x == 0)
                     block_x = state.x;
                 else
                     block_x = previous_block_x;
-                System.out.println("blockx: " + block_x);
+                // System.out.println("blockx: " + block_x);
                 previous_block_x = block_x + block_width + 10;
+                table_line_x2 += block_width;
                 // draw all block in zone
                 int previous_block_y = 0;
                 for (String block : zone.info) {
@@ -66,6 +69,8 @@ class GraphDraw extends JPanel {
                     else
                         block_y = previous_block_y;
                     previous_block_y = block_y - block_height - 1;
+                    
+                    // それぞれのブロックの色を決める
                     if (block == "A")
                         g.setColor(Color.BLUE);
                     else if (block == "B")
@@ -82,7 +87,11 @@ class GraphDraw extends JPanel {
                             block_y + fontMetric.getHeight() / 2 + 12);
                 }
             }
-            // draw bounding box around state
+            // draw table line
+            table_line_x2 += block_width;
+            int table_line_y = state.y + block_height + 1;
+            g.setColor(Color.black);
+            g.drawLine(table_line_x1, table_line_y, table_line_x2, table_line_y);
         }
     }
 
@@ -106,24 +115,24 @@ public class previewGraphDraw {
         // 状態を描画するとき、GraphDrawのインスタンスを生成する
         GraphDraw graph = new GraphDraw();
 
-        //　状態の情報を生成する
-        String[] z1infos = { "A", "E", "F", "G" };
+        // 状態の情報を生成する
+        String[] z1infos = { "A", "E", "F" };
         String[] z2infos = { "B", "D" };
         String[] z3infos = { "C" };
 
-        //一つのZoneは一つの山に相当する
+        // 一つのZoneは一つの山に相当する
         Zone z1 = new Zone(z1infos); // z1infosは山１のブロック情報
         Zone z2 = new Zone(z2infos);
         Zone z3 = new Zone(z3infos);
 
-        //　一つの状態を定義し、グラフに入れる
+        // 一つの状態を定義し、グラフに入れる
         ArrayList<Zone> state = new ArrayList<Zone>();
-        state.add(z1);          //状態stateに山z１を入れる
+        state.add(z1); // 状態stateに山z１を入れる
         state.add(z2);
         state.add(z3);
         int state1_x = 100;
         int state1_y = 100;
-        graph.addState(state, state1_x, state1_y);        // 状態をグラフに入れる
+        graph.addState(state, state1_x, state1_y); // 状態をグラフに入れる
 
         JScrollPane scroll = new JScrollPane(graph);
 
