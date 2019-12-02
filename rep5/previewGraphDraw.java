@@ -103,21 +103,27 @@ public class previewGraphDraw {
     private void createAndShowGui() {
         frame = new JFrame(getClass().getSimpleName());
 
+        // 状態を描画するとき、GraphDrawのインスタンスを生成する
         GraphDraw graph = new GraphDraw();
 
+        //　状態の情報を生成する
         String[] z1infos = { "A", "E", "F", "G" };
         String[] z2infos = { "B", "D" };
         String[] z3infos = { "C" };
-        Zone z1 = new Zone(z1infos);
+
+        //一つのZoneは一つの山に相当する
+        Zone z1 = new Zone(z1infos); // z1infosは山１のブロック情報
         Zone z2 = new Zone(z2infos);
         Zone z3 = new Zone(z3infos);
 
         //　一つの状態を定義し、グラフに入れる
         ArrayList<Zone> state = new ArrayList<Zone>();
-        state.add(z1);
+        state.add(z1);          //状態stateに山z１を入れる
         state.add(z2);
         state.add(z3);
-        graph.addState(state, 100, 100);        // 状態をグラフに入れる
+        int state1_x = 100;
+        int state1_y = 100;
+        graph.addState(state, state1_x, state1_y);        // 状態をグラフに入れる
 
         JScrollPane scroll = new JScrollPane(graph);
 
