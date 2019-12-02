@@ -28,8 +28,8 @@ public class Planner {
 		Hashtable theBinding = new Hashtable();
 		plan = new Vector();
 		planning(goalList,initialState,theBinding);
-
-		System.out.println("***** This is a plan! *****");
+		
+		System.out.println("***** This is a plan! *****"+"\n"+"initialState:"+initInitialState());
 		for(int i = 0 ; i < plan.size() ; i++){
 			Operator op = (Operator)plan.elementAt(i);	    
 			System.out.println((op.instantiate(theBinding)).name);
