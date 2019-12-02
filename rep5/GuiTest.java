@@ -22,7 +22,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
- 
+
+import java.awt.Graphics;
 
 public class GuiTest extends JFrame {
 
@@ -54,10 +55,19 @@ public class GuiTest extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
-		
+
 		JPanel panel = new JPanel();
 		JScrollPane ScrollPane_1 = new JScrollPane();
 		contentPane.add(panel, BorderLayout.NORTH);
 		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 	}
+
+    public void paint(Graphics g){
+        super.paint(g);
+        printBlocks(g,"A,B,C");
+    }
+
+    void printBlocks(Graphics g,String state){
+        g.drawString("Hello.", 10, 30);
+    }
 }
