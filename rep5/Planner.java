@@ -28,10 +28,10 @@ public class Planner {
 		Hashtable theBinding = new Hashtable();
 		plan = new Vector();
 		planning(goalList,initialState,theBinding);
-		
+
 		System.out.println("***** This is a plan! *****"+"\n"+"initialState:"+initInitialState());
 		for(int i = 0 ; i < plan.size() ; i++){
-			Operator op = (Operator)plan.elementAt(i);	    
+			Operator op = (Operator)plan.elementAt(i);
 			System.out.println((op.instantiate(theBinding)).name);
 		}
 	}
@@ -74,7 +74,7 @@ public class Planner {
 						cPoint = tmpPoint;
 						//System.out.println("Fail::"+cPoint);
 						theGoalList.insertElementAt(aGoal,0);
-						
+
 						theBinding.clear();
 						for(Enumeration e=orgBinding.keys();e.hasMoreElements();){
 							String key = (String)e.nextElement();
@@ -179,13 +179,13 @@ public class Planner {
 							plan.addElement(orgPlan.elementAt(k));
 						}
 					}
-				}		
+				}
 			}
 		}
 		return -1;
 	}
-	
-	int uniqueNum = 0;    
+
+	int uniqueNum = 0;
 	private Operator rename(Operator theOperator){
 		Operator newOperator = theOperator.getRenamedOperator(uniqueNum);
 		uniqueNum = uniqueNum + 1;
@@ -211,7 +211,7 @@ public class Planner {
   		//goalList.addElement("blue on yellow");
 		return goalList;
 	}
-    
+
 	//変更点12/1(新たな定義を追加)
 	private Vector initInitialState(){
 		Vector initialState = new Vector();
@@ -228,11 +228,11 @@ public class Planner {
 		//initialState.addElement("ontable triangle");
   		//initialState.addElement("ontable B");
   		//initialState.addElement("ontable green");
-		  
+
 		initialState.addElement("handEmpty");
 		return initialState;
 	}
-    
+
 	private void initOperators(){
 		operators = new Vector();
 
@@ -356,7 +356,7 @@ class Operator{
 		}
 		return theState;
     }
-    
+
 
     public Operator getRenamedOperator(int uniqueNum){
 		Vector vars = new Vector();
@@ -376,7 +376,7 @@ class Operator{
 			vars = getVars(aDelete,vars);
 		}
 		Hashtable renamedVarsTable = makeRenamedVarsTable(vars,uniqueNum);
-		
+
 		// 新しいIfListを作る
 		Vector newIfList = new Vector();
 		for(int i = 0 ; i < ifList.size() ; i++){
@@ -397,7 +397,7 @@ class Operator{
 		}
 		// 新しいnameを作る
 		String newName = renameVars(name,renamedVarsTable);
-		
+
 		return new Operator(newName,newIfList,newAddList,newDeleteList);
     }
 
@@ -420,7 +420,7 @@ class Operator{
 		}
 		return result;
     }
-    
+
     private String renameVars(String thePattern,Hashtable renamedVarsTable){
 		String result = new String();
 		StringTokenizer st = new StringTokenizer(thePattern);
@@ -435,7 +435,7 @@ class Operator{
 		return result.trim();
     }
 
-    
+
     public Operator instantiate(Hashtable theBinding){
 		// name を具体化
 		String newName = instantiateString(name,theBinding);
@@ -487,7 +487,7 @@ class Operator{
 
 class Unifier {
     StringTokenizer st1;
-    String buffer1[];    
+    String buffer1[];
     StringTokenizer st2;
     String buffer2[];
     Hashtable vars;
@@ -530,14 +530,14 @@ class Unifier {
 		//変更点12/1
 		//マッチングを行う対象が属性値かどうかを調べたうえでマッチングを行う
 		if(chAt(string1).equals(chAt(string2))) return true;
-		
+
 		// 各々トークンに分ける
 		st1 = new StringTokenizer(string1);
 		st2 = new StringTokenizer(string2);
-		
+
 		// 数が異なったら失敗
 		if(st1.countTokens() != st2.countTokens()) return false;
-		
+
 		// 定数同士
 		int length = st1.countTokens();
 		buffer1 = new String[length];
@@ -555,13 +555,13 @@ class Unifier {
 				replaceBuffer(key,value);
 			}
 		}
-		
+
 		for(int i = 0 ; i < length ; i++){
 			if(!tokenMatching(buffer1[i],buffer2[i])){
 			return false;
 			}
 		}
-		
+
 		return true;
     }
 
@@ -614,7 +614,7 @@ class Unifier {
 			}
 		}
     }
-    
+
     void replaceBindings(String preString,String postString){
 		Enumeration keys;
 		for(keys = vars.keys(); keys.hasMoreElements();){
@@ -624,11 +624,10 @@ class Unifier {
 			}
 		}
     }
-    
+
     boolean var(String str1){
 		// 先頭が ? なら変数
 		return str1.startsWith("?");
     }
 
 }
-
