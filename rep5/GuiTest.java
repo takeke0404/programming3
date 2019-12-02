@@ -55,8 +55,7 @@ public class GuiTest extends JFrame {
 		ArrayList<ArrayList<String[]>> st = new ArrayList<>();
 		for (int i = 0; i < lines.length; i++) {
 			if (flag&&lines[i].contains("initialState")) {
-				String[] line=lines[i].replace("initialState:[","").replace("]","").split(",");
-                st.add(getArrays(line));
+                st.add(getArrays(lines[i].replace("initialState:","")));
 			}
 			if(lines[i].equals("***** This is a plan! *****")){
 				flag = true;
@@ -78,7 +77,12 @@ public class GuiTest extends JFrame {
 		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 	}
 
-    private ArrayList<String[]> getArrays(String[] state){
+    /*
+    状態 [clear A, clear C, A on B, ontable B, ontable C, handEmpty]から
+    配列のリスト[BA][C]を作成
+    */
+    private ArrayList<String[]> getArrays(String line){
+        String[] state=line.replace("[","").replace("]","").split(",");
         ArrayList<ArrayList<String>> list = new ArrayList<>();
         ArrayList<String> tmp = new ArrayList<>();
         while (tmp.size() < state.length-1) {
