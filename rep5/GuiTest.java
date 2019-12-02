@@ -66,10 +66,6 @@ public class GuiTest extends JFrame {
             
             else if (flag && lines[i].contains("Place")) {
                 String[] s = lines[i].replace("Place ", "").split(" on ");
-                if (s[0].equals(s[1])) {    //Place A on A　などのときはとりあえず前の状態と同じにしている。このエラーが解消できたらこのif文は消して良い。
-                    st.add(st.get(st.size() - 1));  //この１行コメントアウトすることで、GUI上ではこの問題を解消できるけどね・・・
-                    continue;
-                }
                 ini=ini.replace(", ontable "+s[0], "");
                 ini = ini.replace(", clear " + s[1], "");
                 ini += ", " + s[0] + " on " + s[1];
@@ -78,10 +74,6 @@ public class GuiTest extends JFrame {
             
             else if (flag && lines[i].contains("remove")) {
                 String[] s = lines[i].replace("remove ", "").split(" from on top ");
-                if (s[0].equals(s[1])) {    //remove A from on top A　などのときはとりあえず前の状態と同じにしている。このエラーが解消できたらこのif文は消して良い。
-                    st.add(st.get(st.size() - 1)); //この１行コメントアウトすることで、GUI上ではこの問題を解消できるけどね・・・
-                    continue;
-                }
                 ini +=", ontable "+s[0];
                 ini += ", clear " + s[1];
                 ini = ini.replace(", " + s[0] + " on " + s[1], "");
