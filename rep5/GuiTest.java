@@ -39,63 +39,31 @@ public class GuiTest extends JFrame {
 		contentPane = new JPanel();
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
+
+        //標準出力の受け取り
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		System.setOut(new PrintStream(new BufferedOutputStream(out)));
-
 		Planner p = new Planner();
 		p.main(new String[]{});
         System.out.flush();
         String output = out.toString();
-
         System.setOut(sysOut);
 
-		//結果の表示とボタンの表示
-		String[] line = output.toString().split("\n");
+		//planの解析
+		String[] lines = output.toString().split("\n");
 		boolean flag = false;
-
 		ArrayList<ArrayList<String[]>> st = new ArrayList<>();
-
-		for (int i = 0; i < line.length; i++) {
-			if (flag&&line[i].contains("initialState")) {
-                ArrayList<ArrayList<String>> initial = new ArrayList<>();
-				ArrayList<String> tmp = new ArrayList<>();
-				String[] tmpline=line[i].replace("initialState:[","").replace("]","").split(",");
-				while (tmp.size() < tmpline.length-1) {
-					for (int j = 0; j < tmpline.length; j++) {
-                        if(!tmp.contains(tmpline[j])&&tmpline[j].contains("ontable")){
-                            tmp.add(tmpline[j]);
-                            ArrayList<String> a = new ArrayList<>();
-                            a.add(tmpline[j].replace(" ontable ",""));
-                            initial.add(a);
-                            continue;
-                        }
-                        if(!tmp.contains(tmpline[j])&&tmpline[j].contains("clear")){
-                            tmp.add(tmpline[j]);
-                            continue;
-                        }
-                        if(!tmp.contains(tmpline[j])&&tmpline[j].contains("on")){
-                            for(int k=0;k<initial.size();k++){
-                                if(tmpline[j].contains(initial.get(k).get(initial.get(k).size()-1))){
-                                    tmp.add(tmpline[j]);
-                                    initial.get(k).add(tmpline[j].replace(" on "+initial.get(k).get(initial.get(k).size()-1),"").replace(" ",""));
-                                }
-                            }
-                        }
-					}
-				}
-
-                ArrayList<String[]> a = new ArrayList<>();
-                for(int j=0;j<initial.size();j++){
-                    a.add(initial.get(j).toArray(new String[initial.get(j).size()]));
-                }
-
-                st.add(a);
+		for (int i = 0; i < lines.length; i++) {
+			if (flag&&lines[i].contains("initialState")) {
+				String[] line=lines[i].replace("initialState:[","").replace("]","").split(",");
+                st.add(getArrays(line));
 			}
-			if(line[i].equals("***** This is a plan! *****")){
+			if(lines[i].equals("***** This is a plan! *****")){
 				flag = true;
             }
 		}
 
+        //コンソールに表示
         for(int i=0;i<st.size();i++){
             for(int j=0;j<st.get(i).size();j++){
                 for(int k=0;k<st.get(i).get(j).length;k++){
@@ -109,4 +77,39 @@ public class GuiTest extends JFrame {
 		contentPane.add(panel, BorderLayout.NORTH);
 		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 	}
+
+    private ArrayList<String[]> getArrays(String[] state){
+        ArrayList<ArrayList<String>> list = new ArrayList<>();
+        ArrayList<String> tmp = new ArrayList<>();
+        while (tmp.size() < state.length-1) {
+            for (int j = 0; j < state.length; j++) {
+                if(!tmp.contains(state[j])&&state[j].contains("ontable")){
+                    tmp.add(state[j]);
+                    ArrayList<String> a = new ArrayList<>();
+                    a.add(state[j].replace(" ontable ",""));
+                    list.add(a);
+                    continue;
+                }
+                if(!tmp.contains(state[j])&&state[j].contains("clear")){
+                    tmp.add(state[j]);
+                    continue;
+                }
+                if(!tmp.contains(state[j])&&state[j].contains("on")){
+                    for(int k=0;k<list.size();k++){
+                        if(state[j].contains(list.get(k).get(list.get(k).size()-1))){
+                            tmp.add(state[j]);
+                            list.get(k).add(state[j].replace(" on "+list.get(k).get(list.get(k).size()-1),"").replace(" ",""));
+                        }
+                    }
+                }
+            }
+        }
+
+        ArrayList<String[]> a = new ArrayList<>();
+        for(int j=0;j<list.size();j++){
+            a.add(list.get(j).toArray(new String[list.get(j).size()]));
+        }
+
+        return a;
+    }
 }
