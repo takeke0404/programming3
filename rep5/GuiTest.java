@@ -77,7 +77,7 @@ public class GuiTest extends JFrame {
                             for(int k=0;k<initial.size();k++){
                                 if(tmpline[j].contains(initial.get(k).get(initial.get(k).size()-1))){
                                     tmp.add(tmpline[j]);
-                                    initial.get(k).add(tmpline[j].replace(" on "+initial.get(k).get(initial.get(k).size()-1),""));
+                                    initial.get(k).add(tmpline[j].replace(" on "+initial.get(k).get(initial.get(k).size()-1),"").replace(" ",""));
                                 }
                             }
                         }

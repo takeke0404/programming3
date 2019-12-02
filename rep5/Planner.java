@@ -222,6 +222,8 @@ public class Planner {
   		//initialState.addElement("clear yellow");
   		//initialState.addElement("clear C");
 
+		//initialState.addElement("A on B");
+
 		initialState.addElement("ontable A");
 		initialState.addElement("ontable B");
 		initialState.addElement("ontable C");
