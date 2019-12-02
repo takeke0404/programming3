@@ -103,7 +103,8 @@ public class Planner {
 			return false;
 		}
 	}
-
+	
+	int count = 0;
 	private int planningAGoal(String theGoal,Vector theCurrentState,Hashtable theBinding,int cPoint){
 		System.out.println("**"+theGoal);
 		int size = theCurrentState.size();
@@ -114,6 +115,7 @@ public class Planner {
 			}
 		}
 		//変更点12/1
+		/*
 		if(pre_op_idx > -1){
 			int randInt = Math.abs(rand.nextInt()) % (operators.size()-2);
 			Operator op1 = (Operator)operators.elementAt(operators.size()-1); //末尾のオペレータ(前々回選択されたオペレータ)
@@ -126,6 +128,14 @@ public class Planner {
 			operators.addElement(op1); //前々回選択されたオペレータは後ろから2番目に追加
 			operators.addElement(op2); //前回選択されたものは末尾に
 		}
+		*/
+		if(count%3==0 || count%5==0){
+			Operator op = (Operator)operators.elementAt(0);
+			operators.removeElementAt(0);
+			operators.addElement(op);
+		}
+		count++;
+
 		//int randInt = Math.abs(rand.nextInt()) % operators.size();
 		//Operator op = (Operator)operators.elementAt(randInt);
 		//operators.removeElementAt(randInt);
@@ -222,13 +232,13 @@ public class Planner {
   		//initialState.addElement("clear yellow");
   		//initialState.addElement("clear C");
 
-		//initialState.addElement("A on B");
+		//initialState.addElement("B on A");
+		//initialState.addElement("C on B");
 
 		initialState.addElement("ontable A");
 		initialState.addElement("ontable B");
 		initialState.addElement("ontable C");
 		//initialState.addElement("ontable triangle");
-  		//initialState.addElement("ontable B");
   		//initialState.addElement("ontable green");
 
 		initialState.addElement("handEmpty");
