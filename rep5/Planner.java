@@ -136,6 +136,22 @@ public class Planner {
 		}
 		count++;
 
+		if(theGoal.contains("holding A")&&theCurrentState.contains("ontable A") ||
+			theGoal.contains("holding B")&&theCurrentState.contains("ontable B") ||
+			theGoal.contains("holding C")&&theCurrentState.contains("ontable C")){
+			int index = 0;
+			for(int i=0;i<operators.size();i++){
+				Operator operator = (Operator)operators.elementAt(i);
+				if(operator.name.equals("pick up ?x from the table")){
+					index = i;
+					break;
+				}
+			}
+			Operator op = (Operator)operators.elementAt(index);
+			operators.removeElementAt(index);
+			operators.insertElementAt(op, 0);
+		}
+
 		//int randInt = Math.abs(rand.nextInt()) % operators.size();
 		//Operator op = (Operator)operators.elementAt(randInt);
 		//operators.removeElementAt(randInt);
