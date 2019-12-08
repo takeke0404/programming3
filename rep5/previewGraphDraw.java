@@ -87,7 +87,7 @@ public class previewGraphDraw {
         return a;
     }
 
-    public ArrayList<ArrayList<String[]>> makeLists(){
+    private ArrayList<ArrayList<String[]>> makeLists(){
         PrintStream sysOut = System.out;
         ByteArrayOutputStream out = new ByteArrayOutputStream();
 		System.setOut(new PrintStream(new BufferedOutputStream(out)));
