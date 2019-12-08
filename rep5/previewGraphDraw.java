@@ -17,13 +17,15 @@ public class previewGraphDraw {
     }
 
     private void createAndShowGui() {
-        frame = new JFrame(getClass().getSimpleName());
-        
         ArrayList<ArrayList<String[]>> st = new ArrayList<>();
         st=makeLists();
+        for (int i = 0; i < st.size(); i++) {   
+        frame = new JFrame(getClass().getSimpleName());
+        
+        
         
         //下のfor文を回しても,リペイントされない・・・・どうしようか？？
-        for (int i = 0; i < st.size(); i++) {                 
+                      
         // 状態を描画するとき、GraphDrawのインスタンスを生成する
         GraphDraw graph = new GraphDraw();
     
