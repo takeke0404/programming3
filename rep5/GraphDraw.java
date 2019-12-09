@@ -68,7 +68,7 @@ public class GraphDraw extends JPanel {
                 // draw all block in zone
                 int previous_block_y = 0;
                 for (String block : zone.info) {
-                    System.out.println("Block name: " + block);
+                    // System.out.println("Block name: " + block);
                     // draw block
                     if (previous_block_y == 0)
                         block_y = state.y;
@@ -117,8 +117,8 @@ public class GraphDraw extends JPanel {
         g.drawLine(block_x+block_width/2,block_y-50,block_x+block_width/2,block_y-10);
     }
 
-    @Override
-    public Dimension getPreferredSize() {
-        return new Dimension(500, 500);
-    }
+    //@Override
+    //public Dimension getPreferredSize() {
+    //    return new Dimension(500, 500);
+    //}
 }
