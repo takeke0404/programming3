@@ -27,6 +27,7 @@ public class gui extends JFrame {
     private JPanel contentPane;
     int i=0;
     ArrayList<ArrayList<String[]>> st;
+    ArrayList<Zone> previousState;
     /**
      * Launch the application.
      */
@@ -58,9 +59,9 @@ public class gui extends JFrame {
 
         JScrollPane scrollPane = new JScrollPane();
 
-        JButton previousState = new JButton("前の状態");
+        JButton previousStateButton = new JButton("前の状態");
         JButton nextState = new JButton("次の状態");
-    
+
         contentPane.add(operatorPanel, BorderLayout.NORTH);
 
         JButton initButton = new JButton("初期状態");
@@ -69,7 +70,7 @@ public class gui extends JFrame {
             }
         });
         operatorPanel.add(initButton);
-        
+
 
         JButton goalButton = new JButton("目標状態");
         goalButton.addActionListener(new ActionListener() {
@@ -77,33 +78,42 @@ public class gui extends JFrame {
             }
         });
         operatorPanel.add(goalButton);
-        
+
         JButton runButton = new JButton("実行");
         runButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 st = new ArrayList<>();
                 st = makeLists();
                 i=0;
-                    // 状態を描画するとき、GraphDrawのインスタンスを生成する
-                    GraphDraw graph = new GraphDraw();
+                // 状態を描画するとき、GraphDrawのインスタンスを生成する
+                GraphDraw graph = new GraphDraw();
 
-                    // 一つのZoneは一つの山に相当する
-                    ArrayList<Zone> state = new ArrayList<Zone>();
-                    for (int j = 0; j < st.get(i).size(); j++) {
-                        // st.get(i).get(j)で一つの山の情報のString[]が取得可能
-                        // state.add(new Zone(z1))でstateに山z１を入れる
-                        state.add(new Zone(st.get(i).get(j)));
+                // 一つのZoneは一つの山に相当する
+                ArrayList<Zone> state = new ArrayList<Zone>();
+                for(int j=0;j<st.get(i).size();j++){
+                    if(st.get(i).get(j)[0].contains("pick up")){
+                        state = previousState;
+                        graph.pickup(st.get(i).get(j)[0].split(" ")[2]);
+                        break;
                     }
+                    //st.get(i).get(j)で一つの山の情報のString[]が取得可能
+                    //state.add(new Zone(z1))でstateに山z１を入れる
+                    state.add(new Zone(st.get(i).get(j)));
+                }
 
-                    // 一つの状態を定義し、グラフに入れる
-                    int state1_x = 100;
-                    int state1_y = 100;
+                // 一つの状態を定義し、グラフに入れる
+                int state1_x = 100;
+                int state1_y = 200;
 
-                    graph.addState(state, state1_x, state1_y); // 状態をグラフに入れる
+                graph.addState(state, state1_x, state1_y); // 状態をグラフに入れる
+                previousState = state;
+
+
+
                     scrollPane.setViewportView(graph);
                     nextState.setVisible(true);
-                    
-                
+
+
             }
         });
         operatorPanel.add(runButton);
@@ -117,7 +127,7 @@ public class gui extends JFrame {
 
         JPanel viewPanel = new JPanel();
         contentPane.add(viewPanel, BorderLayout.CENTER);
-    
+
 
 
         GroupLayout gl_viewPanel = new GroupLayout(viewPanel);
@@ -135,7 +145,7 @@ public class gui extends JFrame {
         			.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 358, Short.MAX_VALUE)
         			.addContainerGap())
         );
-        
+
         JTextPane textPane = new JTextPane();
         scrollPane.setViewportView(textPane);
         viewPanel.setLayout(gl_viewPanel);
@@ -143,43 +153,52 @@ public class gui extends JFrame {
         JPanel statePanel = new JPanel();
         contentPane.add(statePanel, BorderLayout.SOUTH);
 
-        previousState.addActionListener(new ActionListener() {
+        previousStateButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                i--;
+                i -=2;
                 System.out.println("previous state " +i);
                 if(i>=0){
                     if(!nextState.isVisible()){
                         nextState.setVisible(true);
                     }
                     if(i==0){
-                        previousState.setVisible(false);
+                        previousStateButton.setVisible(false);
                     }
+                    // 状態を描画するとき、GraphDrawのインスタンスを生成する
                     GraphDraw graph = new GraphDraw();
 
                     // 一つのZoneは一つの山に相当する
                     ArrayList<Zone> state = new ArrayList<Zone>();
-                    for (int j = 0; j < st.get(i).size(); j++) {
-                        // st.get(i).get(j)で一つの山の情報のString[]が取得可能
-                        // state.add(new Zone(z1))でstateに山z１を入れる
+                    for(int j=0;j<st.get(i).size();j++){
+                        if(st.get(i).get(j)[0].contains("pick up")){
+                            state = previousState;
+                            graph.pickup(st.get(i).get(j)[0].split(" ")[2]);
+                            break;
+                        }
+                        //st.get(i).get(j)で一つの山の情報のString[]が取得可能
+                        //state.add(new Zone(z1))でstateに山z１を入れる
                         state.add(new Zone(st.get(i).get(j)));
                     }
 
                     // 一つの状態を定義し、グラフに入れる
                     int state1_x = 100;
-                    int state1_y = 100;
+                    int state1_y = 200;
 
                     graph.addState(state, state1_x, state1_y); // 状態をグラフに入れる
+                    previousState = state;
+
+
                     scrollPane.setViewportView(graph);
                 }
                 else{
-                    previousState.setVisible(false);
+                    previousStateButton.setVisible(false);
                 }
             }
         });
-        statePanel.add(previousState);
+        statePanel.add(previousStateButton);
         statePanel.add(nextState);
 
-        previousState.setVisible(false);
+        previousStateButton.setVisible(false);
         nextState.setVisible(false);
 
         nextState.addActionListener(new ActionListener() {
@@ -187,27 +206,42 @@ public class gui extends JFrame {
                 i++;
                 System.out.println("next state " +i);
                 if(i<st.size()){
-                    if(!previousState.isVisible()){
-                        previousState.setVisible(true);
+                    if(!previousStateButton.isVisible()){
+                        previousStateButton.setVisible(true);
                     }
                     if(i==st.size()-1){
                         nextState.setVisible(false);
                     }
+                    if(i%2==1){
+                        previousStateButton.setVisible(false);
+                    }
+                    else{
+                        previousStateButton.setVisible(true);
+                    }
+                    // 状態を描画するとき、GraphDrawのインスタンスを生成する
                     GraphDraw graph = new GraphDraw();
 
                     // 一つのZoneは一つの山に相当する
                     ArrayList<Zone> state = new ArrayList<Zone>();
-                    for (int j = 0; j < st.get(i).size(); j++) {
-                        // st.get(i).get(j)で一つの山の情報のString[]が取得可能
-                        // state.add(new Zone(z1))でstateに山z１を入れる
+                    for(int j=0;j<st.get(i).size();j++){
+                        if(st.get(i).get(j)[0].contains("pick up")){
+                            state = previousState;
+                            graph.pickup(st.get(i).get(j)[0].split(" ")[2]);
+                            break;
+                        }
+                        //st.get(i).get(j)で一つの山の情報のString[]が取得可能
+                        //state.add(new Zone(z1))でstateに山z１を入れる
                         state.add(new Zone(st.get(i).get(j)));
                     }
 
                     // 一つの状態を定義し、グラフに入れる
                     int state1_x = 100;
-                    int state1_y = 100;
+                    int state1_y = 200;
 
                     graph.addState(state, state1_x, state1_y); // 状態をグラフに入れる
+                    previousState = state;
+
+
                     scrollPane.setViewportView(graph);
                 }
                 else{
@@ -255,20 +289,20 @@ public class gui extends JFrame {
         return a;
     }
 
-    private ArrayList<ArrayList<String[]>> makeLists() {
+    private ArrayList<ArrayList<String[]>> makeLists(){
         PrintStream sysOut = System.out;
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         System.setOut(new PrintStream(new BufferedOutputStream(out)));
         Planner p = new Planner();
-        p.main(new String[] {});
+        p.main(new String[]{});
         System.out.flush();
         String output = out.toString();
         System.setOut(sysOut);
 
-        // planの解析
+        //planの解析
         String[] lines = output.toString().split("\n");
         boolean flag = false;
-        String ini = "";
+        String ini="";
         ArrayList<ArrayList<String[]>> st = new ArrayList<>();
 
         for (int i = 0; i < lines.length; i++) {
@@ -277,14 +311,17 @@ public class gui extends JFrame {
                 st.add(getArrays(ini));
             }
 
-            else if (flag && lines[i].contains("pick up")) { // pick up はGUIで表示するか未定(今は前の状態と同じにしている)
-                st.add(st.get(st.size() - 1));
-
+            else if (flag && lines[i].contains("pick up")) {
+                ArrayList<String[]> pickup_state = new ArrayList<>();
+                String[] pickup = new String[1];
+                pickup[0]="pick up "+lines[i].split(" ")[2];
+                pickup_state.add(pickup);
+                st.add(pickup_state);
             }
 
             else if (flag && lines[i].contains("Place")) {
                 String[] s = lines[i].replace("Place ", "").split(" on ");
-                ini = ini.replace(", ontable " + s[0], "");
+                ini=ini.replace(", ontable "+s[0], "");
                 ini = ini.replace(", clear " + s[1], "");
                 ini += ", " + s[0] + " on " + s[1];
                 st.add(getArrays(ini));
@@ -292,12 +329,12 @@ public class gui extends JFrame {
 
             else if (flag && lines[i].contains("remove")) {
                 String[] s = lines[i].replace("remove ", "").split(" from on top ");
-                ini += ", ontable " + s[0];
+                ini +=", ontable "+s[0];
                 ini += ", clear " + s[1];
                 ini = ini.replace(", " + s[0] + " on " + s[1], "");
                 st.add(getArrays(ini));
             }
-            if (lines[i].equals("***** This is a plan! *****")) {
+            if(lines[i].equals("***** This is a plan! *****")){
                 flag = true;
             }
         }
