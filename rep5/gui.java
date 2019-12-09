@@ -90,6 +90,22 @@ public class gui extends JFrame {
 
                 // 一つのZoneは一つの山に相当する
                 ArrayList<Zone> state = new ArrayList<Zone>();
+
+                if(i!=0){
+                    if(i%2==0){
+                        for(int j=0;j<st.get(i-2).size();j++){
+                            state.add(new Zone(st.get(i-2).get(j)));
+                        }
+                    }else{
+                        for(int j=0;j<st.get(i-1).size();j++){
+                            state.add(new Zone(st.get(i-1).get(j)));
+                        }
+                    }
+                    previousState = state;
+                }
+
+                state = new ArrayList<Zone>();
+
                 for(int j=0;j<st.get(i).size();j++){
                     if(st.get(i).get(j)[0].contains("pick up")){
                         state = previousState;
@@ -106,12 +122,10 @@ public class gui extends JFrame {
                 int state1_y = 200;
 
                 graph.addState(state, state1_x, state1_y); // 状態をグラフに入れる
-                previousState = state;
 
 
-
-                    scrollPane.setViewportView(graph);
-                    nextState.setVisible(true);
+                scrollPane.setViewportView(graph);
+                nextState.setVisible(true);
 
 
             }
@@ -155,7 +169,7 @@ public class gui extends JFrame {
 
         previousStateButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                i -=2;
+                i -=1;
                 System.out.println("previous state " +i);
                 if(i>=0){
                     if(!nextState.isVisible()){
@@ -169,6 +183,22 @@ public class gui extends JFrame {
 
                     // 一つのZoneは一つの山に相当する
                     ArrayList<Zone> state = new ArrayList<Zone>();
+
+                    if(i!=0){
+                        if(i%2==0){
+                            for(int j=0;j<st.get(i-2).size();j++){
+                                state.add(new Zone(st.get(i-2).get(j)));
+                            }
+                        }else{
+                            for(int j=0;j<st.get(i-1).size();j++){
+                                state.add(new Zone(st.get(i-1).get(j)));
+                            }
+                        }
+                        previousState = state;
+                    }
+
+                    state = new ArrayList<Zone>();
+
                     for(int j=0;j<st.get(i).size();j++){
                         if(st.get(i).get(j)[0].contains("pick up")){
                             state = previousState;
@@ -185,7 +215,6 @@ public class gui extends JFrame {
                     int state1_y = 200;
 
                     graph.addState(state, state1_x, state1_y); // 状態をグラフに入れる
-                    previousState = state;
 
 
                     scrollPane.setViewportView(graph);
@@ -212,17 +241,27 @@ public class gui extends JFrame {
                     if(i==st.size()-1){
                         nextState.setVisible(false);
                     }
-                    if(i%2==1){
-                        previousStateButton.setVisible(false);
-                    }
-                    else{
-                        previousStateButton.setVisible(true);
-                    }
                     // 状態を描画するとき、GraphDrawのインスタンスを生成する
                     GraphDraw graph = new GraphDraw();
 
                     // 一つのZoneは一つの山に相当する
                     ArrayList<Zone> state = new ArrayList<Zone>();
+
+                    if(i!=0){
+                        if(i%2==0){
+                            for(int j=0;j<st.get(i-2).size();j++){
+                                state.add(new Zone(st.get(i-2).get(j)));
+                            }
+                        }else{
+                            for(int j=0;j<st.get(i-1).size();j++){
+                                state.add(new Zone(st.get(i-1).get(j)));
+                            }
+                        }
+                        previousState = state;
+                    }
+
+                    state = new ArrayList<Zone>();
+
                     for(int j=0;j<st.get(i).size();j++){
                         if(st.get(i).get(j)[0].contains("pick up")){
                             state = previousState;
@@ -239,7 +278,6 @@ public class gui extends JFrame {
                     int state1_y = 200;
 
                     graph.addState(state, state1_x, state1_y); // 状態をグラフに入れる
-                    previousState = state;
 
 
                     scrollPane.setViewportView(graph);
