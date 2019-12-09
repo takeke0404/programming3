@@ -19,6 +19,7 @@ public class previewGraphDraw {
     private void createAndShowGui() {
         ArrayList<ArrayList<String[]>> st = new ArrayList<>();
         st=makeLists();
+        ArrayList<Zone> previousState = null;
         for (int i = 0; i < st.size(); i++) {
             frame = new JFrame(getClass().getSimpleName());
 
@@ -32,6 +33,11 @@ public class previewGraphDraw {
             // 一つのZoneは一つの山に相当する
             ArrayList<Zone> state = new ArrayList<Zone>();
             for(int j=0;j<st.get(i).size();j++){
+                if(st.get(i).get(j)[0].contains("pick up")){
+                    state = previousState;
+                    graph.pickup(st.get(i).get(j)[0].split(" ")[2]);
+                    break;
+                }
                 //st.get(i).get(j)で一つの山の情報のString[]が取得可能
                 //state.add(new Zone(z1))でstateに山z１を入れる
                 state.add(new Zone(st.get(i).get(j)));
@@ -42,6 +48,7 @@ public class previewGraphDraw {
             int state1_y = 100;
 
             graph.addState(state, state1_x, state1_y); // 状態をグラフに入れる
+            previousState = state;
 
             JScrollPane scroll = new JScrollPane(graph);
             frame.add(scroll);
@@ -111,9 +118,12 @@ public class previewGraphDraw {
                 st.add(getArrays(ini));
             }
 
-            else if (flag && lines[i].contains("pick up")) {    //pick up はGUIで表示するか未定(今は前の状態と同じにしている)
-                st.add(st.get(st.size() - 1));
-
+            else if (flag && lines[i].contains("pick up")) {
+                ArrayList<String[]> pickup_state = new ArrayList<>();
+                String[] pickup = new String[1];
+                pickup[0]="pick up "+lines[i].split(" ")[2];
+                pickup_state.add(pickup);
+                st.add(pickup_state);
             }
 
             else if (flag && lines[i].contains("Place")) {

@@ -31,6 +31,8 @@ public class GraphDraw extends JPanel {
 
     ArrayList<State> states;
 
+    String pickup_block;
+
     GraphDraw() { // Constructor
         states = new ArrayList<State>();
         block_width = 30;
@@ -40,6 +42,10 @@ public class GraphDraw extends JPanel {
     public void addState(ArrayList<Zone> zones, int x, int y) {
         states.add(new State(zones, x, y));
         this.repaint();
+    }
+
+    public void pickup(String x){
+        pickup_block=x;
     }
 
     public void paint(Graphics g) { // draw the zone
@@ -69,7 +75,14 @@ public class GraphDraw extends JPanel {
                     else
                         block_y = previous_block_y;
                     previous_block_y = block_y - block_height - 1;
-                    
+
+                    //pickup
+                    if (pickup_block!=null&&block.equals(pickup_block)){
+                        block_y-=40;
+                        drawArm(g, block_x, block_y, block_width, block_height);
+                        pickup_block=null;
+                    }
+
                     // それぞれのブロックの色を決める
                     if (block == "A")
                         g.setColor(Color.BLUE);
@@ -93,6 +106,15 @@ public class GraphDraw extends JPanel {
             g.setColor(Color.black);
             g.drawLine(table_line_x1, table_line_y, table_line_x2, table_line_y);
         }
+    }
+
+    public void drawArm(Graphics g,int block_x,int block_y,int block_width,int block_height){
+        g.drawLine(block_x-5,block_y,block_x,block_y+block_height/2);
+        g.drawLine(block_x+block_width+5,block_y,block_x+block_width,block_y+block_height/2);
+        g.drawLine(block_x+block_width/2-7,block_y-10,block_x-5,block_y);
+        g.drawLine(block_x+block_width/2+7,block_y-10,block_x+block_width+5,block_y);
+        g.drawLine(block_x+block_width/2-7,block_y-10,block_x+block_width/2+7,block_y-10);
+        g.drawLine(block_x+block_width/2,block_y-50,block_x+block_width/2,block_y-10);
     }
 
     @Override
