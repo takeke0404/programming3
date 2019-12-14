@@ -28,6 +28,10 @@ public class gui extends JFrame {
     int i=0;
     ArrayList<ArrayList<String[]>> st;
     ArrayList<Zone> previousState;
+
+    String intialStateString = "";
+    String goalString = "";
+
     /**
      * Launch the application.
      */
@@ -59,14 +63,20 @@ public class gui extends JFrame {
 
         JScrollPane scrollPane = new JScrollPane();
 
+        JTextPane textPane = new JTextPane();
+
         JButton previousStateButton = new JButton("前の状態");
         JButton nextState = new JButton("次の状態");
 
         contentPane.add(operatorPanel, BorderLayout.NORTH);
 
+        String firstInitial = "clear A\nclear B\nclear C\nontable A\nontable B\nontable C\nhandEmpty";
+
         JButton initButton = new JButton("初期状態");
         initButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                textPane.setText(firstInitial);
+                scrollPane.setViewportView(textPane);
             }
         });
         operatorPanel.add(initButton);
@@ -75,6 +85,10 @@ public class gui extends JFrame {
         JButton goalButton = new JButton("目標状態");
         goalButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                // set initial state input string
+                intialStateString = textPane.getText();
+                // clear text panel
+                textPane.setText("A on B\nB on C");
             }
         });
         operatorPanel.add(goalButton);
@@ -82,8 +96,16 @@ public class gui extends JFrame {
         JButton runButton = new JButton("実行");
         runButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                // get string from panel
+                goalString = textPane.getText();
+                String[] goalInput = goalString.split("\n", 0);
+                String[] initialInput = intialStateString.split("\n", 0);
+                Vector initialState = initInitialState(initialInput);
+                Vector goal = initGoalList(goalInput);
                 st = new ArrayList<>();
-                st = makeLists();
+                st = makeLists(goal, initialState);
+
+                System.out.println(st);
                 i=0;
                 // 状態を描画するとき、GraphDrawのインスタンスを生成する
                 GraphDraw graph = new GraphDraw();
@@ -160,7 +182,7 @@ public class gui extends JFrame {
         			.addContainerGap())
         );
 
-        JTextPane textPane = new JTextPane();
+        textPane.setText(firstInitial);
         scrollPane.setViewportView(textPane);
         viewPanel.setLayout(gl_viewPanel);
 
@@ -327,15 +349,47 @@ public class gui extends JFrame {
         return a;
     }
 
-    private ArrayList<ArrayList<String[]>> makeLists(){
+    private Vector initGoalList(String[] input){
+		Vector goalList = new Vector();
+		goalList.addElement("B on A");
+		goalList.addElement("A on C");
+		return goalList;
+	}
+
+	//変更点12/1(新たな定義を追加)
+	private Vector initInitialState(String[] input){
+		Vector initialState = new Vector();
+		initialState.addElement("clear A");
+		initialState.addElement("clear B");
+		initialState.addElement("clear C");
+		//initialState.addElement("clear blue");
+  		//initialState.addElement("clear yellow");
+  		//initialState.addElement("clear C");
+
+		//initialState.addElement("B on A");
+		//initialState.addElement("C on B");
+
+		initialState.addElement("ontable A");
+		initialState.addElement("ontable B");
+		initialState.addElement("ontable C");
+		//initialState.addElement("ontable triangle");
+  		//initialState.addElement("ontable green");
+
+		initialState.addElement("handEmpty");
+		return initialState;
+	}
+
+
+    private ArrayList<ArrayList<String[]>> makeLists(Vector goal, Vector initial){
         PrintStream sysOut = System.out;
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         System.setOut(new PrintStream(new BufferedOutputStream(out)));
-        Planner p = new Planner();
-        p.main(new String[]{});
+        Planner p = new Planner(goal, initial);
+        p.main(new String[]{}, goal, initial);
         System.out.flush();
         String output = out.toString();
         System.setOut(sysOut);
+
 
         //planの解析
         String[] lines = output.toString().split("\n");
@@ -344,6 +398,8 @@ public class gui extends JFrame {
         ArrayList<ArrayList<String[]>> st = new ArrayList<>();
 
         for (int i = 0; i < lines.length; i++) {
+            // System.out.println(i);
+            // System.out.println(lines[i]);
             if (flag && lines[i].contains("initialState")) {
                 ini = lines[i].replace("initialState:", "").replace("[", "").replace("]", "");
                 st.add(getArrays(ini));
@@ -376,6 +432,7 @@ public class gui extends JFrame {
                 flag = true;
             }
         }
+        // System.out.println("done");
         return st;
     }
 }

@@ -4,6 +4,8 @@ public class Planner {
 	Vector operators;
 	Random rand;
 	Vector plan;
+	Vector goalList;
+	Vector initialState;
 	//変更点12/1
 	int pre_op_idx = -1; //前回選択したオペレーションのインデックス
 
@@ -12,24 +14,36 @@ public class Planner {
 	HashMap<String, String> attribute = initAttribute();
 	Unifier uf = new Unifier(attribute);
 
-	public static void main(String argv[]){
-		(new Planner()).start();
+	public static void main(String argv[], Vector goal, Vector initialState){
+		(new Planner(goal, initialState)).start();
 	}
 
-	Planner(){
+	Planner(Vector myGoal, Vector myInitial){
+		initialState = myInitial;
+		goalList = myGoal;
 		rand = new Random();
+	}
+
+	// Planner(){
+	// 	initialState = initInitialState();
+	// 	goalList = initGoalList();
+	// }
+
+	public void setGoal(Vector myGoalList){
+		this.goalList = myGoalList;
+	}
+	
+	public void setInitState(Vector myInitialState){
+		this.initialState = myInitialState;
 	}
 
 	public void start(){
 		initOperators();
-		Vector goalList     = initGoalList();
-		Vector initialState = initInitialState();
-
 		Hashtable theBinding = new Hashtable();
 		plan = new Vector();
 		planning(goalList,initialState,theBinding);
 
-		System.out.println("***** This is a plan! *****"+"\n"+"initialState:"+initInitialState());
+		System.out.println("***** This is a plan! *****"+"\n"+"initialState:"+initialState);
 		for(int i = 0 ; i < plan.size() ; i++){
 			Operator op = (Operator)plan.elementAt(i);
 			System.out.println((op.instantiate(theBinding)).name);
