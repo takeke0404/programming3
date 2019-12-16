@@ -13,21 +13,22 @@ public class Planner {
  	//図形名と属性についての情報を格納(キー:属性[ex:blue,yellow],値:図形名[ex:A,B])
 	HashMap<String, String> attribute = initAttribute();
 	Unifier uf = new Unifier(attribute);
-
+	
 	public static void main(String argv[], Vector goal, Vector initialState){
 		(new Planner(goal, initialState)).start();
 	}
-
+	
 	Planner(Vector myGoal, Vector myInitial){
-		initialState = myInitial;
-		goalList = myGoal;
-		rand = new Random();
+		setInitState(myInitial);
+		setGoal(myGoal);
+		sortGoalList();
 	}
 
-	// Planner(){
-	// 	initialState = initInitialState();
-	// 	goalList = initGoalList();
-	// }
+	Planner(){
+		initialState = initInitialState();
+		goalList = initGoalList();
+		sortGoalList();
+	}
 
 	public void setGoal(Vector myGoalList){
 		this.goalList = myGoalList;
