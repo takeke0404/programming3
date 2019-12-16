@@ -330,23 +330,18 @@ public class gui extends JFrame {
 
     // for planning
     private ArrayList<String[]> getArrays(String line) {
+        System.out.println(line);
         String[] state = line.split(",");
         ArrayList<ArrayList<String>> list = new ArrayList<>();
         ArrayList<String> tmp = new ArrayList<>();
-        while (tmp.size() < state.length - 1) {
+        while (tmp.size() != state.length) {
             for (int j = 0; j < state.length; j++) {
                 if (!tmp.contains(state[j]) && state[j].contains("ontable")) {
                     tmp.add(state[j]);
                     ArrayList<String> a = new ArrayList<>();
-                    a.add(state[j].replace(" ontable ", ""));
+                    a.add(state[j].replace("ontable ", ""));
                     list.add(a);
-                    continue;
-                }
-                if (!tmp.contains(state[j]) && state[j].contains("clear")) {
-                    tmp.add(state[j]);
-                    continue;
-                }
-                if (!tmp.contains(state[j]) && state[j].contains("on")) {
+                }else if (!tmp.contains(state[j]) && state[j].contains("on")) {
                     for (int k = 0; k < list.size(); k++) {
                         if (state[j].contains(list.get(k).get(list.get(k).size() - 1))) {
                             tmp.add(state[j]);
@@ -354,6 +349,8 @@ public class gui extends JFrame {
                                     .replace(" ", ""));
                         }
                     }
+                }else{
+                    tmp.add(state[j]);
                 }
             }
         }
@@ -362,37 +359,29 @@ public class gui extends JFrame {
         for (int j = 0; j < list.size(); j++) {
             a.add(list.get(j).toArray(new String[list.get(j).size()]));
         }
-
+        for(String[] str:a){
+            for(String s:str){
+                System.out.print(s+" ");
+            }
+            System.out.println();
+        }
         return a;
     }
 
     private Vector initGoalList(String[] input){
-		Vector goalList = new Vector();
-		goalList.addElement("B on A");
-		goalList.addElement("A on C");
+        Vector goalList = new Vector();
+        for(String str:input){
+            goalList.addElement(str);
+        }
 		return goalList;
 	}
 
 	//変更点12/1(新たな定義を追加)
 	private Vector initInitialState(String[] input){
 		Vector initialState = new Vector();
-		initialState.addElement("clear A");
-		initialState.addElement("clear B");
-		initialState.addElement("clear C");
-		//initialState.addElement("clear blue");
-  		//initialState.addElement("clear yellow");
-  		//initialState.addElement("clear C");
-
-		//initialState.addElement("B on A");
-		//initialState.addElement("C on B");
-
-		initialState.addElement("ontable A");
-		initialState.addElement("ontable B");
-		initialState.addElement("ontable C");
-		//initialState.addElement("ontable triangle");
-  		//initialState.addElement("ontable green");
-
-		initialState.addElement("handEmpty");
+        for(String str:input){
+            initialState.addElement(str);
+        }
 		return initialState;
 	}
 
