@@ -115,7 +115,6 @@ public class gui extends JFrame {
                 st = new ArrayList<>();
                 st = makeLists(goal, initialState);
 
-                System.out.println(st);
                 i=0;
                 // 状態を描画するとき、GraphDrawのインスタンスを生成する
                 GraphDraw graph = new GraphDraw();
@@ -330,27 +329,28 @@ public class gui extends JFrame {
 
     // for planning
     private ArrayList<String[]> getArrays(String line) {
-        System.out.println(line);
+        //System.out.println(line);
         String[] state = line.split(",");
         ArrayList<ArrayList<String>> list = new ArrayList<>();
         ArrayList<String> tmp = new ArrayList<>();
         while (tmp.size() != state.length) {
             for (int j = 0; j < state.length; j++) {
-                if (!tmp.contains(state[j]) && state[j].contains("ontable")) {
-                    tmp.add(state[j]);
-                    ArrayList<String> a = new ArrayList<>();
-                    a.add(state[j].replace("ontable ", ""));
-                    list.add(a);
-                }else if (!tmp.contains(state[j]) && state[j].contains("on")) {
-                    for (int k = 0; k < list.size(); k++) {
-                        if (state[j].contains(list.get(k).get(list.get(k).size() - 1))) {
-                            tmp.add(state[j]);
-                            list.get(k).add(state[j].replace(" on " + list.get(k).get(list.get(k).size() - 1), "")
-                                    .replace(" ", ""));
+                if(!tmp.contains(state[j])){
+                    if (state[j].contains("ontable")) {
+                        tmp.add(state[j]);
+                        ArrayList<String> a = new ArrayList<>();
+                        a.add(state[j].replace("ontable ", ""));
+                        list.add(a);
+                    }else if (state[j].contains("on")) {
+                        for (int k = 0; k < list.size(); k++) {
+                            if (state[j].contains(list.get(k).get(list.get(k).size() - 1))) {
+                                tmp.add(state[j]);
+                                list.get(k).add(state[j].split(" on ")[0]);
+                            }
                         }
+                    }else{
+                        tmp.add(state[j]);
                     }
-                }else{
-                    tmp.add(state[j]);
                 }
             }
         }
@@ -359,12 +359,14 @@ public class gui extends JFrame {
         for (int j = 0; j < list.size(); j++) {
             a.add(list.get(j).toArray(new String[list.get(j).size()]));
         }
+        /*
         for(String[] str:a){
             for(String s:str){
                 System.out.print(s+" ");
             }
             System.out.println();
         }
+        */
         return a;
     }
 
