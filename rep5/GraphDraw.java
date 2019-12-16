@@ -84,11 +84,11 @@ public class GraphDraw extends JPanel {
                     }
 
                     // それぞれのブロックの色を決める
-                    if (block == "A")
+                    if (block.contains("A"))
                         g.setColor(Color.BLUE);
-                    else if (block == "B")
+                    else if (block.contains("B"))
                         g.setColor(Color.YELLOW);
-                    else if (block == "C")
+                    else if (block.contains("C"))
                         g.setColor(Color.GREEN);
                     else
                         g.setColor(Color.PINK);
