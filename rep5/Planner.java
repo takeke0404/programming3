@@ -242,6 +242,32 @@ public class Planner {
 		return attribute;
 	}
 
+	private void sortGoalList(){
+		Vector sortGoalList = new Vector();
+		HashMap<String,String> map = new HashMap<>();
+		String low = "";
+		for(int i=0; i<goalList.size();i++){
+			String on = (String)goalList.elementAt(i);
+			if(on.contains(" on ")){
+				map.put(on.split(" on ")[0], on.split(" on ")[1]);
+			}
+		}
+		for(String str:map.keySet()){
+			if(!map.containsValue(str)){
+				low = str;
+				while(map.get(low)!=null){
+					sortGoalList.insertElementAt(low+" on "+map.get(low), 0);
+					low = map.get(low);
+				}
+				break;
+			}
+		}
+		if(!initialState.contains("ontable "+low)){
+			sortGoalList.insertElementAt("ontable "+low, 0);
+		}
+		setGoal(sortGoalList);
+	}
+	
 	//変更点12/1(新たな定義を追加)
 	private Vector initGoalList(){
 		Vector goalList = new Vector();
