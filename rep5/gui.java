@@ -73,8 +73,13 @@ public class gui extends JFrame {
         String firstInitial = "clear A\nclear B\nclear C\nontable A\nontable B\nontable C\nhandEmpty";
 
         JButton initButton = new JButton("初期状態");
+        JButton goalButton = new JButton("目標状態");
+        JButton runButton = new JButton("実行");
         initButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                initButton.setEnabled(false);
+                goalButton.setEnabled(true);
+                runButton.setEnabled(false);
                 textPane.setText(firstInitial);
                 scrollPane.setViewportView(textPane);
             }
@@ -82,9 +87,12 @@ public class gui extends JFrame {
         operatorPanel.add(initButton);
 
 
-        JButton goalButton = new JButton("目標状態");
+
         goalButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                runButton.setEnabled(true);
+                goalButton.setEnabled(false);
+                initButton.setEnabled(false);
                 // set initial state input string
                 intialStateString = textPane.getText();
                 // clear text panel
@@ -93,9 +101,11 @@ public class gui extends JFrame {
         });
         operatorPanel.add(goalButton);
 
-        JButton runButton = new JButton("実行");
         runButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                runButton.setEnabled(false);
+                initButton.setEnabled(true);
+                goalButton.setEnabled(false);
                 // get string from panel
                 goalString = textPane.getText();
                 String[] goalInput = goalString.split("\n", 0);
@@ -251,6 +261,13 @@ public class gui extends JFrame {
 
         previousStateButton.setVisible(false);
         nextState.setVisible(false);
+
+        saveButton.setVisible(false);
+
+        // 初期状態
+        initButton.setEnabled(false);
+        goalButton.setEnabled(true);
+        runButton.setEnabled(false);
 
         nextState.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
