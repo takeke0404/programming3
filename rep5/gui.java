@@ -80,6 +80,8 @@ public class gui extends JFrame {
                 initButton.setEnabled(false);
                 goalButton.setEnabled(true);
                 runButton.setEnabled(false);
+                nextState.setVisible(false);
+                previousStateButton.setVisible(false);
                 textPane.setText(firstInitial);
                 scrollPane.setViewportView(textPane);
             }
@@ -93,6 +95,8 @@ public class gui extends JFrame {
                 runButton.setEnabled(true);
                 goalButton.setEnabled(false);
                 initButton.setEnabled(false);
+                nextState.setVisible(false);
+                previousStateButton.setVisible(false);
                 // set initial state input string
                 intialStateString = textPane.getText();
                 // clear text panel
@@ -106,6 +110,7 @@ public class gui extends JFrame {
                 runButton.setEnabled(false);
                 initButton.setEnabled(true);
                 goalButton.setEnabled(false);
+                nextState.setVisible(true);
                 // get string from panel
                 goalString = textPane.getText();
                 String[] goalInput = goalString.split("\n", 0);
