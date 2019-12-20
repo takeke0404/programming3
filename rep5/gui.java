@@ -276,7 +276,7 @@ public class gui extends JFrame {
         nextState.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 i++;
-                System.out.println("next state " +i);
+                //System.out.println("next state " +i);
                 if(i<st.size()){
                     if(!previousStateButton.isVisible()){
                         previousStateButton.setVisible(true);
@@ -412,7 +412,7 @@ public class gui extends JFrame {
 
         for (int i = 0; i < lines.length; i++) {
             // System.out.println(i);
-            // System.out.println(lines[i]);
+            //System.out.println(lines[i]);
             if (flag && lines[i].contains("initialState")) {
                 ini = lines[i].replace("initialState:", "").replace("[", "").replace("]", "");
                 st.add(getArrays(ini));
