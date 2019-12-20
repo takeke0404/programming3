@@ -344,7 +344,7 @@ public class gui extends JFrame {
                     if (state[j].contains("ontable")) {
                         tmp.add(state[j]);
                         ArrayList<String> a = new ArrayList<>();
-                        a.add(state[j].replace("ontable ", ""));
+                        a.add(state[j].replace(" ontable ", ""));
                         list.add(a);
                     }else if (state[j].contains("on")) {
                         for (int k = 0; k < list.size(); k++) {
