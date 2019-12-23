@@ -11,8 +11,12 @@ public class Planner {
 	HashMap<String, String> attribute = initAttribute();
 	Unifier uf = new Unifier(attribute);
 	
-	public static void main(String argv[], Vector goal, Vector initialState){
+	public static void main(String argv[], Vector goal, Vector initialState) {
 		(new Planner(goal, initialState)).start();
+	}
+	
+	public static void main(String argv[]){
+		(new Planner()).start();
 	}
 	
 	Planner(Vector myGoal, Vector myInitial){
