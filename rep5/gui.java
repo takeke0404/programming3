@@ -206,7 +206,7 @@ public class gui extends JFrame {
         previousStateButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 i -=1;
-                System.out.println("previous state " +i);
+                //System.out.println("previous state " +i);
                 if(i>=0){
                     if(!nextState.isVisible()){
                         nextState.setVisible(true);
