@@ -51,6 +51,10 @@ public class gui extends JFrame {
     /**
      * Create the frame.
      */
+
+    //GUIの表示位置のステータス
+    int state1_x = 250;
+    int state1_y = 200;
     public gui() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 640, 480);
@@ -154,9 +158,6 @@ public class gui extends JFrame {
                 }
 
                 // 一つの状態を定義し、グラフに入れる
-                int state1_x = 100;
-                int state1_y = 200;
-
                 graph.addState(state, state1_x, state1_y); // 状態をグラフに入れる
 
 
@@ -247,9 +248,6 @@ public class gui extends JFrame {
                     }
 
                     // 一つの状態を定義し、グラフに入れる
-                    int state1_x = 100;
-                    int state1_y = 200;
-
                     graph.addState(state, state1_x, state1_y); // 状態をグラフに入れる
 
 
@@ -317,9 +315,6 @@ public class gui extends JFrame {
                     }
 
                     // 一つの状態を定義し、グラフに入れる
-                    int state1_x = 100;
-                    int state1_y = 200;
-
                     graph.addState(state, state1_x, state1_y); // 状態をグラフに入れる
 
 
