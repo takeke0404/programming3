@@ -9,7 +9,7 @@ public class SentenceDAO{
 	try{
 	    Class.forName("org.h2.Driver");
 
-	    conn=DriverManager.getConnection("jdbc:h2:./database","sa","");
+	    conn=DriverManager.getConnection("jdbc:h2:tcp://localhost/./database","sa","");
 
 	    String sql="SELECT NAME FROM SENTENCE";
 	    PreparedStatement pStmt=conn.prepareStatement(sql);
@@ -41,7 +41,7 @@ public class SentenceDAO{
         try {
             Class.forName("org.h2.Driver");
 
-            conn = DriverManager.getConnection("jdbc:h2:./database", "sa", "");
+            conn = DriverManager.getConnection("jdbc:h2:tcp://localhost/./database", "sa", "");
 
             String sql = "INSERT INTO SENTENCE VALUES(?)";
             PreparedStatement pStmt = conn.prepareStatement(sql);
@@ -72,7 +72,7 @@ public class SentenceDAO{
         try {
             Class.forName("org.h2.Driver");
 
-            conn = DriverManager.getConnection("jdbc:h2:./database", "sa", "");
+            conn = DriverManager.getConnection("jdbc:h2:tcp://localhost/./database", "sa", "");
 
             String sql = "DELETE FROM SENTENCE WHERE NAME=(?) LIMIT 1"; //1回のみ削除
             PreparedStatement pStmt = conn.prepareStatement(sql);
@@ -97,7 +97,7 @@ public class SentenceDAO{
         try {
             Class.forName("org.h2.Driver");
 
-            conn = DriverManager.getConnection("jdbc:h2:./database", "sa", "");
+            conn = DriverManager.getConnection("jdbc:h2:tcp://localhost/./database", "sa", "");
 
             String sql = "DELETE FROM SENTENCE"; //1回削除
             PreparedStatement pStmt = conn.prepareStatement(sql);	    
@@ -120,7 +120,7 @@ public class SentenceDAO{
         try {
             Class.forName("org.h2.Driver");
 
-            conn = DriverManager.getConnection("jdbc:h2:./database", "sa", "");
+            conn = DriverManager.getConnection("jdbc:h2:tcp://localhost/./database", "sa", "");
 
             try {
                 String fileName = "dataset_example.txt"; // ファイル名指定
